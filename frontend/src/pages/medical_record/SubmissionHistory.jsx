@@ -1,26 +1,26 @@
+import { useEffect, useState } from 'react';
 import PageHeader from '../../components/ui/PageHeader';
 import DataTable from '../../components/ui/DataTable';
 import StatusBadge from '../../components/ui/StatusBadge';
-import { mockData } from '../../store/mockData';
+import { mrHistory } from '../../lib/api';
 
 export default function SubmissionHistory() {
-  const myCases = mockData.cases.filter((c) => c.submittedBy === 'Rina Kusuma' || c.submittedBy === 'Dewi Lestari');
+  const [cases, setCases] = useState([]);
+
+  useEffect(() => { mrHistory().then(setCases).catch(() => {}); }, []);
 
   const columns = [
-    { key: 'id', label: 'Case ID' },
-    { key: 'patientName', label: 'Patient Name' },
-    { key: 'submittedAt', label: 'Date', render: (date) => new Date(date).toLocaleDateString() },
-    {
-      key: 'status',
-      label: 'Status',
-      render: (status) => <StatusBadge status={status} />,
-    },
+    { key: 'id', label: 'Case ID', render: (id) => `#${id.slice(-6)}` },
+    { key: 'patient_name', label: 'Patient Name' },
+    { key: 'ai_label', label: 'AI Assessment', render: (v) => v || '—' },
+    { key: 'submitted_at', label: 'Date', render: (d) => (d ? new Date(d).toLocaleString() : '—') },
+    { key: 'status', label: 'Status', render: (s) => <StatusBadge status={s} /> },
   ];
 
   return (
     <div>
       <PageHeader title="Submission History" breadcrumb="All submitted cases" />
-      <DataTable columns={columns} data={myCases} />
+      <DataTable columns={columns} data={cases} />
     </div>
   );
 }

@@ -11,31 +11,41 @@ export default function PatientRegisterPage() {
     phone: '',
   });
   const [error, setError] = useState('');
-  const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    // Validation
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-
     if (formData.password.length < 6) {
       setError('Password must be at least 6 characters');
       return;
     }
 
-    // Register and login
-    login('pasien', formData.name);
-    navigate('/pasien/dashboard');
+    setLoading(true);
+    try {
+      await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+      });
+      navigate('/pasien/dashboard');
+    } catch (err) {
+      setError(err.message || 'Registration failed.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -170,10 +180,11 @@ export default function PatientRegisterPage() {
 
           {/* Register Button */}
           <button
-            className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-xs font-bold text-white bg-[#2d3fe0] hover:bg-[#3748e7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2d3fe0] transition-colors duration-200 mt-6"
+            className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-xs font-bold text-white bg-[#2d3fe0] hover:bg-[#3748e7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2d3fe0] transition-colors duration-200 mt-6 disabled:opacity-60"
             type="submit"
+            disabled={loading}
           >
-            Register
+            {loading ? 'Creating account…' : 'Register'}
           </button>
         </form>
 

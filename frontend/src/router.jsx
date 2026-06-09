@@ -33,24 +33,37 @@ function AuthProviderLayout() {
   );
 }
 
+const ROLE_HOME = {
+  admin: '/admin/dashboard',
+  medical_record: '/medical-record/dashboard',
+  dokter: '/doctor/dashboard',
+  pasien: '/pasien/dashboard',
+};
+
+function Splash() {
+  return (
+    <div className="min-h-screen flex items-center justify-center text-[#64748B] text-sm">
+      Loading…
+    </div>
+  );
+}
+
 // Root redirect: if logged in → go to dashboard, else → /login
 function RootRedirect() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) return <Splash />;
   if (!user) return <Navigate to="/login" replace />;
-  const roleRedirects = {
-    admin: '/admin/dashboard',
-    medical_record: '/medical-record/dashboard',
-    dokter: '/doctor/dashboard',
-    pasien: '/pasien/dashboard',
-  };
-  return <Navigate to={roleRedirects[user.role] || '/login'} replace />;
+  return <Navigate to={ROLE_HOME[user.role] || '/login'} replace />;
 }
 
 // Protected route wrapper
 function ProtectedRoute({ children, allowedRoles }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) return <Splash />;
   if (!user) return <Navigate to="/login" replace />;
-  if (allowedRoles && !allowedRoles.includes(user.role)) return <Navigate to="/login" replace />;
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to={ROLE_HOME[user.role] || '/login'} replace />;
+  }
   return children;
 }
 

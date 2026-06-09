@@ -1,142 +1,98 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PageHeader from '../../components/ui/PageHeader';
 import DataTable from '../../components/ui/DataTable';
 import Modal from '../../components/ui/Modal';
-import { mockData, addDoctorSchedule } from '../../store/mockData';
+import { adminListSchedules, adminCreateSchedule, adminDeleteSchedule, adminListUsers } from '../../lib/api';
 
 export default function DoctorScheduleManagement() {
+  const [schedules, setSchedules] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    doctorId: '',
-    doctorName: '',
-    date: '',
-    startTime: '',
-    endTime: '',
-    quota: 10,
-  });
+  const [error, setError] = useState('');
+  const [form, setForm] = useState({ doctor_id: '', date: '', start_time: '', end_time: '', quota: 10 });
+
+  const load = () => adminListSchedules().then(setSchedules).catch(() => {});
+  useEffect(() => {
+    load();
+    adminListUsers('dokter').then(setDoctors).catch(() => {});
+  }, []);
+
+  const handleDelete = async (id) => {
+    if (!confirm('Delete this schedule?')) return;
+    await adminDeleteSchedule(id);
+    load();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
+      await adminCreateSchedule({ ...form, quota: Number(form.quota) });
+      setIsModalOpen(false);
+      setForm({ doctor_id: '', date: '', start_time: '', end_time: '', quota: 10 });
+      load();
+    } catch (err) { setError(err.message); }
+  };
 
   const columns = [
-    { key: 'doctorName', label: 'Doctor' },
+    { key: 'doctor_name', label: 'Doctor' },
     { key: 'date', label: 'Date' },
-    { key: 'startTime', label: 'Start Time' },
-    { key: 'endTime', label: 'End Time' },
-    { key: 'quota', label: 'Quota' },
-    {
-      key: 'actions',
-      label: 'Actions',
-      render: () => (
-        <button className="text-[#DC2626] text-xs font-semibold hover:underline">Delete</button>
-      ),
-    },
+    { key: 'start_time', label: 'Start' },
+    { key: 'end_time', label: 'End' },
+    { key: 'quota', label: 'Quota', render: (q, r) => `${r.booked || 0}/${q}` },
+    { key: 'actions', label: 'Actions', render: (_, r) => (
+      <button onClick={() => handleDelete(r.id)} className="text-[#DC2626] text-xs font-semibold hover:underline">Delete</button>
+    ) },
   ];
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const doctor = mockData.users.find((u) => u.id === parseInt(formData.doctorId));
-    addDoctorSchedule({
-      ...formData,
-      doctorName: doctor?.name || formData.doctorName,
-      doctorId: parseInt(formData.doctorId),
-    });
-    setIsModalOpen(false);
-    setFormData({ doctorId: '', doctorName: '', date: '', startTime: '', endTime: '', quota: 10 });
-  };
 
   return (
     <div>
-      <PageHeader
-        title="Doctor Schedules"
-        breadcrumb="Schedule management"
+      <PageHeader title="Doctor Schedules" breadcrumb="Schedule management"
         actionButton={
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-white border border-[#E2E8F0] hover:bg-[#f2f4f6] text-[#0F172A] px-4 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center gap-2 shadow-sm"
-          >
-            <span className="material-symbols-outlined text-sm">add</span>
-            Add Schedule
+          <button onClick={() => setIsModalOpen(true)}
+            className="bg-[#2d3fe0] hover:bg-[#3748e7] text-white px-4 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center gap-2 shadow-sm">
+            <span className="material-symbols-outlined text-sm">add</span>Add Schedule
           </button>
-        }
-      />
+        } />
 
-      <DataTable columns={columns} data={mockData.doctorSchedules} />
+      <DataTable columns={columns} data={schedules} />
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add Doctor Schedule">
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && <div className="text-sm text-[#DC2626] bg-[#DC2626]/10 rounded-lg px-3 py-2">{error}</div>}
           <div>
             <label className="block text-xs font-semibold text-[#454655] mb-2">Doctor</label>
-            <select
-              className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg focus:ring-[#2d3fe0] focus:border-[#2d3fe0] text-sm"
-              value={formData.doctorId}
-              onChange={(e) => {
-                const doctor = mockData.users.find((u) => u.id === parseInt(e.target.value));
-                setFormData({ ...formData, doctorId: e.target.value, doctorName: doctor?.name || '' });
-              }}
-              required
-            >
+            <select className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm" required
+              value={form.doctor_id} onChange={(e) => setForm({ ...form, doctor_id: e.target.value })}>
               <option value="">Select Doctor</option>
-              {mockData.users.filter((u) => u.role === 'dokter').map((doctor) => (
-                <option key={doctor.id} value={doctor.id}>
-                  {doctor.name}
-                </option>
-              ))}
+              {doctors.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
             </select>
           </div>
           <div>
             <label className="block text-xs font-semibold text-[#454655] mb-2">Date</label>
-            <input
-              className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg focus:ring-[#2d3fe0] focus:border-[#2d3fe0] text-sm"
-              type="date"
-              value={formData.date}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              required
-            />
+            <input type="date" required className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm"
+              value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-[#454655] mb-2">Start Time</label>
-              <input
-                className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg focus:ring-[#2d3fe0] focus:border-[#2d3fe0] text-sm"
-                type="time"
-                value={formData.startTime}
-                onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
-                required
-              />
+              <input type="time" required className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm"
+                value={form.start_time} onChange={(e) => setForm({ ...form, start_time: e.target.value })} />
             </div>
             <div>
               <label className="block text-xs font-semibold text-[#454655] mb-2">End Time</label>
-              <input
-                className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg focus:ring-[#2d3fe0] focus:border-[#2d3fe0] text-sm"
-                type="time"
-                value={formData.endTime}
-                onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
-                required
-              />
+              <input type="time" required className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm"
+                value={form.end_time} onChange={(e) => setForm({ ...form, end_time: e.target.value })} />
             </div>
           </div>
           <div>
             <label className="block text-xs font-semibold text-[#454655] mb-2">Quota</label>
-            <input
-              className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg focus:ring-[#2d3fe0] focus:border-[#2d3fe0] text-sm"
-              type="number"
-              value={formData.quota}
-              onChange={(e) => setFormData({ ...formData, quota: parseInt(e.target.value) })}
-              required
-            />
+            <input type="number" required min="1" className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm"
+              value={form.quota} onChange={(e) => setForm({ ...form, quota: e.target.value })} />
           </div>
           <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(false)}
-              className="flex-1 py-2 px-4 border border-[#c5c5d8] rounded-lg text-xs font-semibold text-[#64748B] hover:bg-[#f2f4f6] transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="flex-1 py-2 px-4 bg-[#2d3fe0] text-white rounded-lg text-xs font-semibold hover:bg-[#3748e7] transition-colors"
-            >
-              Add Schedule
-            </button>
+            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-2 border border-[#c5c5d8] rounded-lg text-xs font-semibold text-[#64748B] hover:bg-[#f2f4f6]">Cancel</button>
+            <button type="submit" className="flex-1 py-2 bg-[#2d3fe0] text-white rounded-lg text-xs font-semibold hover:bg-[#3748e7]">Add Schedule</button>
           </div>
         </form>
       </Modal>

@@ -40,7 +40,7 @@ export default function AppLayout() {
     <div className="flex min-h-screen bg-[#f7f9fb]">
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-screen bg-[#1E2A4A] transition-all duration-300 z-50 ${
+        className={`fixed left-0 top-0 h-screen bg-[#1E2A4A] transition-all duration-300 z-50 flex flex-col ${
           sidebarCollapsed ? 'w-[72px]' : 'w-[260px]'
         }`}
       >
@@ -76,14 +76,25 @@ export default function AppLayout() {
           })}
         </nav>
 
-        <div className="px-6 mt-auto">
+        <div className="mt-auto px-4 pb-6 pt-4 border-t border-white/10 space-y-1">
           <Link
             to="/profile"
-            className="w-full bg-[#3748e7] hover:bg-[#2d3fe0] text-white py-3 rounded-lg font-semibold transition-colors duration-200 shadow-sm flex items-center justify-center gap-2"
+            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
+              location.pathname === '/profile'
+                ? 'bg-[#2d3fe0] text-white'
+                : 'text-[#bac5ee] hover:text-white hover:bg-[#3a4667]'
+            }`}
           >
-            <span className="material-symbols-outlined text-sm">settings</span>
+            <span className="material-symbols-outlined">settings</span>
             {!sidebarCollapsed && <span>Settings</span>}
           </Link>
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-[#bac5ee] hover:text-white hover:bg-[#3a4667] transition-colors duration-200"
+          >
+            <span className="material-symbols-outlined">logout</span>
+            {!sidebarCollapsed && <span>Logout</span>}
+          </button>
         </div>
       </aside>
 
