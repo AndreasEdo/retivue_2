@@ -11,11 +11,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Install dependencies (PyTorch CPU wheel via extra index).
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt \
-        --extra-index-url https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir --upgrade pip
+# Install CPU-only torch DULU dari index CPU (pakai --index-url, bukan --extra-index-url,
+# supaya pip TIDAK menarik wheel CUDA ~2.5GB dari PyPI yang bikin build gagal).
+RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
+# Sisanya dari PyPI (torch sudah terpenuhi, jadi dilewati).
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Kode aplikasi + bobot model.
 COPY app ./app
