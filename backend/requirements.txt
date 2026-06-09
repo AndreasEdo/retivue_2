@@ -1,6 +1,5 @@
-# PyTorch CPU wheel — install dengan:
+# PyTorch CPU wheel:
 #   pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
-# (Dockerfile sudah menambahkan index ini.)
 
 fastapi
 uvicorn[standard]
@@ -16,3 +15,13 @@ pillow
 scipy
 
 grad-cam
+
+# --- DB / auth / storage (v2 telemedicine) ---
+motor
+pymongo
+python-jose[cryptography]
+bcrypt
+cloudinary
+python-dotenv
+pydantic-settings
+email-validator

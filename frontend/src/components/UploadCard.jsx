@@ -32,7 +32,10 @@ export default function UploadCard({ file, previewUrl, onSelect, onAnalyze, load
   return (
     <div className="panel">
       <div className="panel__head">
-        <span className="panel__title">1 · Upload fundus photo</span>
+        <span className="panel__title">Patient Fundus Image Upload</span>
+      </div>
+      <div className="panel__subtitle">
+        Accepted format: JPG, PNG — Minimum resolution: 512×512px
       </div>
 
       <div
@@ -80,7 +83,7 @@ export default function UploadCard({ file, previewUrl, onSelect, onAnalyze, load
       <div className="row">
         <button onClick={onAnalyze} disabled={!file || loading}>
           {loading && <span className="spinner" />}
-          {loading ? "Loading model, please wait…" : "Analyze image"}
+          {loading ? "Loading model, please wait…" : "Run DR Analysis"}
         </button>
         {file && !loading && (
           <span className="hint">Processing runs on the server and takes only a few seconds.</span>

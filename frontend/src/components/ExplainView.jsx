@@ -2,12 +2,11 @@ export default function ExplainView({ benGrahamImage, gradcam, loading, error, o
   return (
     <div className="panel">
       <div className="panel__head">
-        <span className="panel__title">3 · Explainability</span>
+        <span className="panel__title">Grad-CAM Saliency Map</span>
       </div>
 
       <p className="xai__lead">
-        The heatmap highlights the regions that most influenced the prediction, to help
-        clinicians verify the findings — not as proof of a diagnosis.
+        Highlighted areas indicate regions that most influenced the model's prediction.
       </p>
 
       <div className="xai-grid">

@@ -4,7 +4,7 @@ const GRADE_SHORT = ["No DR", "Mild", "Moderate", "Severe", "Proliferative"];
 
 function WarnIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M12 3l9 16H3l9-16z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
       <path d="M12 10v4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
       <circle cx="12" cy="17" r="1" fill="currentColor" />
@@ -19,12 +19,15 @@ export default function ResultCard({ result }) {
   return (
     <div className="panel">
       <div className="panel__head">
-        <span className="panel__title">2 · Triage result</span>
+        <span className="panel__title">Screening Result</span>
         <span className="hint">Regression score {raw_score}</span>
+      </div>
+      <div className="panel__subtitle">
+        <span className="metadata-badge">AI-assisted — Not for clinical diagnosis</span>
       </div>
 
       <div className="result__top">
-        <div className="grade-chip" style={{ background: color }}>
+        <div className="grade-chip" style={{ background: color, border: `2px solid ${color}` }}>
           <span className="grade-chip__num">GRADE {grade}</span>
           <span className="grade-chip__label">{label}</span>
         </div>
