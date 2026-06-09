@@ -9,13 +9,6 @@ const ROLE_HOME = {
   pasien: '/pasien/dashboard',
 };
 
-const DEMO_ACCOUNTS = [
-  { label: 'Admin', email: 'admin@retivue.com' },
-  { label: 'Doctor', email: 'dokter@retivue.com' },
-  { label: 'Medical Record', email: 'mr@retivue.com' },
-  { label: 'Patient', email: 'pasien@retivue.com' },
-];
-
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -110,20 +103,6 @@ export default function LoginPage() {
             <span className="material-symbols-outlined text-[16px]">warning</span>
             Authorized medical personnel only
           </p>
-
-          {/* Demo accounts — sekali klik isi & login (password: Retivue123!) */}
-          <div className="pt-4 border-t border-[#E2E8F0]">
-            <p className="text-[11px] font-bold tracking-[0.08em] text-[#64748B] mb-2 uppercase">Demo accounts</p>
-            <div className="grid grid-cols-2 gap-2">
-              {DEMO_ACCOUNTS.map((a) => (
-                <button key={a.email} type="button" disabled={loading}
-                  onClick={() => { setEmail(a.email); setPassword('Retivue123!'); doLogin(a.email, 'Retivue123!'); }}
-                  className="text-[12px] py-2 px-2 rounded-lg border border-[#c5c5d8] text-[#454655] hover:border-[#2d3fe0] hover:text-[#2d3fe0] transition-colors">
-                  {a.label}
-                </button>
-              ))}
-            </div>
-          </div>
         </form>
 
         <div className="mt-6 text-center">
