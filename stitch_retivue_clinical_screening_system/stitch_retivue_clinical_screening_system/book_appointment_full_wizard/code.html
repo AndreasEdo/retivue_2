@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Book Appointment - RetiVue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "tertiary-container": "#6c22dd",
+                "status-danger": "#DC2626",
+                "on-background": "#191c1e",
+                "surface-tint": "#3748e7",
+                "status-success": "#059669",
+                "on-tertiary-fixed": "#25005a",
+                "primary": "#001bca",
+                "secondary-container": "#cad6ff",
+                "tertiary-fixed-dim": "#d2bbff",
+                "primary-fixed-dim": "#bdc2ff",
+                "surface": "#FFFFFF",
+                "error": "#ba1a1a",
+                "tertiary-fixed": "#eaddff",
+                "secondary": "#525d80",
+                "text-primary": "#0F172A",
+                "primary-fixed": "#dfe0ff",
+                "surface-container-low": "#f2f4f6",
+                "error-container": "#ffdad6",
+                "surface-bright": "#f7f9fb",
+                "tertiary": "#5200b5",
+                "surface-container-highest": "#e0e3e5",
+                "on-primary-fixed": "#000865",
+                "inverse-primary": "#bdc2ff",
+                "surface-container": "#eceef0",
+                "ai-accent": "#7C3AED",
+                "on-tertiary-fixed-variant": "#5a00c6",
+                "secondary-fixed": "#dae2ff",
+                "text-muted": "#64748B",
+                "background": "#f7f9fb",
+                "on-secondary-fixed-variant": "#3a4667",
+                "on-error-container": "#93000a",
+                "surface-container-high": "#e6e8ea",
+                "on-primary-fixed-variant": "#1328d1",
+                "status-warning": "#D97706",
+                "surface-container-lowest": "#ffffff",
+                "inverse-on-surface": "#eff1f3",
+                "on-secondary-container": "#515c7f",
+                "outline-variant": "#c5c5d8",
+                "on-secondary-fixed": "#0d1a39",
+                "secondary-fixed-dim": "#bac5ee",
+                "on-tertiary": "#ffffff",
+                "inverse-surface": "#2d3133",
+                "on-surface-variant": "#454655",
+                "on-primary-container": "#c5c9ff",
+                "primary-container": "#2d3fe0",
+                "outline": "#757687",
+                "on-tertiary-container": "#d8c4ff",
+                "on-primary": "#ffffff",
+                "on-error": "#ffffff",
+                "surface-variant": "#e0e3e5",
+                "surface-dim": "#d8dadc",
+                "on-secondary": "#ffffff",
+                "on-surface": "#191c1e"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin-mobile": "16px",
+                "sidebar-collapsed": "72px",
+                "margin-desktop": "32px",
+                "gutter": "24px",
+                "stack-dense": "8px",
+                "stack-spacious": "24px",
+                "sidebar-width": "260px",
+                "container-max": "1440px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Inter"
+                ],
+                "body-sm": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Inter"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "label-bold": [
+                        "Inter"
+                ],
+                "headline-sm": [
+                        "Inter"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "label-caps": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-sm": [
+                        "13px",
+                        {
+                                "lineHeight": "18px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "30px",
+                        {
+                                "lineHeight": "38px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-bold": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-sm": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-caps": [
+                        "11px",
+                        {
+                                "lineHeight": "14px",
+                                "letterSpacing": "0.08em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "700"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .step-transition {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md font-body-md flex h-screen overflow-hidden">
+<!-- SideNavBar (Patient View Softened) -->
+<nav class="hidden md:flex flex-col h-screen w-sidebar-width fixed left-0 top-0 overflow-y-auto bg-surface shadow-md z-50 border-r border-outline-variant/30">
+<div class="px-6 py-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">RetiVue</h1>
+<p class="font-body-sm text-body-sm text-text-muted mt-1">Patient Portal</p>
+</div>
+<div class="flex-1 flex flex-col py-stack-spacious gap-2 px-4">
+<a class="text-on-surface-variant hover:bg-surface-container-low px-4 py-3 flex items-center gap-3 rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-body-md text-body-md">Home</span>
+</a>
+<a class="text-white bg-primary-container font-bold px-4 py-3 flex items-center gap-3 rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month" data-weight="fill" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="font-body-md text-body-md">Book Appointment</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low px-4 py-3 flex items-center gap-3 rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-body-md text-body-md">My Records</span>
+</a>
+</div>
+<div class="p-4 mt-auto border-t border-outline-variant/30">
+<a class="text-on-surface-variant hover:bg-surface-container-low px-4 py-3 flex items-center gap-3 rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-body-md text-body-md">Support</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low px-4 py-3 flex items-center gap-3 rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md">Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-0 md:ml-sidebar-width h-screen overflow-y-auto custom-scrollbar relative">
+<!-- Top App Bar (Mobile only for this layout context, though instructions say hide if linear, this is a multi-step so we'll provide a minimal header) -->
+<header class="md:hidden flex items-center justify-between h-16 px-margin-mobile bg-surface border-b border-outline-variant/30 sticky top-0 z-40">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">RetiVue</h1>
+<button class="text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</header>
+<div class="max-w-[800px] mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
+<!-- Page Header -->
+<div class="mb-8">
+<h2 class="font-headline-lg text-headline-lg md:text-headline-lg text-text-primary mb-2">Book an Appointment</h2>
+<p class="font-body-md text-body-md text-text-muted">Schedule your next retinal screening with our specialists.</p>
+</div>
+<!-- Stepper -->
+<div class="flex items-center justify-between mb-12 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-surface-container-high z-0 rounded-full"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1/3 h-1 bg-primary-container z-0 rounded-full step-transition" id="progress-bar"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-label-bold text-label-bold shadow-md ring-4 ring-background step-transition" id="step-1-indicator">1</div>
+<span class="font-label-bold text-label-bold text-text-primary hidden sm:block">Specialist</span>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface text-text-muted border-2 border-surface-container-high flex items-center justify-center font-label-bold text-label-bold ring-4 ring-background step-transition" id="step-2-indicator">2</div>
+<span class="font-label-bold text-label-bold text-text-muted hidden sm:block" id="step-2-label">Schedule</span>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface text-text-muted border-2 border-surface-container-high flex items-center justify-center font-label-bold text-label-bold ring-4 ring-background step-transition" id="step-3-indicator">3</div>
+<span class="font-label-bold text-label-bold text-text-muted hidden sm:block" id="step-3-label">Confirm</span>
+</div>
+</div>
+<!-- Step 1 Content: Select Doctor -->
+<div class="step-transition block" id="step-1-content">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-spacious">
+<!-- Doctor Card 1 -->
+<div class="bg-surface rounded-xl p-6 shadow-[0_2px_4px_rgba(29,38,103,0.04)] border-l-4 border-transparent hover:border-primary-container hover:shadow-md transition-all cursor-pointer group" onclick="goToStep(2)">
+<div class="flex items-start gap-4">
+<img alt="Doctor" class="w-16 h-16 rounded-full object-cover border border-outline-variant/30" data-alt="A professional portrait of a female medical doctor in a clean, brightly lit clinical setting. She wears a white coat and smiles warmly, exuding confidence and approachability. The background is slightly blurred, showing soft, modern hospital equipment in a light blue and white color palette. The lighting is high-key and flattering, suitable for a premium healthcare application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUA24zvpA5I7CtAbUH-uKQEaC2Gy4kd59BvmUcTEZSzEGywo48_bu0f8LrE_XSWwFhoSFyt70af46dF0maLoj_op5O82ElPvmBHUCnNuLd72uDzDJG9oMpxqJ5H6Cq-RIS_Rb_jiunQ2KdBPWyi36JgYoxC-pE9t3RZBLMVH8c5WuZuA1Z3phk2P8dA5QHkkKmrvAC-9eEhFeZe7JYUOon9pLV12pOAX6neSSh6W6GFh59uO082Xjii85TyqWWkDI10pSibWPIl32a"/>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary group-hover:text-primary-container transition-colors">Dr. Sarah Jenkins</h3>
+<p class="font-body-sm text-body-sm text-text-muted mb-2">Retinologist • AI Certified</p>
+<div class="inline-flex items-center gap-1 bg-surface-container px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px] text-ai-accent" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">AI Assisted</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Doctor Card 2 -->
+<div class="bg-surface rounded-xl p-6 shadow-[0_2px_4px_rgba(29,38,103,0.04)] border-l-4 border-transparent hover:border-primary-container hover:shadow-md transition-all cursor-pointer group" onclick="goToStep(2)">
+<div class="flex items-start gap-4">
+<img alt="Doctor" class="w-16 h-16 rounded-full object-cover border border-outline-variant/30" data-alt="A professional portrait of a male ophthalmologist in a modern medical office. He is looking directly at the camera with a reassuring expression, wearing professional attire under a white lab coat. The environment features subtle, cool-toned blue lighting characteristic of high-end clinical settings. The overall mood is calm, trustworthy, and precise, aligning with a premium medical UI aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFSGATgZ3_dD71lQ7pQq8As_WmmvtNqgIqsBAlmq65DCafGqy1r0qSUzz62GDWmcBMpteOirc4L7i8VQDSaCAb8WzgMK7KFzW6bbKxF4l8-RXPZLjS5l_eDR-Wo1Nl5BiyJuHAirDQdLcSIE_uKaM5HecDvyy-_scREz0NYWOEbjrYb-wa130G1OFPfL-L_1TCasxAQmRoRW_F_2pvFsFHqbJqn8YOrqQZq3qbAvsFMxQYAYYBS_MmJwD2pabzgOCmwYk0bZ13372C"/>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary group-hover:text-primary-container transition-colors">Dr. Marcus Chen</h3>
+<p class="font-body-sm text-body-sm text-text-muted mb-2">General Ophthalmology</p>
+<div class="inline-flex items-center gap-1 bg-surface-container px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px] text-status-success" data-icon="star">star</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">4.9 (120 reviews)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2 Content: Schedule (Hidden initially) -->
+<div class="step-transition hidden" id="step-2-content">
+<div class="bg-surface rounded-xl shadow-[0_2px_4px_rgba(29,38,103,0.04)] overflow-hidden border border-outline-variant/20">
+<div class="p-6 border-b border-outline-variant/20 flex justify-between items-center bg-surface-bright">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Available Slots</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Select a convenient time for your screening.</p>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center text-text-muted hover:bg-surface-container-low hover:text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center text-text-muted hover:bg-surface-container-low hover:text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="p-4 overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[500px]">
+<thead>
+<tr>
+<th class="p-3 font-label-bold text-label-bold text-text-muted border-b border-outline-variant/20">Mon, Oct 12</th>
+<th class="p-3 font-label-bold text-label-bold text-primary-container border-b-2 border-primary-container bg-primary-container/5 rounded-t-md">Tue, Oct 13</th>
+<th class="p-3 font-label-bold text-label-bold text-text-muted border-b border-outline-variant/20">Wed, Oct 14</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="p-2 align-top">
+<button class="w-full text-center py-2 px-3 mb-2 rounded-md border border-outline-variant/50 font-body-sm text-body-sm text-text-muted hover:border-primary-container hover:text-primary-container transition-colors">09:00 AM</button>
+<button class="w-full text-center py-2 px-3 mb-2 rounded-md bg-surface-container-low text-text-muted/50 font-body-sm text-body-sm cursor-not-allowed border border-transparent">10:00 AM</button>
+</td>
+<td class="p-2 align-top bg-primary-container/5 border-l border-r border-primary-container/10">
+<button class="w-full text-center py-2 px-3 mb-2 rounded-md bg-primary-container text-white font-body-sm text-body-sm font-semibold shadow-sm" onclick="goToStep(3)">09:30 AM</button>
+<button class="w-full text-center py-2 px-3 mb-2 rounded-md border border-primary-container/30 font-body-sm text-body-sm text-primary-container hover:bg-primary-container hover:text-white transition-colors" onclick="goToStep(3)">11:00 AM</button>
+<p class="text-center font-label-caps text-label-caps text-status-success mt-1">2 slots left</p>
+</td>
+<td class="p-2 align-top">
+<button class="w-full text-center py-2 px-3 mb-2 rounded-md border border-outline-variant/50 font-body-sm text-body-sm text-text-muted hover:border-primary-container hover:text-primary-container transition-colors">01:00 PM</button>
+<button class="w-full text-center py-2 px-3 mb-2 rounded-md border border-outline-variant/50 font-body-sm text-body-sm text-text-muted hover:border-primary-container hover:text-primary-container transition-colors">02:30 PM</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-surface-bright border-t border-outline-variant/20 flex justify-between items-center">
+<button class="font-label-bold text-label-bold text-text-muted hover:text-text-primary px-4 py-2" onclick="goToStep(1)">Back to Doctors</button>
+</div>
+</div>
+</div>
+<!-- Step 3 Content: Confirmation (Hidden initially) -->
+<div class="step-transition hidden" id="step-3-content">
+<div class="bg-surface rounded-xl shadow-[0_4px_8px_rgba(29,38,103,0.08)] border border-outline-variant/20 overflow-hidden">
+<div class="bg-primary-container p-6 text-white text-center">
+<span class="material-symbols-outlined text-[48px] mb-2" data-icon="event_available">event_available</span>
+<h3 class="font-headline-md text-headline-md">Review Appointment</h3>
+<p class="font-body-sm text-body-sm text-on-primary-container mt-1">Please confirm the details below.</p>
+</div>
+<div class="p-8">
+<div class="flex flex-col md:flex-row gap-8">
+<!-- Details -->
+<div class="flex-1 space-y-6">
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-text-muted mt-1" data-icon="person">person</span>
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-1">SPECIALIST</p>
+<p class="font-body-lg text-body-lg text-text-primary font-semibold">Dr. Sarah Jenkins</p>
+<p class="font-body-sm text-body-sm text-text-muted">Retinologist • AI Certified</p>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-text-muted mt-1" data-icon="schedule">schedule</span>
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-1">DATE &amp; TIME</p>
+<p class="font-body-lg text-body-lg text-text-primary font-semibold">Tuesday, October 13</p>
+<p class="font-body-sm text-body-sm text-text-muted">09:30 AM - 10:15 AM</p>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-text-muted mt-1" data-icon="location_on">location_on</span>
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-1">LOCATION</p>
+<p class="font-body-lg text-body-lg text-text-primary font-semibold">RetiVue Main Clinic</p>
+<p class="font-body-sm text-body-sm text-text-muted">124 Medical Way, Suite 300<br/>San Francisco, CA</p>
+</div>
+</div>
+</div>
+<!-- Notice -->
+<div class="md:w-1/3 bg-surface-bright rounded-lg p-6 border border-outline-variant/30 self-start">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-ai-accent" data-icon="info">info</span>
+<h4 class="font-label-bold text-label-bold text-text-primary">Preparation</h4>
+</div>
+<ul class="space-y-2 font-body-sm text-body-sm text-text-muted list-disc list-inside">
+<li>Please arrive 10 mins early.</li>
+<li>Bring your ID and insurance card.</li>
+<li>This screening utilizes AI-augmented analysis for faster results.</li>
+</ul>
+</div>
+</div>
+<div class="mt-10 flex flex-col sm:flex-row gap-4 justify-end">
+<button class="px-6 py-3 rounded-md border border-outline-variant font-label-bold text-label-bold text-text-muted hover:bg-surface-container-low transition-colors" onclick="goToStep(2)">Back</button>
+<button class="px-6 py-3 rounded-md bg-primary-container text-white font-label-bold text-label-bold shadow-sm hover:bg-primary transition-colors flex items-center justify-center gap-2" onclick="alert('Appointment Confirmed!')">
+                                Confirm Appointment
+                                <span class="material-symbols-outlined text-[18px]" data-icon="check_circle">check_circle</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        function goToStep(step) {
+            // Hide all content
+            document.getElementById('step-1-content').classList.add('hidden');
+            document.getElementById('step-2-content').classList.add('hidden');
+            document.getElementById('step-3-content').classList.add('hidden');
+            
+            // Show target content
+            document.getElementById(`step-${step}-content`).classList.remove('hidden');
+            
+            // Update Progress Bar
+            const progress = document.getElementById('progress-bar');
+            if(step === 1) progress.style.width = '33%';
+            if(step === 2) progress.style.width = '66%';
+            if(step === 3) progress.style.width = '100%';
+
+            // Update Indicators
+            const indicators = [
+                document.getElementById('step-1-indicator'),
+                document.getElementById('step-2-indicator'),
+                document.getElementById('step-3-indicator')
+            ];
+            
+            const labels = [
+                null, // Step 1 label is always text-primary in this simple demo or managed separately
+                document.getElementById('step-2-label'),
+                document.getElementById('step-3-label')
+            ];
+
+            indicators.forEach((ind, index) => {
+                const currentStep = index + 1;
+                if(currentStep < step) {
+                    // Completed
+                    ind.className = "w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-label-bold text-label-bold shadow-md ring-4 ring-background step-transition";
+                    ind.innerHTML = `<span class="material-symbols-outlined text-[20px]" data-icon="check">check</span>`;
+                } else if (currentStep === step) {
+                    // Active
+                    ind.className = "w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-label-bold text-label-bold shadow-md ring-4 ring-background step-transition";
+                    ind.innerHTML = currentStep;
+                    if(labels[index]) {
+                        labels[index].classList.remove('text-text-muted');
+                        labels[index].classList.add('text-text-primary');
+                    }
+                } else {
+                    // Future
+                    ind.className = "w-10 h-10 rounded-full bg-surface text-text-muted border-2 border-surface-container-high flex items-center justify-center font-label-bold text-label-bold ring-4 ring-background step-transition";
+                    ind.innerHTML = currentStep;
+                    if(labels[index]) {
+                        labels[index].classList.remove('text-text-primary');
+                        labels[index].classList.add('text-text-muted');
+                    }
+                }
+            });
+        }
+    </script>
+</body></html>

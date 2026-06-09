@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reviewed Cases - RetiVue AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#cad6ff",
+                      "surface-container-low": "#f2f4f6",
+                      "secondary-fixed-dim": "#bac5ee",
+                      "on-primary-fixed-variant": "#1328d1",
+                      "inverse-primary": "#bdc2ff",
+                      "on-tertiary-fixed": "#25005a",
+                      "secondary-fixed": "#dae2ff",
+                      "surface": "#FFFFFF",
+                      "tertiary-fixed-dim": "#d2bbff",
+                      "tertiary-fixed": "#eaddff",
+                      "background": "#f7f9fb",
+                      "surface-variant": "#e0e3e5",
+                      "primary": "#001bca",
+                      "surface-dim": "#d8dadc",
+                      "surface-tint": "#3748e7",
+                      "surface-bright": "#f7f9fb",
+                      "on-primary-container": "#c5c9ff",
+                      "surface-container-high": "#e6e8ea",
+                      "on-primary-fixed": "#000865",
+                      "surface-container": "#eceef0",
+                      "on-secondary-fixed-variant": "#3a4667",
+                      "on-background": "#191c1e",
+                      "on-secondary-fixed": "#0d1a39",
+                      "on-surface-variant": "#454655",
+                      "primary-fixed": "#dfe0ff",
+                      "primary-container": "#2d3fe0",
+                      "error-container": "#ffdad6",
+                      "tertiary": "#5200b5",
+                      "tertiary-container": "#6c22dd",
+                      "status-warning": "#D97706",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#e0e3e5",
+                      "ai-accent": "#7C3AED",
+                      "on-tertiary-container": "#d8c4ff",
+                      "error": "#ba1a1a",
+                      "inverse-surface": "#2d3133",
+                      "outline": "#757687",
+                      "text-muted": "#64748B",
+                      "inverse-on-surface": "#eff1f3",
+                      "on-error": "#ffffff",
+                      "status-danger": "#DC2626",
+                      "on-secondary-container": "#515c7f",
+                      "primary-fixed-dim": "#bdc2ff",
+                      "status-success": "#059669",
+                      "on-primary": "#ffffff",
+                      "secondary": "#525d80",
+                      "outline-variant": "#c5c5d8",
+                      "on-surface": "#191c1e",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-fixed-variant": "#5a00c6",
+                      "surface-container-lowest": "#ffffff",
+                      "text-primary": "#0F172A",
+                      "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-dense": "8px",
+                      "stack-spacious": "24px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "sidebar-width": "260px",
+                      "sidebar-collapsed": "72px",
+                      "container-max": "1440px",
+                      "margin-desktop": "32px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "label-bold": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                      "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-bold": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+          font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="h-screen w-sidebar-width fixed left-0 top-0 overflow-y-auto bg-secondary dark:bg-on-background shadow-lg flex flex-col py-stack-spacious hidden md:flex z-50">
+<div class="px-gutter mb-8 flex items-center gap-3">
+<img alt="RetiVue Logo" class="w-10 h-10 rounded-DEFAULT" data-alt="A clean, abstract logo icon for a medical AI company. The design features a stylized eye merging with geometric digital nodes, rendered in a crisp, modern palette of deep navy and intelligent purple. The aesthetic is high-tech, trustworthy, and clinical, set against a solid white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXAv3smk244f6mE27W84wuptUzQt7o8OELJg3ati00Q8KQgUba6m4QBwHZZuzru8dNvRksCSV1eBaz6yXDRYH1mFlAHQqh7ENrpJy2cL6nejgOgevIm2NUuNAVddNtTRDAdv6A3gpgMFT8Dz57zZH0CpJmmodF9RgVaHaYv4C9PKIcMaB31PhbZ8ZCxgSVdDR77BQJmGXr8JXjv13BzMsNggDLEKvFqQw9UfW9wEpnWRTXqivjbzF-udd9MU1OGfX2lnOBKbBGeVHV"/>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-white">RetiVue</h1>
+<p class="font-label-bold text-label-bold text-secondary-fixed-dim">AI Retinal Screening</p>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary-container text-white py-3 rounded-DEFAULT font-label-bold text-label-bold flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-colors">
+<span class="material-symbols-outlined">add</span>
+                New Screening
+            </button>
+</div>
+<ul class="flex-1 flex flex-col gap-1 px-2">
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-DEFAULT hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-DEFAULT hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+                    Patients
+                </a>
+</li>
+<li>
+<a class="text-white bg-primary-container font-bold border-l-4 border-white px-4 py-3 flex items-center gap-3 rounded-r-DEFAULT opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined fill">fact_check</span>
+                    Reviews
+                </a>
+</li>
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-DEFAULT hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                    Analytics
+                </a>
+</li>
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-DEFAULT hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-2 pt-4 border-t border-on-secondary-fixed-variant">
+<ul class="flex flex-col gap-1">
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-DEFAULT hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+                        Help Center
+                    </a>
+</li>
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-DEFAULT hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+                        Logout
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-sidebar-width w-full h-full">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 sticky z-40 bg-surface dark:bg-surface-dim border-b border-outline-variant shadow-sm flex items-center justify-between h-16 px-gutter">
+<div class="flex items-center gap-6">
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative w-64 hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-DEFAULT font-body-sm text-body-sm focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-colors" placeholder="Search patients, ID, or dates..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 hidden md:flex">
+<nav class="flex items-center gap-2 mr-4">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary px-3 py-2 rounded-DEFAULT font-label-bold text-label-bold hover:bg-surface-container-low transition-colors" href="#">Recent</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary px-3 py-2 rounded-DEFAULT font-label-bold text-label-bold hover:bg-surface-container-low transition-colors" href="#">Protocols</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary px-3 py-2 rounded-DEFAULT font-label-bold text-label-bold hover:bg-surface-container-low transition-colors" href="#">Support</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">history</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant ml-2">
+<img alt="Dr. Smith Profile" data-alt="A professional headshot of a mature male doctor with short graying hair and glasses, wearing a white lab coat over a light blue dress shirt. The lighting is soft and flattering, creating a trustworthy and competent appearance. The background is a blurred, bright clinical setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIOMLs0KvdjMti5YeQuye3pjkTKRtNtuAHSKqrSay5zeVqKqiiRDaAHr-DMIU0HmeKwaWgtXjGBEun1fxwElFUDW_QMue4RFIfD--1ntmE22SfC0coqfdSfQJoVAzpCFJPPPWMlO1FM1WpQovq2oD1JuiHPY0DFymH5ZcJUZGdLCuFScxuALlbKgTwMir5sAdtEvPJZ59xKm8Ovbz-00uAr_ZYHfqoCGZ5cnrpdKO7h5yelelHmyaWObif68EBypTy7jtxnQaOfgha"/>
+</div>
+<button class="hidden lg:flex bg-gradient-to-r from-ai-accent to-tertiary-container text-white px-4 py-2 rounded-DEFAULT font-label-bold text-label-bold items-center gap-2 ml-4 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">auto_awesome</span>
+                    Run AI Analysis
+                </button>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-gutter bg-surface-bright">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-stack-spacious">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-primary hidden md:block">Reviewed Cases</h2>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-text-primary md:hidden">Reviewed Cases</h2>
+<p class="font-body-sm text-body-sm text-text-muted mt-1">Manage and verify AI-assisted retinal screening results.</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 bg-surface border border-outline-variant rounded-DEFAULT font-label-bold text-label-bold text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                            Export List
+                        </button>
+<button class="px-4 py-2 bg-surface border border-outline-variant rounded-DEFAULT font-label-bold text-label-bold text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                            Filter
+                        </button>
+</div>
+</div>
+<!-- Tabs & Controls -->
+<div class="bg-surface border border-outline-variant rounded-t-lg border-b-0 p-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-DEFAULT">
+<button class="px-4 py-1.5 bg-surface text-primary-container font-label-bold text-label-bold rounded shadow-sm">All Cases</button>
+<button class="px-4 py-1.5 text-on-surface-variant font-label-bold text-label-bold rounded hover:bg-surface-container-highest transition-colors">Approved</button>
+<button class="px-4 py-1.5 text-on-surface-variant font-label-bold text-label-bold rounded hover:bg-surface-container-highest transition-colors">Rejected</button>
+</div>
+<div class="flex items-center gap-3 px-2">
+<span class="font-label-bold text-label-bold text-text-muted uppercase tracking-wider">Date Range:</span>
+<select class="bg-transparent border-none text-body-sm font-label-bold focus:ring-0 p-0 cursor-pointer text-on-surface">
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+<option>This Month</option>
+<option>Custom Range...</option>
+</select>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-surface border border-outline-variant rounded-b-lg shadow-[0_2px_4px_rgba(29,36,89,0.04)] overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant">
+<th class="font-label-caps text-label-caps text-text-muted px-4 py-3 uppercase">Patient ID / Name</th>
+<th class="font-label-caps text-label-caps text-text-muted px-4 py-3 uppercase">Scan Date</th>
+<th class="font-label-caps text-label-caps text-text-muted px-4 py-3 uppercase">Eye</th>
+<th class="font-label-caps text-label-caps text-text-muted px-4 py-3 uppercase">AI Grade</th>
+<th class="font-label-caps text-label-caps text-text-muted px-4 py-3 uppercase">Confidence</th>
+<th class="font-label-caps text-label-caps text-text-muted px-4 py-3 uppercase">Status</th>
+<th class="font-label-caps text-label-caps text-text-muted px-4 py-3 uppercase">Review Date</th>
+<th class="font-label-caps text-label-caps text-text-muted px-4 py-3 uppercase text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors group relative">
+<td class="px-4 py-3">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-status-success"></div>
+<div class="font-label-bold">PT-84729</div>
+<div class="text-text-muted text-[12px]">Sarah Jenkins</div>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-text-muted">visibility</span>
+                                        OD (Right)
+                                    </span>
+</td>
+<td class="px-4 py-3">
+<span class="font-label-bold text-on-surface">R0 (None)</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-ai-accent w-[98%]"></div>
+</div>
+<span class="text-[12px] font-label-bold text-ai-accent">98%</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-block px-2 py-1 bg-[#059669]/10 text-status-success font-label-bold text-[11px] rounded uppercase tracking-wider">Approved</span>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">Oct 25, 2023</td>
+<td class="px-4 py-3 text-right">
+<a class="font-label-bold text-primary-container hover:text-on-primary-fixed-variant transition-colors" href="#">View Detail</a>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-outline-variant bg-surface-container-low/30 hover:bg-surface-container-lowest transition-colors group relative">
+<td class="px-4 py-3">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-status-danger"></div>
+<div class="font-label-bold">PT-91024</div>
+<div class="text-text-muted text-[12px]">Robert Chen</div>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-text-muted">visibility</span>
+                                        OS (Left)
+                                    </span>
+</td>
+<td class="px-4 py-3">
+<span class="font-label-bold text-status-danger">R3 (Proliferative)</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-ai-accent w-[85%]"></div>
+</div>
+<span class="text-[12px] font-label-bold text-ai-accent">85%</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-block px-2 py-1 bg-[#059669]/10 text-status-success font-label-bold text-[11px] rounded uppercase tracking-wider">Approved</span>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">Oct 25, 2023</td>
+<td class="px-4 py-3 text-right">
+<a class="font-label-bold text-primary-container hover:text-on-primary-fixed-variant transition-colors" href="#">View Detail</a>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors group relative">
+<td class="px-4 py-3">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-status-warning"></div>
+<div class="font-label-bold">PT-77310</div>
+<div class="text-text-muted text-[12px]">Maria Garcia</div>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">Oct 23, 2023</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-text-muted">visibility</span>
+                                        OD (Right)
+                                    </span>
+</td>
+<td class="px-4 py-3">
+<span class="font-label-bold text-status-warning">R1 (Background)</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-status-danger w-[62%]"></div>
+</div>
+<span class="text-[12px] font-label-bold text-status-danger">62%</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-block px-2 py-1 bg-[#DC2626]/10 text-status-danger font-label-bold text-[11px] rounded uppercase tracking-wider">Rejected</span>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-4 py-3 text-right">
+<a class="font-label-bold text-primary-container hover:text-on-primary-fixed-variant transition-colors" href="#">View Detail</a>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-outline-variant bg-surface-container-low/30 hover:bg-surface-container-lowest transition-colors group relative">
+<td class="px-4 py-3">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-status-success"></div>
+<div class="font-label-bold">PT-88102</div>
+<div class="text-text-muted text-[12px]">James Wilson</div>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">Oct 23, 2023</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-text-muted">visibility</span>
+                                        OS (Left)
+                                    </span>
+</td>
+<td class="px-4 py-3">
+<span class="font-label-bold text-on-surface">R0 (None)</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-ai-accent w-[95%]"></div>
+</div>
+<span class="text-[12px] font-label-bold text-ai-accent">95%</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-block px-2 py-1 bg-[#059669]/10 text-status-success font-label-bold text-[11px] rounded uppercase tracking-wider">Approved</span>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-4 py-3 text-right">
+<a class="font-label-bold text-primary-container hover:text-on-primary-fixed-variant transition-colors" href="#">View Detail</a>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="flex items-center justify-between px-4 py-3 border-t border-outline-variant bg-surface">
+<p class="font-body-sm text-body-sm text-text-muted">Showing 1 to 4 of 124 results</p>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-outline hover:bg-surface-container-low transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded bg-primary-container text-white font-label-bold text-label-bold flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded text-on-surface-variant hover:bg-surface-container-low font-label-bold text-label-bold flex items-center justify-center transition-colors">2</button>
+<button class="w-8 h-8 rounded text-on-surface-variant hover:bg-surface-container-low font-label-bold text-label-bold flex items-center justify-center transition-colors">3</button>
+<span class="text-outline mx-1">...</span>
+<button class="p-1 rounded text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

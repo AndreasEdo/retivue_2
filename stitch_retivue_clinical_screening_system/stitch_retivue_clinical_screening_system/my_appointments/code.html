@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Appointments - RetiVue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#cad6ff",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#bac5ee",
+                        "on-primary-fixed-variant": "#1328d1",
+                        "inverse-primary": "#bdc2ff",
+                        "on-tertiary-fixed": "#25005a",
+                        "secondary-fixed": "#dae2ff",
+                        "surface": "#FFFFFF",
+                        "tertiary-fixed-dim": "#d2bbff",
+                        "tertiary-fixed": "#eaddff",
+                        "background": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "primary": "#001bca",
+                        "surface-dim": "#d8dadc",
+                        "surface-tint": "#3748e7",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-container": "#c5c9ff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed": "#000865",
+                        "surface-container": "#eceef0",
+                        "on-secondary-fixed-variant": "#3a4667",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed": "#0d1a39",
+                        "on-surface-variant": "#454655",
+                        "primary-fixed": "#dfe0ff",
+                        "primary-container": "#2d3fe0",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#5200b5",
+                        "tertiary-container": "#6c22dd",
+                        "status-warning": "#D97706",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "ai-accent": "#7C3AED",
+                        "on-tertiary-container": "#d8c4ff",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#757687",
+                        "text-muted": "#64748B",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error": "#ffffff",
+                        "status-danger": "#DC2626",
+                        "on-secondary-container": "#515c7f",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "status-success": "#059669",
+                        "on-primary": "#ffffff",
+                        "secondary": "#525d80",
+                        "outline-variant": "#c5c5d8",
+                        "on-surface": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#5a00c6",
+                        "surface-container-lowest": "#ffffff",
+                        "text-primary": "#0F172A",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-dense": "8px",
+                        "stack-spacious": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "sidebar-width": "260px",
+                        "sidebar-collapsed": "72px",
+                        "container-max": "1440px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        :root {
+            --sidebar-width: 260px;
+        }
+        body {
+            background-color: theme('colors.background');
+        }
+        /* Material Icons setup */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="antialiased text-text-primary bg-background">
+<!-- SideNavBar -->
+<nav class="hidden md:flex h-screen w-sidebar-width fixed left-0 top-0 overflow-y-auto bg-secondary dark:bg-on-background shadow-md shadow-lg z-50">
+<div class="flex flex-col h-full py-stack-spacious w-full">
+<!-- Header -->
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">visibility</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-white">RetiVue</h1>
+<p class="font-label-caps text-label-caps text-secondary-fixed-dim">AI Retinal Screening</p>
+</div>
+</div>
+<!-- CTA -->
+<div class="px-4 mb-8">
+<button class="w-full bg-primary-container text-white py-2 rounded-lg font-label-bold text-label-bold hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Screening
+                </button>
+</div>
+<!-- Main Navigation -->
+<ul class="flex-1 flex flex-col gap-1 px-2">
+<!-- Dashboard (Active) -->
+<li>
+<a class="text-white bg-primary-container font-bold border-l-4 border-white px-4 py-3 flex items-center gap-3 rounded-r-lg opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+</li>
+<!-- Patients -->
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-r-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body-md text-body-md">Patients</span>
+</a>
+</li>
+<!-- Reviews -->
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-r-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-body-md text-body-md">Reviews</span>
+</a>
+</li>
+<!-- Analytics -->
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-r-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+</li>
+<!-- Settings -->
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-r-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</li>
+</ul>
+<!-- Footer Navigation -->
+<ul class="flex flex-col gap-1 px-2 mt-auto">
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-r-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md text-body-md">Help Center</span>
+</a>
+</li>
+<li>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-r-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="hidden md:flex items-center justify-between h-16 px-gutter ml-sidebar-width w-[calc(100%-var(--sidebar-width))] bg-surface dark:bg-surface-dim shadow-sm docked full-width top-0 sticky z-40 border-b-0 border-outline-variant">
+<!-- Left: Brand / Search Area -->
+<div class="flex items-center gap-6">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+                RetiVue AI
+            </div>
+<!-- Navigation Links -->
+<nav class="hidden lg:flex items-center gap-6 ml-6">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary font-body-md text-body-md transition-colors" href="#">Recent</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary font-body-md text-body-md transition-colors" href="#">Protocols</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary font-body-md text-body-md transition-colors" href="#">Support</a>
+</nav>
+</div>
+<!-- Right: Actions -->
+<div class="flex items-center gap-4">
+<button class="bg-primary-container text-white px-4 py-2 rounded-lg font-label-bold text-label-bold hover:opacity-90 transition-opacity">
+                Run AI Analysis
+            </button>
+<div class="flex items-center gap-2 border-l border-outline-variant pl-4 ml-2">
+<button class="text-on-surface-variant hover:text-primary hover:bg-surface-container-low p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary hover:bg-surface-container-low p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">history</span>
+</button>
+<button aria-label="Dr. Smith Profile" class="text-on-surface-variant hover:text-primary hover:bg-surface-container-low p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="md:ml-sidebar-width min-h-screen pt-8 pb-24 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-4xl mx-auto">
+<!-- Page Header -->
+<div class="mb-stack-spacious flex items-center justify-between">
+<h1 class="font-headline-lg text-headline-lg text-text-primary">My Appointments</h1>
+</div>
+<!-- Upcoming Appointments Section -->
+<section class="mb-12">
+<h2 class="font-headline-sm text-headline-sm text-text-primary mb-stack-dense flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">event_upcoming</span>
+                    Upcoming
+                </h2>
+<div class="flex flex-col gap-stack-dense">
+<!-- Appointment Card 1 -->
+<div class="bg-surface rounded-xl p-stack-spacious shadow-[0_2px_4px_rgba(29,39,122,0.04)] border-l-4 border-status-success flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all hover:shadow-[0_4px_8px_rgba(29,39,122,0.08)]">
+<!-- Doctor Info -->
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full overflow-hidden bg-surface-container-low border border-outline-variant">
+<img alt="Dr. Sarah Jenkins" class="w-full h-full object-cover" data-alt="A professional headshot of a female doctor wearing a white lab coat over a blue scrub top, standing in a brightly lit modern clinic hallway. The lighting is soft and clinical, establishing a feeling of trust and competence. The image utilizes a cool color palette with deep navy accents, matching high-end medical software aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC90dgM-27-eba_6h8qUhAw-00fSt92fqQbaVhIQ8Dg6uIxsX-bnnypsfVOMOK8BUu5oiZzM-SI2PuA2pA54CLMxDQ21UkbRc1t4XIldEf55fQxPUjxbkX03pdfTDci1_AnUiBdKmhOD5ypzNwtkNu2tyGtr9nqSDd8pSMOBOdzzcwzlSmch3-tqHyc7uySCstPG05t-a5fhZlyVMTbHYpRpnw4Rx71VmABABCRHZPEsOkSZa-tEIzNq0P6ErEfV1BgSDL0DJOmyvqz"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Dr. Sarah Jenkins</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Retinal Specialist</p>
+</div>
+</div>
+<!-- Date/Time & Status -->
+<div class="flex flex-col sm:items-end gap-3 border-t sm:border-t-0 border-surface-variant pt-4 sm:pt-0">
+<div class="flex items-center gap-4 sm:justify-end">
+<div class="text-left sm:text-right">
+<div class="font-label-bold text-label-bold text-text-primary">Thursday, Oct 12</div>
+<div class="font-body-md text-body-md text-text-muted">10:30 AM</div>
+</div>
+<div class="h-10 w-px bg-surface-variant hidden sm:block"></div>
+<div class="bg-status-success/10 text-status-success font-label-bold text-label-caps px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-status-success/20">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                    CONFIRMED
+                                </div>
+</div>
+</div>
+</div>
+<!-- Appointment Card 2 -->
+<div class="bg-surface rounded-xl p-stack-spacious shadow-[0_2px_4px_rgba(29,39,122,0.04)] border-l-4 border-status-success flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all hover:shadow-[0_4px_8px_rgba(29,39,122,0.08)]">
+<!-- Doctor Info -->
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full overflow-hidden bg-surface-container-low border border-outline-variant">
+<img alt="Dr. Michael Chen" class="w-full h-full object-cover" data-alt="A professional headshot of a male Asian doctor wearing glasses and a dark navy scrub top. He is smiling warmly in a well-lit medical office environment. The lighting is crisp and natural, highlighting a clean, trustworthy, and modern clinical atmosphere with subtle indigo background tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClo2uJvkLUkATOUJi93a0y7yTZlmAgUHwA-TlvnglxgJSUnVoCjJjsLI3GNkArkDNDljwT6PcSgJiCLOqf7oJKBdRikXFoDG1NbFEO_D9VzP_QhxDboZUa2HpiIJDhpZgI7GBM_iM2xxcM96J9Uh6Lgu4ww69U963YTQrP0I1kSXnRUlMhPHB_3NPPVx7DPcC4NJDG5NlD1PklTOE4aUsD235gGgBAZ_4QUxm9DOiWdcXMlajqJ0Ex3-ssdg9R-Oq7BJx8TENydVgC"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Dr. Michael Chen</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Ophthalmologist</p>
+</div>
+</div>
+<!-- Date/Time & Status -->
+<div class="flex flex-col sm:items-end gap-3 border-t sm:border-t-0 border-surface-variant pt-4 sm:pt-0">
+<div class="flex items-center gap-4 sm:justify-end">
+<div class="text-left sm:text-right">
+<div class="font-label-bold text-label-bold text-text-primary">Monday, Oct 26</div>
+<div class="font-body-md text-body-md text-text-muted">2:15 PM</div>
+</div>
+<div class="h-10 w-px bg-surface-variant hidden sm:block"></div>
+<div class="bg-status-success/10 text-status-success font-label-bold text-label-caps px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-status-success/20">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                    CONFIRMED
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Past Appointments Section -->
+<section>
+<h2 class="font-headline-sm text-headline-sm text-text-primary mb-stack-dense flex items-center gap-2">
+<span class="material-symbols-outlined text-outline">history</span>
+                    Past
+                </h2>
+<div class="flex flex-col gap-stack-dense opacity-80">
+<!-- Past Card 1 -->
+<div class="bg-surface rounded-xl p-stack-spacious border border-outline-variant border-l-4 border-l-outline-variant flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+<!-- Doctor Info -->
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-low border border-outline-variant grayscale">
+<img alt="Dr. Sarah Jenkins" class="w-full h-full object-cover" data-alt="A professional headshot of a female doctor wearing a white lab coat over a blue scrub top, standing in a brightly lit modern clinic hallway. The lighting is soft and clinical, establishing a feeling of trust and competence. The image utilizes a cool color palette with deep navy accents, matching high-end medical software aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKBMBLidZzp6sOHWBupiNPLYoR3Gf0LFSHY-ydofG05tBJBOA2yVi5eFlv9hWTP6T-67V15LV3k1z47HeppgFmfynwuJrEsUEOxKvKJKh_YQsesIxmFE4O4XFLBv6ezl_6WOjjP_dJFJ43Q8dXoG-Rb9eAVb2Hbuslleg9diEIjefCv72lqMn-zBCcre781BRnLbw2hbywANIjq92kLv-GJDHddMUStPS-vRNscnjtfeuJ8hJ5wshDifQPx9ZoJiCwWdat9bbL4GbZ"/>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg font-medium text-text-primary">Dr. Sarah Jenkins</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Retinal Specialist</p>
+</div>
+</div>
+<!-- Date/Time & Status -->
+<div class="flex flex-col sm:items-end gap-3 border-t sm:border-t-0 border-surface-variant pt-4 sm:pt-0">
+<div class="flex items-center gap-4 sm:justify-end">
+<div class="text-left sm:text-right text-text-muted">
+<div class="font-label-bold text-label-bold">Sept 15, 2023</div>
+<div class="font-body-md text-body-md">9:00 AM</div>
+</div>
+<div class="h-10 w-px bg-surface-variant hidden sm:block"></div>
+<div class="bg-surface-container-high text-on-surface-variant font-label-bold text-label-caps px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-outline-variant">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+                                    COMPLETED
+                                </div>
+</div>
+</div>
+</div>
+<!-- Past Card 2 -->
+<div class="bg-surface rounded-xl p-stack-spacious border border-outline-variant border-l-4 border-l-outline-variant flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+<!-- Doctor Info -->
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-low border border-outline-variant grayscale">
+<img alt="Dr. Emily Roberts" class="w-full h-full object-cover" data-alt="A professional headshot of a female doctor in her 40s wearing a stethoscope around her neck and dark navy scrubs. She is standing in a brightly lit, sterile medical environment. The image emphasizes a clean, high-contrast aesthetic typical of premium healthcare applications, utilizing subtle indigo shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfb9GPnWBL0mlb9DcLS-IVtiMWXKTPqvobQZc1r0I2KfyuKs-ldeFlGgyLp4uBrbKpbDKQYbt5sY0ToR7OYWYitHxHTfaOEPbtBJoC3-duJ90mtCw62uW4BNzS3tNB66b8TC2l9B9JD2CLMgAincL51z9JPj1h8l4uB40_NsP5ne6a7hnWkbhYtxgTrUgL_XnRMkRMOObugnUCh0HV1ynAxc9fo_w67VWrgzTfoDUO73mL1wxHL3JmeQLQG4wHcKG5bsypZGI7XR_Z"/>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg font-medium text-text-primary">Dr. Emily Roberts</h3>
+<p class="font-body-sm text-body-sm text-text-muted">General Optometrist</p>
+</div>
+</div>
+<!-- Date/Time & Status -->
+<div class="flex flex-col sm:items-end gap-3 border-t sm:border-t-0 border-surface-variant pt-4 sm:pt-0">
+<div class="flex items-center gap-4 sm:justify-end">
+<div class="text-left sm:text-right text-text-muted">
+<div class="font-label-bold text-label-bold">April 02, 2023</div>
+<div class="font-body-md text-body-md">11:45 AM</div>
+</div>
+<div class="h-10 w-px bg-surface-variant hidden sm:block"></div>
+<div class="bg-surface-container-high text-on-surface-variant font-label-bold text-label-caps px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-outline-variant">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+                                    COMPLETED
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

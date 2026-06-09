@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RetiVue - System Monitoring</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#cad6ff",
+                      "surface-container-low": "#f2f4f6",
+                      "secondary-fixed-dim": "#bac5ee",
+                      "on-primary-fixed-variant": "#1328d1",
+                      "inverse-primary": "#bdc2ff",
+                      "on-tertiary-fixed": "#25005a",
+                      "secondary-fixed": "#dae2ff",
+                      "surface": "#FFFFFF",
+                      "tertiary-fixed-dim": "#d2bbff",
+                      "tertiary-fixed": "#eaddff",
+                      "background": "#f7f9fb",
+                      "surface-variant": "#e0e3e5",
+                      "primary": "#001bca",
+                      "surface-dim": "#d8dadc",
+                      "surface-tint": "#3748e7",
+                      "surface-bright": "#f7f9fb",
+                      "on-primary-container": "#c5c9ff",
+                      "surface-container-high": "#e6e8ea",
+                      "on-primary-fixed": "#000865",
+                      "surface-container": "#eceef0",
+                      "on-secondary-fixed-variant": "#3a4667",
+                      "on-background": "#191c1e",
+                      "on-secondary-fixed": "#0d1a39",
+                      "on-surface-variant": "#454655",
+                      "primary-fixed": "#dfe0ff",
+                      "primary-container": "#2d3fe0",
+                      "error-container": "#ffdad6",
+                      "tertiary": "#5200b5",
+                      "tertiary-container": "#6c22dd",
+                      "status-warning": "#D97706",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#e0e3e5",
+                      "ai-accent": "#7C3AED",
+                      "on-tertiary-container": "#d8c4ff",
+                      "error": "#ba1a1a",
+                      "inverse-surface": "#2d3133",
+                      "outline": "#757687",
+                      "text-muted": "#64748B",
+                      "inverse-on-surface": "#eff1f3",
+                      "on-error": "#ffffff",
+                      "status-danger": "#DC2626",
+                      "on-secondary-container": "#515c7f",
+                      "primary-fixed-dim": "#bdc2ff",
+                      "status-success": "#059669",
+                      "on-primary": "#ffffff",
+                      "secondary": "#525d80",
+                      "outline-variant": "#c5c5d8",
+                      "on-surface": "#191c1e",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-fixed-variant": "#5a00c6",
+                      "surface-container-lowest": "#ffffff",
+                      "text-primary": "#0F172A",
+                      "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-dense": "8px",
+                      "stack-spacious": "24px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "sidebar-width": "260px",
+                      "sidebar-collapsed": "72px",
+                      "container-max": "1440px",
+                      "margin-desktop": "32px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.08em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-sm": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ai-gradient-text {
+            background: linear-gradient(to right, #7C3AED, #2D3FE0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-background text-text-primary font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="bg-secondary dark:bg-on-background shadow-lg h-screen w-sidebar-width fixed left-0 top-0 overflow-y-auto hidden xl:flex flex-col py-stack-spacious z-50 transition-all duration-300">
+<div class="px-gutter mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">visibility</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-white tracking-tight">RetiVue</h1>
+<p class="font-label-caps text-label-caps text-secondary-fixed-dim">AI Retinal Screening</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+                Patients
+            </a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+                Reviews
+            </a>
+<a class="text-white bg-primary-container font-bold border-l-4 border-white px-4 py-3 flex items-center gap-3 rounded-lg opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Analytics
+            </a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="px-4 mt-auto space-y-1 pt-6 border-t border-on-secondary-fixed-variant">
+<button class="w-full bg-primary-container text-white py-3 rounded-lg font-label-bold text-label-bold flex items-center justify-center gap-2 mb-4 hover:bg-primary transition-colors shadow-md">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Screening
+            </button>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-2 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200 text-body-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+                Help Center
+            </a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-2 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200 text-body-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 xl:ml-sidebar-width flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant shadow-sm docked full-width top-0 sticky z-40 flex items-center justify-between h-16 px-gutter">
+<div class="flex items-center gap-6">
+<!-- Mobile Menu Toggle -->
+<button class="xl:hidden text-on-surface-variant p-2 rounded-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim hidden md:block tracking-tight">RetiVue AI</h2>
+</div>
+<nav class="hidden md:flex items-center gap-2">
+<a class="px-4 py-5 text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors font-label-bold text-label-bold" href="#">Recent</a>
+<a class="px-4 py-5 text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors font-label-bold text-label-bold" href="#">Protocols</a>
+<a class="px-4 py-5 text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors font-label-bold text-label-bold" href="#">Support</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-gradient-to-r from-ai-accent to-primary-container text-white px-4 py-2 rounded-md font-label-bold text-label-bold flex items-center gap-2 shadow-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                    Run AI Analysis
+                </button>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined">history</span></button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined">account_circle</span></button>
+</div>
+</div>
+</header>
+<div class="p-gutter max-w-container-max mx-auto w-full space-y-stack-spacious flex-1">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-primary mb-1">System Monitoring</h2>
+<p class="text-text-muted font-body-sm text-body-sm">Real-time overview of screening volumes and AI performance metrics.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface text-text-primary font-label-bold text-label-caps hover:bg-surface-container-low transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                        Last 30 Days
+                    </button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface text-text-primary font-label-bold text-label-caps hover:bg-surface-container-low transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">download</span>
+                        Export
+                    </button>
+</div>
+</div>
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Stat Card 1 -->
+<div class="bg-surface rounded-xl p-5 shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-surface-container-high border-l-4 border-l-primary relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-16 h-16 bg-primary/5 rounded-full"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-text-muted uppercase tracking-wider">Total Patients</span>
+<span class="material-symbols-outlined text-primary text-[20px]">group</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-bold">12,458</span>
+<span class="font-label-bold text-label-bold text-status-success flex items-center"><span class="material-symbols-outlined text-[14px]">trending_up</span> +5.2%</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface rounded-xl p-5 shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-surface-container-high border-l-4 border-l-primary relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-16 h-16 bg-primary/5 rounded-full"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-text-muted uppercase tracking-wider">Total Screenings</span>
+<span class="material-symbols-outlined text-primary text-[20px]">scan</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-bold">45,102</span>
+<span class="font-label-bold text-label-bold text-status-success flex items-center"><span class="material-symbols-outlined text-[14px]">trending_up</span> +8.1%</span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface rounded-xl p-5 shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-surface-container-high border-l-4 border-l-status-warning relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-16 h-16 bg-status-warning/5 rounded-full"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-text-muted uppercase tracking-wider">Critical Cases (Gr 3-4)</span>
+<span class="material-symbols-outlined text-status-warning text-[20px]">warning</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-bold">1,842</span>
+<span class="font-label-bold text-label-bold text-status-danger flex items-center"><span class="material-symbols-outlined text-[14px]">trending_up</span> +1.2%</span>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-surface rounded-xl p-5 shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-surface-container-high border-l-4 border-l-ai-accent relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-16 h-16 bg-ai-accent/5 rounded-full"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-text-muted uppercase tracking-wider">AI Performance</span>
+<span class="material-symbols-outlined text-ai-accent text-[20px]">auto_awesome</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-bold ai-gradient-text">98.4%</span>
+<span class="font-label-bold text-label-bold text-text-muted">Avg Confidence</span>
+</div>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Bar Chart: Screenings per week -->
+<div class="bg-surface rounded-xl shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-surface-container-high p-5 lg:col-span-2">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-sm text-headline-sm font-semibold">Screening Volume</h3>
+<span class="text-text-muted font-body-sm text-body-sm">Last 8 Weeks</span>
+</div>
+<div class="h-[250px] w-full relative">
+<canvas id="screeningsChart"></canvas>
+</div>
+</div>
+<!-- Pie Chart: DR Grades -->
+<div class="bg-surface rounded-xl shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-surface-container-high p-5">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-sm text-headline-sm font-semibold">DR Grade Distribution</h3>
+</div>
+<div class="h-[200px] w-full relative flex justify-center">
+<canvas id="drGradesChart"></canvas>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-2 text-center font-body-sm text-body-sm">
+<div class="flex items-center gap-2 justify-center"><div class="w-3 h-3 rounded-full bg-[#10B981]"></div> Grade 0</div>
+<div class="flex items-center gap-2 justify-center"><div class="w-3 h-3 rounded-full bg-[#3B82F6]"></div> Grade 1</div>
+<div class="flex items-center gap-2 justify-center"><div class="w-3 h-3 rounded-full bg-[#F59E0B]"></div> Grade 2</div>
+<div class="flex items-center gap-2 justify-center"><div class="w-3 h-3 rounded-full bg-[#EF4444]"></div> Grade 3-4</div>
+</div>
+</div>
+<!-- Line Chart: AI Confidence -->
+<div class="bg-surface rounded-xl shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-surface-container-high p-5 lg:col-span-3 border-l-4 border-l-ai-accent">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-ai-accent">auto_awesome</span>
+<h3 class="font-headline-sm text-headline-sm font-semibold">AI Confidence Trend</h3>
+</div>
+<span class="bg-ai-accent/10 text-ai-accent px-2 py-1 rounded font-label-bold text-label-bold">Target: &gt;95%</span>
+</div>
+<div class="h-[200px] w-full relative">
+<canvas id="aiConfidenceChart"></canvas>
+</div>
+</div>
+</div>
+<!-- Recent Cases Table -->
+<div class="bg-surface rounded-xl shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-surface-container-high overflow-hidden">
+<div class="p-5 border-b border-surface-container-high flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm font-semibold">Recent Screenings</h3>
+<button class="text-primary font-label-bold text-label-bold hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-text-muted font-label-caps text-label-caps uppercase tracking-wider">
+<th class="p-4 font-semibold">Patient</th>
+<th class="p-4 font-semibold">Doctor</th>
+<th class="p-4 font-semibold">Grade</th>
+<th class="p-4 font-semibold">AI Confidence</th>
+<th class="p-4 font-semibold">Date</th>
+<th class="p-4 font-semibold">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm">
+<tr class="border-b border-surface-container-high hover:bg-surface-bright transition-colors">
+<td class="p-4 font-medium">PT-29481</td>
+<td class="p-4">Dr. Sarah Jenkins</td>
+<td class="p-4">
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-status-danger/10 text-status-danger font-label-bold text-label-bold border border-status-danger/20">Grade 3</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-ai-accent">auto_awesome</span>
+<span class="font-semibold text-text-primary">99.1%</span>
+</div>
+</td>
+<td class="p-4 text-text-muted">Today, 10:42 AM</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1 text-status-warning"><span class="material-symbols-outlined text-[16px]">pending</span> Review Required</span>
+</td>
+</tr>
+<tr class="border-b border-surface-container-high hover:bg-surface-bright transition-colors">
+<td class="p-4 font-medium">PT-29480</td>
+<td class="p-4">Dr. Michael Chen</td>
+<td class="p-4">
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-status-success/10 text-status-success font-label-bold text-label-bold border border-status-success/20">Grade 0</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-ai-accent">auto_awesome</span>
+<span class="font-semibold text-text-primary">98.5%</span>
+</div>
+</td>
+<td class="p-4 text-text-muted">Today, 09:15 AM</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1 text-status-success"><span class="material-symbols-outlined text-[16px]">check_circle</span> Approved</span>
+</td>
+</tr>
+<tr class="border-b border-surface-container-high hover:bg-surface-bright transition-colors">
+<td class="p-4 font-medium">PT-29479</td>
+<td class="p-4">Dr. Emily Stone</td>
+<td class="p-4">
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-status-warning/10 text-status-warning font-label-bold text-label-bold border border-status-warning/20">Grade 2</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-ai-accent">auto_awesome</span>
+<span class="font-semibold text-text-primary">94.2%</span>
+</div>
+</td>
+<td class="p-4 text-text-muted">Yesterday, 16:30 PM</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1 text-status-warning"><span class="material-symbols-outlined text-[16px]">pending</span> Review Required</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="p-4 font-medium">PT-29478</td>
+<td class="p-4">Dr. Sarah Jenkins</td>
+<td class="p-4">
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-[#3B82F6]/10 text-[#3B82F6] font-label-bold text-label-bold border border-[#3B82F6]/20">Grade 1</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-ai-accent">auto_awesome</span>
+<span class="font-semibold text-text-primary">97.8%</span>
+</div>
+</td>
+<td class="p-4 text-text-muted">Yesterday, 14:10 PM</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1 text-status-success"><span class="material-symbols-outlined text-[16px]">check_circle</span> Approved</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Chart Scripts -->
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Common Chart Options
+            Chart.defaults.font.family = 'Inter';
+            Chart.defaults.color = '#64748B';
+            
+            // Bar Chart: Screenings Volume
+            const ctxScreenings = document.getElementById('screeningsChart').getContext('2d');
+            new Chart(ctxScreenings, {
+                type: 'bar',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'],
+                    datasets: [{
+                        label: 'Total Screenings',
+                        data: [1200, 1350, 1250, 1500, 1400, 1600, 1550, 1800],
+                        backgroundColor: '#2D3FE0',
+                        borderRadius: 4,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#e0e3e5', drawBorder: false } },
+                        x: { grid: { display: false, drawBorder: false } }
+                    }
+                }
+            });
+
+            // Pie Chart: DR Grades
+            const ctxGrades = document.getElementById('drGradesChart').getContext('2d');
+            new Chart(ctxGrades, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Grade 0', 'Grade 1', 'Grade 2', 'Grade 3-4'],
+                    datasets: [{
+                        data: [65, 15, 12, 8],
+                        backgroundColor: ['#10B981', '#3B82F6', '#F59E0B', '#EF4444'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Line Chart: AI Confidence
+            const ctxConfidence = document.getElementById('aiConfidenceChart').getContext('2d');
+            
+            // Create gradient for line chart
+            let gradient = ctxConfidence.createLinearGradient(0, 0, 0, 200);
+            gradient.addColorStop(0, 'rgba(124, 58, 237, 0.2)');
+            gradient.addColorStop(1, 'rgba(124, 58, 237, 0)');
+
+            new Chart(ctxConfidence, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Avg Confidence Score',
+                        data: [97.5, 98.1, 97.8, 98.5, 98.2, 98.7, 98.4],
+                        borderColor: '#7C3AED',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#FFFFFF',
+                        pointBorderColor: '#7C3AED',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            min: 95, 
+                            max: 100, 
+                            grid: { color: '#e0e3e5', drawBorder: false },
+                            ticks: { callback: function(value) { return value + '%' } }
+                        },
+                        x: { grid: { display: false, drawBorder: false } }
+                    }
+                }
+            });
+        });
+    </script>
+</body></html>

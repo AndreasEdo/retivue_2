@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manage Doctors - RetiVue Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#cad6ff",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#bac5ee",
+                        "on-primary-fixed-variant": "#1328d1",
+                        "inverse-primary": "#bdc2ff",
+                        "on-tertiary-fixed": "#25005a",
+                        "secondary-fixed": "#dae2ff",
+                        "surface": "#FFFFFF",
+                        "tertiary-fixed-dim": "#d2bbff",
+                        "tertiary-fixed": "#eaddff",
+                        "background": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "primary": "#001bca",
+                        "surface-dim": "#d8dadc",
+                        "surface-tint": "#3748e7",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-container": "#c5c9ff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed": "#000865",
+                        "surface-container": "#eceef0",
+                        "on-secondary-fixed-variant": "#3a4667",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed": "#0d1a39",
+                        "on-surface-variant": "#454655",
+                        "primary-fixed": "#dfe0ff",
+                        "primary-container": "#2d3fe0",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#5200b5",
+                        "tertiary-container": "#6c22dd",
+                        "status-warning": "#D97706",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "ai-accent": "#7C3AED",
+                        "on-tertiary-container": "#d8c4ff",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#757687",
+                        "text-muted": "#64748B",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error": "#ffffff",
+                        "status-danger": "#DC2626",
+                        "on-secondary-container": "#515c7f",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "status-success": "#059669",
+                        "on-primary": "#ffffff",
+                        "secondary": "#525d80",
+                        "outline-variant": "#c5c5d8",
+                        "on-surface": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#5a00c6",
+                        "surface-container-lowest": "#ffffff",
+                        "text-primary": "#0F172A",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-dense": "8px",
+                        "stack-spacious": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "sidebar-width": "260px",
+                        "sidebar-collapsed": "72px",
+                        "container-max": "1440px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="h-screen w-sidebar-width fixed left-0 top-0 overflow-y-auto bg-secondary dark:bg-on-background shadow-lg shadow-md flex flex-col h-full py-stack-spacious z-50">
+<div class="px-6 pb-6 border-b border-on-secondary-fixed-variant mb-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white font-bold">
+                    RV
+                </div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-white">RetiVue</h1>
+<p class="font-body-sm text-body-sm text-secondary-fixed-dim">AI Retinal Screening</p>
+</div>
+</div>
+<button class="w-full mt-6 bg-primary-container hover:bg-primary text-white font-label-bold text-label-bold py-2 px-4 rounded transition-colors duration-200 shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Screening
+            </button>
+</div>
+<div class="flex-1 flex flex-col gap-1 px-3 overflow-y-auto">
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-bold text-label-bold">Patients</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-label-bold text-label-bold">Reviews</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-bold text-label-bold">Analytics</span>
+</a>
+<a class="text-white bg-primary-container font-bold border-l-4 border-white px-4 py-3 flex items-center gap-3 opacity-90 transition-all rounded-r-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-bold text-label-bold">Settings</span>
+</a>
+</div>
+<div class="px-3 pt-6 mt-auto border-t border-on-secondary-fixed-variant">
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-bold text-label-bold">Help Center</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-bold text-label-bold">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-sidebar-width flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant shadow-sm docked full-width top-0 sticky z-40 flex items-center justify-between h-16 px-gutter">
+<div class="flex items-center gap-4 flex-1">
+<h2 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">RetiVue AI</h2>
+<div class="relative w-64 ml-8">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="w-full pl-9 pr-4 py-1.5 bg-surface-container-low border-none rounded-full font-body-sm text-body-sm text-on-surface focus:ring-2 focus:ring-primary focus:bg-surface transition-all" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="flex items-center gap-1 hidden md:flex">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary px-3 py-2 rounded-lg hover:bg-surface-container-low transition-colors font-label-bold text-label-bold" href="#">Recent</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary px-3 py-2 rounded-lg hover:bg-surface-container-low transition-colors font-label-bold text-label-bold" href="#">Protocols</a>
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold px-3 py-2 scale-95 transition-transform font-label-bold text-label-bold" href="#">Support</a>
+</nav>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3">
+<button class="text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-status-danger rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">history</span>
+</button>
+<button class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant shadow-sm">
+<img alt="Admin Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuaFWckTgF3AyFKs2Y5JIftZBxGDIiScQ45v09OqU1qGKhzyakGBL4Fz_1scCK2TGh6ULCpdN4gHC6WAnF5NzCLA_Z-tCgPC8wXaGR4Qyza2h3ySdnxnCAvGI8dcwxB-6mQN3DfDk0f7NPgzHpEEdsspyUlh-5Qo3cmhxvsbD5Emt4H9qR1p8FBtGTIGdW-12HQGjZnEhFB35K588I2lHnqt28DpvxPsTRY8tjL8xeF6KmDdLOm5SCzoHojH8s7qJocb2EfiZDeudP"/>
+</button>
+</div>
+<button class="bg-ai-accent text-white font-label-bold text-label-bold py-1.5 px-4 rounded flex items-center gap-2 hover:opacity-90 transition-opacity shadow-sm ml-2">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+                    Run AI Analysis
+                </button>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 p-gutter bg-surface-container-lowest">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary mb-1">Manage Doctors</h1>
+<p class="font-body-sm text-body-sm text-text-muted">View, add, and manage clinical staff access to the RetiVue platform.</p>
+</div>
+<button class="bg-primary-container text-white font-label-bold text-label-bold py-2 px-5 rounded-md hover:bg-primary transition-colors shadow-[0px_2px_4px_rgba(45,63,224,0.15)] flex items-center gap-2 shrink-0" id="addDoctorBtn">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+                    Add New Doctor
+                </button>
+</div>
+<!-- Main Data Card -->
+<div class="bg-surface rounded-xl shadow-[0px_2px_4px_rgba(29,35,76,0.04)] border border-surface-container-high overflow-hidden">
+<!-- Toolbar -->
+<div class="p-4 border-b border-surface-container-high flex flex-col sm:flex-row justify-between items-center gap-4 bg-surface-bright">
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<div class="relative w-full sm:w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="w-full pl-9 pr-4 py-2 border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" placeholder="Search by name, ID, or email..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+<button class="px-3 py-1.5 border border-outline-variant rounded-md text-on-surface-variant font-label-bold text-label-bold hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                            Filter
+                        </button>
+<button class="px-3 py-1.5 border border-outline-variant rounded-md text-on-surface-variant font-label-bold text-label-bold hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">download</span>
+                            Export
+                        </button>
+</div>
+</div>
+<!-- Table Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-container-high">
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Doctor</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Specialization</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Email</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Status</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Date Added</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-surface-container-high hover:bg-surface-bright transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-primary-fixed font-label-bold text-label-bold border border-secondary-fixed">
+                                            SAR
+                                        </div>
+<div>
+<p class="font-label-bold text-label-bold text-text-primary">Dr. Sarah Reynolds</p>
+<p class="text-text-muted text-xs">ID: MD-4921</p>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Ophthalmologist</td>
+<td class="py-3 px-4 text-on-surface-variant">s.reynolds@retivue.com</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#059669]/10 text-status-success">
+                                        Active
+                                    </span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Oct 12, 2023</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-status-warning transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[18px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-container-high hover:bg-surface-bright transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-primary-fixed font-label-bold text-label-bold border border-secondary-fixed">
+                                            JCH
+                                        </div>
+<div>
+<p class="font-label-bold text-label-bold text-text-primary">Dr. James Chen</p>
+<p class="text-text-muted text-xs">ID: MD-5102</p>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Retina Specialist</td>
+<td class="py-3 px-4 text-on-surface-variant">j.chen@retivue.com</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#059669]/10 text-status-success">
+                                        Active
+                                    </span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Nov 04, 2023</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-status-warning transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[18px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 (Inactive) -->
+<tr class="border-b border-surface-container-high hover:bg-surface-bright transition-colors group bg-surface-container-lowest/50">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-label-bold text-label-bold border border-outline-variant">
+                                            MOP
+                                        </div>
+<div>
+<p class="font-label-bold text-label-bold text-text-primary opacity-60">Dr. Maria Ortiz</p>
+<p class="text-text-muted text-xs opacity-60">ID: MD-3844</p>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant opacity-60">General Practice</td>
+<td class="py-3 px-4 text-on-surface-variant opacity-60">m.ortiz@retivue.com</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-surface-variant text-on-surface-variant">
+                                        Inactive
+                                    </span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant opacity-60">Jan 15, 2023</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-status-success transition-colors" title="Activate">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-surface-container-high flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant bg-surface-bright">
+<p>Showing 1 to 3 of 24 entries</p>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded hover:bg-surface-container-low disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-7 h-7 rounded bg-primary-container text-white font-label-bold text-label-bold flex items-center justify-center">1</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container-low font-label-bold text-label-bold flex items-center justify-center">2</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container-low font-label-bold text-label-bold flex items-center justify-center">3</button>
+<span class="px-1">...</span>
+<button class="p-1 rounded hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Modal Overlay (Add/Edit Doctor) -->
+<div class="fixed inset-0 z-[60] hidden bg-on-background/40 backdrop-blur-sm flex items-center justify-center p-4" id="doctorModal">
+<!-- Modal Content -->
+<div class="bg-surface rounded-xl shadow-[0px_8px_16px_rgba(29,35,76,0.08)] border border-surface-container-highest w-full max-w-2xl overflow-hidden flex flex-col max-h-[921px]">
+<!-- Modal Header -->
+<div class="p-5 border-b border-surface-container-high flex justify-between items-center bg-surface-bright shrink-0">
+<h3 class="font-headline-sm text-headline-sm font-bold text-text-primary">Add New Doctor</h3>
+<button class="text-on-surface-variant hover:text-status-danger transition-colors p-1 rounded-md hover:bg-surface-container-low" id="closeModalBtn">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="p-6 overflow-y-auto bg-surface flex-1">
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Full Name -->
+<div class="space-y-1.5">
+<label class="block font-label-bold text-label-bold text-text-primary" for="fullName">Full Name <span class="text-status-danger">*</span></label>
+<input class="w-full px-3 py-2 border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="fullName" placeholder="e.g., Dr. Jane Doe" type="text"/>
+</div>
+<!-- Employee ID -->
+<div class="space-y-1.5">
+<label class="block font-label-bold text-label-bold text-text-primary" for="employeeId">Employee ID <span class="text-status-danger">*</span></label>
+<input class="w-full px-3 py-2 border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="employeeId" placeholder="e.g., MD-1024" type="text"/>
+</div>
+<!-- Email -->
+<div class="space-y-1.5">
+<label class="block font-label-bold text-label-bold text-text-primary" for="email">Email Address <span class="text-status-danger">*</span></label>
+<input class="w-full px-3 py-2 border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="email" placeholder="doctor@retivue.com" type="email"/>
+</div>
+<!-- Specialization -->
+<div class="space-y-1.5">
+<label class="block font-label-bold text-label-bold text-text-primary" for="specialization">Specialization <span class="text-status-danger">*</span></label>
+<select class="w-full px-3 py-2 border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all bg-surface" id="specialization">
+<option disabled="" selected="" value="">Select specialization...</option>
+<option value="ophthalmologist">Ophthalmologist</option>
+<option value="retina_specialist">Retina Specialist</option>
+<option value="general_practice">General Practice</option>
+<option value="optometrist">Optometrist</option>
+</select>
+</div>
+</div>
+<div class="border-t border-surface-container-high pt-6">
+<h4 class="font-label-bold text-label-bold text-text-muted mb-4 uppercase tracking-wider">Account Settings</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Temporary Password -->
+<div class="space-y-1.5">
+<label class="block font-label-bold text-label-bold text-text-primary" for="password">Temporary Password</label>
+<div class="relative">
+<input class="w-full px-3 py-2 border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-text-primary" type="button">
+<span class="material-symbols-outlined text-sm">visibility_off</span>
+</button>
+</div>
+<p class="text-[11px] text-text-muted mt-1">User will be forced to change this upon first login.</p>
+</div>
+<!-- Status Toggle -->
+<div class="space-y-2">
+<label class="block font-label-bold text-label-bold text-text-primary">Account Status</label>
+<div class="flex items-center gap-3">
+<!-- Custom Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-status-success"></div>
+</label>
+<span class="font-body-sm text-body-sm text-on-surface">Active</span>
+</div>
+</div>
+</div>
+</div>
+</form>
+</div>
+<!-- Modal Footer -->
+<div class="p-5 border-t border-surface-container-high bg-surface-bright flex justify-end gap-3 shrink-0">
+<button class="px-4 py-2 border border-outline-variant rounded-md text-on-surface-variant font-label-bold text-label-bold hover:bg-surface-container-low transition-colors" id="cancelModalBtn">
+                    Cancel
+                </button>
+<button class="px-4 py-2 bg-primary-container text-white rounded-md font-label-bold text-label-bold hover:bg-primary transition-colors shadow-sm">
+                    Save Doctor
+                </button>
+</div>
+</div>
+</div>
+<script>
+        // Simple modal toggle logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('doctorModal');
+            const addBtn = document.getElementById('addDoctorBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const cancelBtn = document.getElementById('cancelModalBtn');
+
+            function toggleModal() {
+                modal.classList.toggle('hidden');
+            }
+
+            addBtn.addEventListener('click', toggleModal);
+            closeBtn.addEventListener('click', toggleModal);
+            cancelBtn.addEventListener('click', toggleModal);
+
+            // Close on backdrop click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    toggleModal();
+                }
+            });
+        });
+    </script>
+</body></html>

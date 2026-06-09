@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patient Dashboard - RetiVue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#cad6ff",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#bac5ee",
+                        "on-primary-fixed-variant": "#1328d1",
+                        "inverse-primary": "#bdc2ff",
+                        "on-tertiary-fixed": "#25005a",
+                        "secondary-fixed": "#dae2ff",
+                        "surface": "#FFFFFF",
+                        "tertiary-fixed-dim": "#d2bbff",
+                        "tertiary-fixed": "#eaddff",
+                        "background": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "primary": "#001bca",
+                        "surface-dim": "#d8dadc",
+                        "surface-tint": "#3748e7",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-container": "#c5c9ff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed": "#000865",
+                        "surface-container": "#eceef0",
+                        "on-secondary-fixed-variant": "#3a4667",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed": "#0d1a39",
+                        "on-surface-variant": "#454655",
+                        "primary-fixed": "#dfe0ff",
+                        "primary-container": "#2d3fe0",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#5200b5",
+                        "tertiary-container": "#6c22dd",
+                        "status-warning": "#D97706",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "ai-accent": "#7C3AED",
+                        "on-tertiary-container": "#d8c4ff",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#757687",
+                        "text-muted": "#64748B",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error": "#ffffff",
+                        "status-danger": "#DC2626",
+                        "on-secondary-container": "#515c7f",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "status-success": "#059669",
+                        "on-primary": "#ffffff",
+                        "secondary": "#525d80",
+                        "outline-variant": "#c5c5d8",
+                        "on-surface": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#5a00c6",
+                        "surface-container-lowest": "#ffffff",
+                        "text-primary": "#0F172A",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-dense": "8px",
+                        "stack-spacious": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "sidebar-width": "260px",
+                        "sidebar-collapsed": "72px",
+                        "container-max": "1440px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-bold": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex min-h-screen">
+<!-- SideNavBar (Patient View - soft tone adaptation requested in prompt, adapting standard sidebar) -->
+<aside class="hidden md:flex flex-col h-screen w-sidebar-width fixed left-0 top-0 overflow-y-auto bg-surface-container-low shadow-sm border-r border-outline-variant py-stack-spacious">
+<div class="px-gutter mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-md">
+                R
+            </div>
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-text-primary">RetiVue</div>
+<div class="font-body-sm text-body-sm text-text-muted">AI Retinal Screening</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-4">
+<!-- Active Tab: Dashboard -->
+<a class="text-primary bg-primary-fixed font-bold px-4 py-3 rounded-lg flex items-center gap-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface hover:text-primary px-4 py-3 rounded-lg flex items-center gap-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-body-md text-body-md">My Reports</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface hover:text-primary px-4 py-3 rounded-lg flex items-center gap-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-body-md text-body-md">Appointments</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface hover:text-primary px-4 py-3 rounded-lg flex items-center gap-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 flex flex-col gap-1">
+<button class="w-full bg-primary-container text-on-primary font-label-bold text-label-bold py-3 rounded-lg shadow-sm hover:opacity-90 transition-opacity mb-4">
+                Book New Appointment
+            </button>
+<a class="text-on-surface-variant hover:bg-surface hover:text-primary px-4 py-3 rounded-lg flex items-center gap-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-body-md text-body-md">Help Center</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface hover:text-primary px-4 py-3 rounded-lg flex items-center gap-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 ml-0 md:ml-sidebar-width w-full md:w-[calc(100%-var(--sidebar-width))] min-h-screen flex flex-col relative">
+<!-- TopAppBar (Mobile & Patient specific) -->
+<header class="flex items-center justify-between h-16 px-margin-mobile md:px-margin-desktop bg-surface/80 backdrop-blur-md sticky top-0 z-40 border-b border-outline-variant/50">
+<div class="md:hidden flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-sm">
+                    R
+                </div>
+<div class="font-headline-sm text-headline-sm font-bold text-text-primary">RetiVue</div>
+</div>
+<!-- Patient specific greeting for desktop top bar area -->
+<div class="hidden md:block">
+<h1 class="font-headline-md text-headline-md text-text-primary">Welcome back, Sarah</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-9 h-9 rounded-full bg-surface-container-high overflow-hidden shadow-sm">
+<img alt="Sarah Profile" class="w-full h-full object-cover" data-alt="A professional, well-lit headshot of a young woman with a warm, approachable smile. She is wearing a soft, casual blouse. The background is a slightly blurred, bright modern office setting. The lighting is soft and natural, suggesting a friendly and inviting patient persona in a clinical application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmxH1dzYYVCnHEsuBux1TwSWAOjtniHERQVpR-51xLrjK-jAczJl85Q-obt9hJsOauJQKYlXh3ke1Js1pXAyp-50b6_A7OpZrZ5PM3yy1060hdeQC5kgH6lUo2UwjYzzBNnHBYs4H48gXgdUuxfDOAEGqUnTfCYW5jyVbLDNzgQjuB3RtxKEYI0l35gdMCBWwjXgmJ7FzNRi--h6fxFUWcBik11T_wgqt4BvRpJf5X98MO0iflE2GrEcxUbPILN8EyRJ5qiTdTFVTL"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<div class="flex-1 p-margin-mobile md:p-margin-desktop space-y-stack-spacious max-w-container-max mx-auto w-full">
+<!-- Mobile Greeting -->
+<div class="md:hidden mb-6">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-text-primary">Welcome back, Sarah</h1>
+<p class="font-body-md text-body-md text-text-muted mt-1">Here's your eye health overview.</p>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column (Main Focus) -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<!-- Upcoming Appointment Card (Bento Style) -->
+<div class="bg-surface rounded-xl p-6 shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-outline-variant/30 flex flex-col relative overflow-hidden">
+<!-- Decorative gradient blob -->
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-secondary-container/50 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-sm text-headline-sm text-text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="event">event</span>
+                                Upcoming Appointment
+                            </h2>
+<span class="px-3 py-1 rounded-full bg-status-success/10 text-status-success font-label-bold text-label-bold">
+                                Confirmed
+                            </span>
+</div>
+<div class="flex flex-col md:flex-row gap-6 mt-2">
+<div class="flex-1 flex gap-4 items-start">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high shrink-0">
+<img alt="Dr. Chen" class="w-full h-full object-cover" data-alt="A portrait of a friendly, professional female doctor wearing a white coat and a stethoscope around her neck. She has dark hair and a reassuring smile. The background is a clean, bright medical clinic environment. The lighting is crisp and cool, reflecting a sterile yet welcoming medical setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDImp0mgfbTUjgF_0ZMwy_snrP3lv5aAfXAVAbCTf3fgIs8CeODcx4napppj-JID-YtUY2p7ZFS0M3ZUdjX_PJKuLt8iB1IRvrjZ77SUUcYu4Czpud9bNQa1kLb8XjEGqzr3zHhZ4nL372dIo4xH11sgST2idd2pJ_JIMl5z4bW4yu_gtSAg2jamkfq0mv8uhCP9RzgQIdqSVTUdMIu7XQCKtSC_GH_4ZcJg7EtsdjzGEWXlurp1PcXC3MiXbAbudY-KL1J9BW7EVAC"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Dr. Emily Chen</h3>
+<p class="font-body-md text-body-md text-text-muted">Optometrist • Retinal Specialist</p>
+<div class="mt-4 flex flex-col gap-2">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_month">calendar_month</span>
+                                            Thursday, October 26, 2023
+                                        </div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="schedule">schedule</span>
+                                            10:30 AM - 11:15 AM
+                                        </div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+                                            RetiVue Main Clinic, Room 3B
+                                        </div>
+</div>
+</div>
+</div>
+<div class="flex flex-row md:flex-col gap-3 justify-end mt-4 md:mt-0">
+<button class="flex-1 md:flex-none px-4 py-2 bg-surface border border-outline-variant rounded-lg font-label-bold text-label-bold text-primary hover:bg-surface-container-low transition-colors">
+                                    Reschedule
+                                </button>
+<button class="flex-1 md:flex-none px-4 py-2 bg-surface border border-outline-variant rounded-lg font-label-bold text-label-bold text-text-primary hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="directions">directions</span>
+                                    Directions
+                                </button>
+</div>
+</div>
+</div>
+<!-- Latest Report Card (Clinical focus, warm UI) -->
+<div class="bg-surface rounded-xl p-6 shadow-[0_2px_4px_rgba(30,42,74,0.04)] border-l-4 border-l-ai-accent border-y border-r border-y-outline-variant/30 border-r-outline-variant/30 relative">
+<div class="absolute top-4 right-4 px-2 py-1 bg-ai-accent/10 text-ai-accent rounded text-[10px] font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="auto_awesome">auto_awesome</span>
+                            AI ASSISTED
+                        </div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-tertiary-container/10 flex items-center justify-center text-ai-accent">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-text-primary">Annual Retinal Screening</h2>
+<p class="font-body-sm text-body-sm text-text-muted">Completed Sep 15, 2023</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-4 mb-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-status-success"></div>
+<span class="font-body-md text-body-md text-text-primary font-medium">Status: Results Ready</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted">Reviewed by Dr. Chen</span>
+</div>
+<div class="flex justify-between items-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-[70%]">
+                                Your latest fundus imaging results have been analyzed and are ready for your review. No significant anomalies detected.
+                            </p>
+<button class="px-5 py-2.5 bg-primary-container text-on-primary font-label-bold text-label-bold rounded-lg shadow-sm hover:opacity-90 transition-opacity flex items-center gap-2">
+                                View Report
+                                <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column (Quick Actions & Information) -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Quick Action Card -->
+<div class="bg-primary/5 rounded-xl p-6 border border-primary/10">
+<h3 class="font-headline-sm text-headline-sm text-text-primary mb-2">Need to see us?</h3>
+<p class="font-body-sm text-body-sm text-text-muted mb-5">Schedule a follow-up or routine check-up easily.</p>
+<button class="w-full py-3 bg-primary text-on-primary font-label-bold text-label-bold rounded-lg shadow-sm hover:bg-on-primary-fixed transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                            Book New Appointment
+                        </button>
+</div>
+<!-- Health Tip / Education Widget -->
+<div class="bg-surface rounded-xl p-6 shadow-[0_2px_4px_rgba(30,42,74,0.04)] border border-outline-variant/30">
+<div class="flex items-center gap-2 mb-3 text-status-warning">
+<span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+<span class="font-label-bold text-label-bold">EYE HEALTH TIP</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-text-primary mb-2">The 20-20-20 Rule</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                            To prevent digital eye strain, every 20 minutes, look at something 20 feet away for 20 seconds. This helps relax the focusing muscles inside your eye.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant/50 flex justify-around items-center h-16 pb-safe z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-caps text-label-caps">Reports</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-caps text-label-caps">Appts</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,18 @@
+# PyTorch CPU wheel — install dengan:
+#   pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
+# (Dockerfile sudah menambahkan index ini.)
+
+fastapi
+uvicorn[standard]
+python-multipart
+
+torch
+timm
+
+albumentations
+opencv-python-headless
+numpy
+pillow
+scipy
+
+grad-cam

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RetiVue - Pending Review List</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#cad6ff",
+                    "surface-container-low": "#f2f4f6",
+                    "secondary-fixed-dim": "#bac5ee",
+                    "on-primary-fixed-variant": "#1328d1",
+                    "inverse-primary": "#bdc2ff",
+                    "on-tertiary-fixed": "#25005a",
+                    "secondary-fixed": "#dae2ff",
+                    "surface": "#FFFFFF",
+                    "tertiary-fixed-dim": "#d2bbff",
+                    "tertiary-fixed": "#eaddff",
+                    "background": "#f7f9fb",
+                    "surface-variant": "#e0e3e5",
+                    "primary": "#001bca",
+                    "surface-dim": "#d8dadc",
+                    "surface-tint": "#3748e7",
+                    "surface-bright": "#f7f9fb",
+                    "on-primary-container": "#c5c9ff",
+                    "surface-container-high": "#e6e8ea",
+                    "on-primary-fixed": "#000865",
+                    "surface-container": "#eceef0",
+                    "on-secondary-fixed-variant": "#3a4667",
+                    "on-background": "#191c1e",
+                    "on-secondary-fixed": "#0d1a39",
+                    "on-surface-variant": "#454655",
+                    "primary-fixed": "#dfe0ff",
+                    "primary-container": "#2d3fe0",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#5200b5",
+                    "tertiary-container": "#6c22dd",
+                    "status-warning": "#D97706",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "ai-accent": "#7C3AED",
+                    "on-tertiary-container": "#d8c4ff",
+                    "error": "#ba1a1a",
+                    "inverse-surface": "#2d3133",
+                    "outline": "#757687",
+                    "text-muted": "#64748B",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-error": "#ffffff",
+                    "status-danger": "#DC2626",
+                    "on-secondary-container": "#515c7f",
+                    "primary-fixed-dim": "#bdc2ff",
+                    "status-success": "#059669",
+                    "on-primary": "#ffffff",
+                    "secondary": "#525d80",
+                    "outline-variant": "#c5c5d8",
+                    "on-surface": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#5a00c6",
+                    "surface-container-lowest": "#ffffff",
+                    "text-primary": "#0F172A",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-dense": "8px",
+                    "stack-spacious": "24px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "sidebar-width": "260px",
+                    "sidebar-collapsed": "72px",
+                    "container-max": "1440px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "label-bold": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-bold": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom scrollbar for dense lists */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="bg-secondary dark:bg-on-background h-screen w-sidebar-width fixed left-0 top-0 overflow-y-auto shadow-lg flex flex-col py-stack-spacious z-50 hidden md:flex">
+<!-- Brand Header -->
+<div class="px-6 pb-6 border-b border-on-secondary-fixed-variant/20 mb-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-primary fill-icon text-[24px]">visibility</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-white">RetiVue</h1>
+<p class="font-label-caps text-label-caps text-secondary-fixed-dim">AI Retinal Screening</p>
+</div>
+</div>
+<!-- CTA -->
+<div class="px-4 mb-6">
+<button class="w-full bg-primary-container text-white py-3 rounded-lg font-label-bold text-label-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-md">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Screening
+            </button>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 px-2 flex flex-col gap-1">
+<a class="text-white bg-primary-container font-bold border-l-4 border-white px-4 py-3 flex items-center gap-3 rounded-r-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-r-lg" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-bold text-label-bold">Patients</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-r-lg" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-label-bold text-label-bold">Reviews</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-r-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-bold text-label-bold">Analytics</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-r-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-bold text-label-bold">Settings</span>
+</a>
+</div>
+<!-- Footer Links -->
+<div class="px-2 mt-auto flex flex-col gap-1 border-t border-on-secondary-fixed-variant/20 pt-4">
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-r-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-bold text-label-bold">Help Center</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-r-lg" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-bold text-label-bold">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-sidebar-width flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-sm flex items-center justify-between h-16 px-gutter docked full-width top-0 sticky z-40 border-b border-outline-variant">
+<!-- Mobile Menu Toggle (Visible only on mobile) -->
+<button class="md:hidden text-primary p-2 -ml-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Brand (Mobile only, hidden on desktop since sidebar has it) -->
+<div class="md:hidden font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim flex-1 text-center">
+                RetiVue AI
+            </div>
+<!-- Left Actions: Search -->
+<div class="hidden md:flex items-center flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-transparent rounded-lg focus:bg-surface focus:border-primary focus:ring-1 focus:ring-primary text-body-sm font-body-sm transition-all outline-none" placeholder="Search patients or IDs..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links (Center) -->
+<nav class="hidden md:flex items-center justify-center gap-6 flex-1">
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold h-16 flex items-center hover:bg-surface-container-low transition-colors px-2" href="#">Pending Reviews</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary h-16 flex items-center hover:bg-surface-container-low transition-colors px-2" href="#">Recent</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary h-16 flex items-center hover:bg-surface-container-low transition-colors px-2" href="#">Protocols</a>
+</nav>
+<!-- Right Actions -->
+<div class="flex items-center justify-end gap-2 flex-1">
+<button class="hidden lg:flex bg-tertiary-container hover:bg-tertiary text-white px-4 py-2 rounded-lg font-label-bold text-label-bold items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+                    Run AI Analysis
+                </button>
+<div class="flex items-center gap-1 border-l border-outline-variant pl-4 ml-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-status-danger rounded-full border-2 border-surface"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors hidden sm:block">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-gutter max-w-container-max mx-auto w-full flex flex-col gap-stack-spacious overflow-y-auto">
+<!-- Page Header & Filters -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-primary mb-1">Pending Reviews</h2>
+<p class="font-body-md text-body-md text-text-muted">You have 12 cases requiring clinical review today.</p>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto bg-surface p-1 rounded-lg shadow-sm border border-outline-variant/30">
+<button class="flex-1 sm:flex-none px-4 py-1.5 bg-surface-container-low text-on-surface font-label-bold text-label-bold rounded-md border border-outline-variant/50">
+                        Highest Grade First
+                    </button>
+<button class="flex-1 sm:flex-none px-4 py-1.5 text-text-muted hover:bg-surface-container-low font-label-bold text-label-bold rounded-md transition-colors">
+                        Newest
+                    </button>
+<button class="flex-1 sm:flex-none px-4 py-1.5 text-text-muted hover:bg-surface-container-low font-label-bold text-label-bold rounded-md transition-colors">
+                        Lowest Confidence
+                    </button>
+</div>
+</div>
+<!-- Review Cards Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1: Critical Case -->
+<div class="bg-surface rounded-xl shadow-[0_2px_4px_rgba(29,36,209,0.04)] border border-outline-variant/30 overflow-hidden flex flex-col relative">
+<!-- Critical Status Border -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-status-danger"></div>
+<!-- AI Badge -->
+<div class="absolute top-4 right-4 flex items-center gap-1 bg-ai-accent/10 text-ai-accent px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[12px]">auto_awesome</span> AI Analysed
+                    </div>
+<div class="p-5 flex-1">
+<!-- Patient Header -->
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center font-headline-sm text-headline-sm text-on-surface font-bold border border-outline-variant/50">
+                                EM
+                            </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Eleanor Mitchell</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Age 74 • Female • ID: P-84729</p>
+</div>
+</div>
+<!-- Scan Details -->
+<div class="grid grid-cols-2 gap-4 mb-5 p-3 bg-background rounded-lg border border-outline-variant/20">
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-1">Time Submitted</p>
+<p class="font-body-sm text-body-sm font-semibold text-text-primary">10 mins ago</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-1">Eye Examined</p>
+<p class="font-body-sm text-body-sm font-semibold text-text-primary">Oculus Dexter (Right)</p>
+</div>
+</div>
+<!-- AI Findings -->
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3">
+<div class="w-14 h-14 rounded-lg bg-status-danger/10 border border-status-danger/20 flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md text-status-danger leading-none">R4</span>
+</div>
+<div>
+<p class="font-label-bold text-label-bold text-status-danger mb-0.5">Proliferative DR</p>
+<p class="font-body-sm text-body-sm text-text-muted flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-status-success inline-block"></span>
+                                        98% Confidence
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="px-5 py-3 border-t border-outline-variant/30 bg-surface-bright flex justify-end">
+<button class="bg-primary-container hover:opacity-90 text-white px-4 py-2 rounded-lg font-label-bold text-label-bold flex items-center gap-2 transition-opacity">
+                            Review Case
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Warning Case -->
+<div class="bg-surface rounded-xl shadow-[0_2px_4px_rgba(29,36,209,0.04)] border border-outline-variant/30 overflow-hidden flex flex-col relative">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-status-warning"></div>
+<div class="absolute top-4 right-4 flex items-center gap-1 bg-ai-accent/10 text-ai-accent px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[12px]">auto_awesome</span> AI Analysed
+                    </div>
+<div class="p-5 flex-1">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center font-headline-sm text-headline-sm text-on-surface font-bold border border-outline-variant/50">
+                                JD
+                            </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">James Davies</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Age 62 • Male • ID: P-29384</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-5 p-3 bg-background rounded-lg border border-outline-variant/20">
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-1">Time Submitted</p>
+<p class="font-body-sm text-body-sm font-semibold text-text-primary">1 hr ago</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-1">Eye Examined</p>
+<p class="font-body-sm text-body-sm font-semibold text-text-primary">Oculus Sinister (Left)</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3">
+<div class="w-14 h-14 rounded-lg bg-status-warning/10 border border-status-warning/20 flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md text-status-warning leading-none">R2</span>
+</div>
+<div>
+<p class="font-label-bold text-label-bold text-status-warning mb-0.5">Pre-proliferative DR</p>
+<p class="font-body-sm text-body-sm text-text-muted flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-status-warning inline-block"></span>
+                                        76% Confidence
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-5 py-3 border-t border-outline-variant/30 bg-surface-bright flex justify-end">
+<button class="bg-primary-container hover:opacity-90 text-white px-4 py-2 rounded-lg font-label-bold text-label-bold flex items-center gap-2 transition-opacity">
+                            Review Case
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Normal Case (Low Priority) -->
+<div class="bg-surface rounded-xl shadow-[0_2px_4px_rgba(29,36,209,0.04)] border border-outline-variant/30 overflow-hidden flex flex-col relative opacity-90">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-status-success"></div>
+<div class="absolute top-4 right-4 flex items-center gap-1 bg-ai-accent/10 text-ai-accent px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[12px]">auto_awesome</span> AI Analysed
+                    </div>
+<div class="p-5 flex-1">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center font-headline-sm text-headline-sm text-on-surface font-bold border border-outline-variant/50">
+                                SW
+                            </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Sarah Williams</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Age 45 • Female • ID: P-11029</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-5 p-3 bg-background rounded-lg border border-outline-variant/20">
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-1">Time Submitted</p>
+<p class="font-body-sm text-body-sm font-semibold text-text-primary">3 hrs ago</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-1">Eye Examined</p>
+<p class="font-body-sm text-body-sm font-semibold text-text-primary">Bilateral</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3">
+<div class="w-14 h-14 rounded-lg bg-status-success/10 border border-status-success/20 flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md text-status-success leading-none">R0</span>
+</div>
+<div>
+<p class="font-label-bold text-label-bold text-status-success mb-0.5">No DR Detected</p>
+<p class="font-body-sm text-body-sm text-text-muted flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-status-success inline-block"></span>
+                                        99% Confidence
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-5 py-3 border-t border-outline-variant/30 bg-surface-bright flex justify-end">
+<button class="bg-surface hover:bg-surface-container-low text-primary px-4 py-2 rounded-lg font-label-bold text-label-bold flex items-center gap-2 border border-outline-variant/50 transition-colors">
+                            Review Case
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Empty State / Load More (Contextual) -->
+<div class="flex justify-center mt-4">
+<button class="text-primary font-label-bold text-label-bold hover:underline flex items-center gap-1">
+                    Load More Cases
+                    <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+</main>
+</body></html>

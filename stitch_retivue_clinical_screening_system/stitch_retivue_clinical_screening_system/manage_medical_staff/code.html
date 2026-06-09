@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manage Medical Record Staff - RetiVue AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#cad6ff",
+                    "surface-container-low": "#f2f4f6",
+                    "secondary-fixed-dim": "#bac5ee",
+                    "on-primary-fixed-variant": "#1328d1",
+                    "inverse-primary": "#bdc2ff",
+                    "on-tertiary-fixed": "#25005a",
+                    "secondary-fixed": "#dae2ff",
+                    "surface": "#FFFFFF",
+                    "tertiary-fixed-dim": "#d2bbff",
+                    "tertiary-fixed": "#eaddff",
+                    "background": "#f7f9fb",
+                    "surface-variant": "#e0e3e5",
+                    "primary": "#001bca",
+                    "surface-dim": "#d8dadc",
+                    "surface-tint": "#3748e7",
+                    "surface-bright": "#f7f9fb",
+                    "on-primary-container": "#c5c9ff",
+                    "surface-container-high": "#e6e8ea",
+                    "on-primary-fixed": "#000865",
+                    "surface-container": "#eceef0",
+                    "on-secondary-fixed-variant": "#3a4667",
+                    "on-background": "#191c1e",
+                    "on-secondary-fixed": "#0d1a39",
+                    "on-surface-variant": "#454655",
+                    "primary-fixed": "#dfe0ff",
+                    "primary-container": "#2d3fe0",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#5200b5",
+                    "tertiary-container": "#6c22dd",
+                    "status-warning": "#D97706",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "ai-accent": "#7C3AED",
+                    "on-tertiary-container": "#d8c4ff",
+                    "error": "#ba1a1a",
+                    "inverse-surface": "#2d3133",
+                    "outline": "#757687",
+                    "text-muted": "#64748B",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-error": "#ffffff",
+                    "status-danger": "#DC2626",
+                    "on-secondary-container": "#515c7f",
+                    "primary-fixed-dim": "#bdc2ff",
+                    "status-success": "#059669",
+                    "on-primary": "#ffffff",
+                    "secondary": "#525d80",
+                    "outline-variant": "#c5c5d8",
+                    "on-surface": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#5a00c6",
+                    "surface-container-lowest": "#ffffff",
+                    "text-primary": "#0F172A",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-dense": "8px",
+                    "stack-spacious": "24px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "sidebar-width": "260px",
+                    "sidebar-collapsed": "72px",
+                    "container-max": "1440px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "label-caps": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "label-bold": [
+                            "Inter"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "headline-sm": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "14px",
+                                    "letterSpacing": "0.08em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "38px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-bold": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "13px",
+                            {
+                                    "lineHeight": "18px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-sm": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        [data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for tables */
+        .table-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .table-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 4px;
+        }
+        .table-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .table-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar (from JSON) -->
+<nav class="hidden md:flex flex-col h-screen w-sidebar-width fixed left-0 top-0 overflow-y-auto bg-secondary dark:bg-on-background shadow-lg shadow-md z-50">
+<div class="px-6 py-8">
+<h1 class="font-headline-sm text-headline-sm font-bold text-white mb-1">RetiVue</h1>
+<p class="font-body-sm text-body-sm text-secondary-fixed-dim">AI Retinal Screening</p>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full flex items-center justify-center gap-2 bg-primary-container text-white rounded-lg py-3 px-4 font-label-bold text-label-bold hover:opacity-90 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Screening
+            </button>
+</div>
+<div class="flex-1 px-2 flex flex-col gap-1 py-stack-spacious">
+<!-- Active state mapping: Settings is closest for Admin management -->
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
+<span class="font-body-md text-body-md">Patients</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="fact_check">fact_check</span>
+<span class="font-body-md text-body-md">Reviews</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+<a class="text-white bg-primary-container font-bold border-l-4 border-white px-4 py-3 flex items-center gap-3 rounded-r-lg opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings" data-weight="fill">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+<div class="px-2 pb-6 flex flex-col gap-1 border-t border-on-secondary-fixed-variant pt-4 mt-auto mx-4">
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-2 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+<span class="font-body-md text-body-md">Help Center</span>
+</a>
+<a class="text-secondary-fixed-dim hover:text-white px-4 py-2 flex items-center gap-3 rounded-lg hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<main class="flex-1 ml-0 md:ml-sidebar-width w-full min-h-screen flex flex-col">
+<!-- TopNavBar (from JSON) -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant shadow-sm docked full-width top-0 sticky z-40 flex items-center justify-between h-16 px-gutter">
+<!-- Mobile Menu Toggle & Brand (Visible on mobile) -->
+<div class="flex items-center gap-4 md:hidden">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">RetiVue AI</span>
+</div>
+<!-- Search Bar (Left aligned per JSON) -->
+<div class="hidden md:flex items-center flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Search staff, patients..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-6 mx-6">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary font-body-md text-body-md hover:bg-surface-container-low transition-colors px-2 py-1 rounded" href="#">Recent</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary font-body-md text-body-md hover:bg-surface-container-low transition-colors px-2 py-1 rounded" href="#">Protocols</a>
+<!-- Active link state handled generally, Support is closest contextually to Admin/Settings -->
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold font-body-md text-body-md scale-95 transition-transform px-2 py-1" href="#">Support</a>
+</nav>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<button class="hidden lg:flex items-center gap-2 bg-primary-container hover:bg-on-primary-fixed-variant text-white px-4 py-2 rounded-lg font-label-bold text-label-bold transition-colors">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                    Run AI Analysis
+                </button>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-[24px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-status-danger rounded-full"></span>
+</button>
+<button class="hidden md:block p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined text-[24px]" data-icon="history">history</span>
+</button>
+<button class="p-1 rounded-full border-2 border-transparent hover:border-primary transition-colors focus:outline-none">
+<img alt="Dr. Smith Profile" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgTVcvreX7oWhNs-aKyrs9W9LivPpgJmaAbgOntDGnldxIiKfO1X-yedRrcUjpmoTMRsurX9cCwLl6Mw4GpfJg1dwfUcOPcXmNI6nVJTLaVMncGe5Q1OTJCtU6Yiyqqtq5jR4czCJI587B6U0-kBv3KnN-vBwYaoCQEMjZfEjv0E-EWVhScxVP5DgGcO1G2a-aSHeUi0B8_Q49pj4-7VC7jNwRhdUdn8rdZcwPCwgdKYK-EZgjTD7CAQN7S-GVM62wMNQpMFgjyj5w"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-margin-mobile md:p-gutter lg:p-margin-desktop bg-background overflow-x-hidden">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-stack-spacious">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Manage Medical Record Staff</h2>
+<p class="font-body-md text-body-md text-text-muted mt-1">View and manage laboratory and medical record personnel access.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 bg-surface border border-outline-variant hover:border-primary text-on-surface px-4 py-2 rounded-lg font-label-bold text-label-bold transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Export
+                    </button>
+<button class="flex items-center gap-2 bg-primary-container hover:bg-on-primary-fixed-variant text-white px-4 py-2 rounded-lg font-label-bold text-label-bold transition-colors shadow-sm" onclick="document.getElementById('addStaffModal').classList.remove('hidden')">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                        Add Staff
+                    </button>
+</div>
+</div>
+<!-- Bento/Card Layout for Main Content -->
+<div class="grid grid-cols-1 gap-stack-spacious">
+<!-- Staff Data Card -->
+<div class="bg-surface rounded-xl shadow-[0px_2px_4px_rgba(30,42,74,0.04)] border border-surface-variant overflow-hidden">
+<!-- Card Toolbar -->
+<div class="p-4 border-b border-surface-variant flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface-bright">
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Filter by:</span>
+<select class="bg-surface border border-outline-variant rounded-md text-body-sm font-body-sm py-1 px-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>All Status</option>
+<option>Active</option>
+<option>Inactive</option>
+</select>
+</div>
+<div class="relative w-full sm:w-64">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full bg-surface border border-outline-variant rounded-md py-1.5 pl-9 pr-3 text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Search by name or ID..." type="text"/>
+</div>
+</div>
+<!-- Staff Table -->
+<div class="overflow-x-auto table-scrollbar">
+<table class="w-full min-w-[800px] text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-variant">
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Name</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Employee ID</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Email</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Date Added</th>
+<th class="py-3 px-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors relative">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-label-bold text-label-bold">JD</div>
+<div>
+<p class="font-label-bold text-on-surface">Jane Doe</p>
+<p class="text-text-muted text-[11px]">Sr. Laboran</p>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 font-mono text-text-muted">MR-8823</td>
+<td class="py-3 px-4">j.doe@retivue.med</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-label-bold bg-status-success/10 text-status-success">
+                                            Active
+                                        </span>
+</td>
+<td class="py-3 px-4 text-text-muted">Oct 12, 2023</td>
+<td class="py-3 px-4 text-right">
+<button class="p-1 text-text-muted hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-text-muted hover:text-status-danger transition-colors ml-1" title="Revoke Access">
+<span class="material-symbols-outlined text-[18px]">block</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-fixed-variant flex items-center justify-center font-label-bold text-label-bold">MS</div>
+<div>
+<p class="font-label-bold text-on-surface">Michael Smith</p>
+<p class="text-text-muted text-[11px]">Records Tech</p>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 font-mono text-text-muted">MR-8901</td>
+<td class="py-3 px-4">m.smith@retivue.med</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-label-bold bg-status-success/10 text-status-success">
+                                            Active
+                                        </span>
+</td>
+<td class="py-3 px-4 text-text-muted">Nov 05, 2023</td>
+<td class="py-3 px-4 text-right">
+<button class="p-1 text-text-muted hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-text-muted hover:text-status-danger transition-colors ml-1" title="Revoke Access">
+<span class="material-symbols-outlined text-[18px]">block</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 (Inactive) -->
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors opacity-75">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container text-text-muted flex items-center justify-center font-label-bold text-label-bold">AL</div>
+<div>
+<p class="font-label-bold text-text-muted">Amanda Lee</p>
+<p class="text-outline text-[11px]">Data Entry</p>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 font-mono text-text-muted">MR-7742</td>
+<td class="py-3 px-4 text-text-muted">a.lee@retivue.med</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-label-bold bg-surface-variant text-text-muted border border-outline-variant">
+                                            Inactive
+                                        </span>
+</td>
+<td class="py-3 px-4 text-text-muted">Jan 15, 2023</td>
+<td class="py-3 px-4 text-right">
+<button class="p-1 text-text-muted hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-text-muted hover:text-status-success transition-colors ml-1" title="Restore Access">
+<span class="material-symbols-outlined text-[18px]">settings_backup_restore</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-surface-variant flex items-center justify-between text-body-sm font-body-sm text-text-muted">
+<span>Showing 1 to 3 of 24 entries</span>
+<div class="flex items-center gap-1">
+<button class="px-2 py-1 rounded hover:bg-surface-container-low disabled:opacity-50" disabled="">« Prev</button>
+<button class="px-2 py-1 rounded bg-primary-container text-white font-label-bold">1</button>
+<button class="px-2 py-1 rounded hover:bg-surface-container-low">2</button>
+<button class="px-2 py-1 rounded hover:bg-surface-container-low">3</button>
+<button class="px-2 py-1 rounded hover:bg-surface-container-low">Next »</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal: Add/Edit Staff -->
+<div class="fixed inset-0 z-50 hidden" id="addStaffModal">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-on-background/40 backdrop-blur-sm transition-opacity" onclick="document.getElementById('addStaffModal').classList.add('hidden')"></div>
+<!-- Modal Dialog -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-surface rounded-xl shadow-[0px_8px_16px_rgba(30,42,74,0.08)] border border-outline-variant overflow-hidden flex flex-col max-h-[921px]">
+<!-- Modal Header -->
+<div class="px-6 py-4 border-b border-surface-variant flex items-center justify-between bg-surface-bright">
+<h3 class="font-headline-sm text-headline-sm text-primary">Add Medical Record Staff</h3>
+<button class="text-text-muted hover:text-on-surface transition-colors p-1 rounded-full hover:bg-surface-container-low" onclick="document.getElementById('addStaffModal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body (Form) -->
+<div class="p-6 overflow-y-auto">
+<form class="flex flex-col gap-4">
+<!-- Full Name -->
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface-variant mb-1">Full Name <span class="text-status-danger">*</span></label>
+<input class="w-full bg-surface border border-outline-variant rounded-md py-2 px-3 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="e.g. Jane Doe" type="text"/>
+</div>
+<!-- Email -->
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface-variant mb-1">Email Address <span class="text-status-danger">*</span></label>
+<input class="w-full bg-surface border border-outline-variant rounded-md py-2 px-3 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="name@retivue.med" type="email"/>
+</div>
+<!-- Employee ID -->
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface-variant mb-1">Employee ID <span class="text-status-danger">*</span></label>
+<input class="w-full bg-surface border border-outline-variant rounded-md py-2 px-3 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="e.g. MR-0000" type="text"/>
+</div>
+<!-- Role/Designation (Bonus Context) -->
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface-variant mb-1">Designation</label>
+<select class="w-full bg-surface border border-outline-variant rounded-md py-2 px-3 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors">
+<option>Medical Records Technician</option>
+<option>Laboran</option>
+<option>Senior Laboran</option>
+<option>Data Entry Specialist</option>
+</select>
+</div>
+<!-- Password -->
+<div class="mt-2">
+<label class="block font-label-bold text-label-bold text-on-surface-variant mb-1">Temporary Password <span class="text-status-danger">*</span></label>
+<div class="relative">
+<input class="w-full bg-surface border border-outline-variant rounded-md py-2 pl-3 pr-10 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="••••••••" type="password"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 text-text-muted hover:text-primary transition-colors p-1" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<p class="text-[11px] text-text-muted mt-1">User will be required to change this upon first login.</p>
+</div>
+</form>
+</div>
+<!-- Modal Footer -->
+<div class="px-6 py-4 border-t border-surface-variant bg-surface-bright flex justify-end gap-3">
+<button class="px-4 py-2 border border-outline-variant rounded-lg font-label-bold text-label-bold text-on-surface hover:bg-surface-container-low transition-colors" onclick="document.getElementById('addStaffModal').classList.add('hidden')">
+                    Cancel
+                </button>
+<button class="px-4 py-2 bg-primary-container text-white rounded-lg font-label-bold text-label-bold hover:bg-on-primary-fixed-variant transition-colors shadow-sm">
+                    Save Staff Record
+                </button>
+</div>
+</div>
+</div>
+</body></html>
