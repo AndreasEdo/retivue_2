@@ -1,0 +1,29 @@
+# RetiVue backend — FastAPI + PyTorch (CPU) untuk Hugging Face Spaces.
+# HF Spaces Docker mengharapkan app listen di port 7860.
+
+FROM python:3.11-slim
+
+# Dependensi sistem minimal untuk opencv-headless (libGL tidak perlu untuk headless,
+# tapi libglib2.0 kadang dibutuhkan oleh beberapa wheel).
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install dependencies (PyTorch CPU wheel via extra index).
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt \
+        --extra-index-url https://download.pytorch.org/whl/cpu
+
+# Kode aplikasi + bobot model.
+COPY app ./app
+COPY models ./models
+
+# HF Spaces: port 7860.
+EXPOSE 7860
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]

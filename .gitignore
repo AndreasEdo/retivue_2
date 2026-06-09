@@ -1,0 +1,21 @@
+# Bobot model (file besar ~1 GB) — jangan commit
+*.pth
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node / frontend
+node_modules/
+dist/
+
+# Env & OS
+.env
+.env.local
+.DS_Store
+
+# Editor / tooling internal
+.claude/
+.vscode/

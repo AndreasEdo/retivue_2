@@ -1,0 +1,12 @@
+# Bobot model — JANGAN commit ke git (file besar, ~1 GB).
+# Untuk HF Spaces, upload lewat Git LFS atau langsung ke repo Space.
+*.pth
+models/*.pth
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.DS_Store
