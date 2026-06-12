@@ -92,6 +92,11 @@ export const doctorCase = (id) => request(`/doctor/cases/${id}`);
 export const doctorApprove = (id, payload) => request(`/doctor/cases/${id}/approve`, { method: "POST", body: payload });
 export const doctorReject = (id, reject_note) => request(`/doctor/cases/${id}/reject`, { method: "POST", body: { reject_note } });
 
+// Doctor schedule approval
+export const doctorMySchedules = () => request("/doctor/schedules");
+export const doctorApproveSchedule = (id) => request(`/doctor/schedules/${id}/approve`, { method: "POST" });
+export const doctorRejectSchedule = (id) => request(`/doctor/schedules/${id}/reject`, { method: "POST" });
+
 // ---------------- Patient ----------------
 export const patientDoctors = () => request("/patient/doctors");
 export const patientSchedules = (doctorId) => request(`/patient/schedules${doctorId ? `?doctor_id=${doctorId}` : ""}`);

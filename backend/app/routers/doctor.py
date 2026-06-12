@@ -5,7 +5,7 @@ approve (final diagnosis + rekomendasi) / reject (note -> balik ke Medical Recor
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from ..db import get_db, CASES
+from ..db import get_db, CASES, SCHEDULES
 from ..security import require_roles
 from ..schemas import ApproveBody, RejectBody
 from ..utils import serialize, oid, now_utc
@@ -81,6 +81,40 @@ async def reject(case_id: str, body: RejectBody, user: dict = Depends(require_ro
         "reviewed_at": now_utc(), "reviewed_by": user["name"],
     }})
     return serialize(await db[CASES].find_one({"_id": oid(case_id)}))
+
+
+# ---------- Doctor schedule approval ----------
+
+@router.get("/schedules")
+async def my_schedules(user: dict = Depends(require_roles("dokter"))):
+    """Semua jadwal yang ditetapkan ke dokter ini (semua status)."""
+    docs = await get_db()[SCHEDULES].find({"doctor_id": user["id"]}) \
+        .sort("date", 1).to_list(500)
+    return [serialize(d) for d in docs]
+
+
+@router.post("/schedules/{schedule_id}/approve")
+async def approve_schedule(schedule_id: str, user: dict = Depends(require_roles("dokter"))):
+    db = get_db()
+    doc = await db[SCHEDULES].find_one({"_id": oid(schedule_id)})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Jadwal tidak ditemukan.")
+    if doc.get("doctor_id") != user["id"]:
+        raise HTTPException(status_code=403, detail="Anda tidak memiliki akses ke jadwal ini.")
+    await db[SCHEDULES].update_one({"_id": oid(schedule_id)}, {"$set": {"status": "approved"}})
+    return serialize(await db[SCHEDULES].find_one({"_id": oid(schedule_id)}))
+
+
+@router.post("/schedules/{schedule_id}/reject")
+async def reject_schedule(schedule_id: str, user: dict = Depends(require_roles("dokter"))):
+    db = get_db()
+    doc = await db[SCHEDULES].find_one({"_id": oid(schedule_id)})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Jadwal tidak ditemukan.")
+    if doc.get("doctor_id") != user["id"]:
+        raise HTTPException(status_code=403, detail="Anda tidak memiliki akses ke jadwal ini.")
+    await db[SCHEDULES].update_one({"_id": oid(schedule_id)}, {"$set": {"status": "rejected"}})
+    return serialize(await db[SCHEDULES].find_one({"_id": oid(schedule_id)}))
 
 
 def _summary(c: dict) -> dict:

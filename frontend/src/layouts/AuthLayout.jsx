@@ -1,9 +1,22 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 export default function AuthLayout() {
+  const { dark, toggle } = useTheme();
+  const location = useLocation();
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1E2A4A] to-[#131b2f] p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1E2A4A] to-[#131b2f] p-4 relative">
+      {/* Dark mode toggle */}
+      <button
+        onClick={toggle}
+        className="absolute top-4 right-4 p-2 rounded-lg text-[#bac5ee] hover:text-white hover:bg-white/10 transition-colors"
+        aria-label="Toggle dark mode"
+      >
+        <span className="material-symbols-outlined text-[22px]">{dark ? 'light_mode' : 'dark_mode'}</span>
+      </button>
+
+      <div key={location.pathname} className="w-full max-w-md page-transition">
         <Outlet />
       </div>
     </div>

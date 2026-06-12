@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StepWizard from '../../components/ui/StepWizard';
 import ClinicalCard from '../../components/ui/ClinicalCard';
-import AIBadge from '../../components/ui/AIBadge';
 import { mrPatients, mrDoctors, mrCreateSubmission } from '../../lib/api';
 
 export default function NewSubmission() {
@@ -26,14 +25,8 @@ export default function NewSubmission() {
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
-  const handlePatientSubmit = (e) => {
-    e.preventDefault();
-    setError('');
-    setCurrentStep(2);
-  };
-
   const handleAnalyze = async () => {
-    if (!file) { setError('Pilih gambar retina dulu.'); return; }
+    if (!file) { setError('Please select a retinal image first.'); return; }
     setLoading(true);
     setError('');
     try {
@@ -47,23 +40,23 @@ export default function NewSubmission() {
       const c = await mrCreateSubmission(fields, file);
       setCreatedCase(c);
     } catch (err) {
-      setError(err.message || 'AI analysis failed.');
+      setError(err.message || 'AI analysis failed. Check that model is running.');
     } finally {
       setLoading(false);
     }
   };
 
-  const ai = createdCase?.ai_result;
-  const gradcam = createdCase?.images?.gradcam_url;
+  const selectedDoctor = doctors.find((d) => d.id === form.doctor_id);
 
   return (
     <div>
       <StepWizard currentStep={currentStep} totalSteps={3} />
 
+      {/* ── Step 1: Patient data ── */}
       {currentStep === 1 && (
         <ClinicalCard>
           <h3 className="text-lg font-semibold text-[#0F172A] mb-6">Step 1: Patient Data</h3>
-          <form onSubmit={handlePatientSubmit} className="space-y-4">
+          <form onSubmit={(e) => { e.preventDefault(); setError(''); setCurrentStep(2); }} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-[#454655] mb-2">Select Patient</label>
@@ -131,83 +124,90 @@ export default function NewSubmission() {
                 accept="image/*" onChange={(e) => setFile(e.target.files[0])} required />
             </div>
             <button type="submit" className="w-full py-2.5 px-4 bg-[#2d3fe0] text-white rounded-lg text-xs font-semibold hover:bg-[#3748e7] transition-colors">
-              Next: AI Analysis
+              Next: Run AI Analysis
             </button>
           </form>
         </ClinicalCard>
       )}
 
+      {/* ── Step 2: AI Processing (MR does NOT see AI results) ── */}
       {currentStep === 2 && (
         <div className="space-y-6">
-          <ClinicalCard isAI>
-            <div className="flex items-center gap-2 mb-4">
-              <AIBadge />
-              <h3 className="text-lg font-semibold text-[#0F172A]">Step 2: AI Diagnostic Processing</h3>
-            </div>
+          <ClinicalCard>
+            <h3 className="text-lg font-semibold text-[#0F172A] mb-4">Step 2: AI Processing</h3>
+
             {error && <div className="mb-4 text-sm text-[#DC2626] bg-[#DC2626]/10 rounded-lg px-3 py-2">{error}</div>}
-            {!ai ? (
-              <div className="text-center py-8">
-                <button onClick={handleAnalyze} disabled={loading}
-                  className="py-2.5 px-6 bg-[#7C3AED] text-white rounded-lg text-xs font-semibold hover:bg-[#6c22dd] transition-colors disabled:opacity-50">
-                  {loading ? 'Analyzing… (running on CPU)' : 'Run AI Analysis'}
-                </button>
-                <p className="text-xs text-[#64748B] mt-3">Ben Graham preprocessing → SwinV2 regression → Grad-CAM.</p>
+
+            {!createdCase ? (
+              <div className="text-center py-10 space-y-4">
+                {loading ? (
+                  <>
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#7C3AED]/10 mb-2">
+                      <span className="material-symbols-outlined text-[#7C3AED] text-4xl animate-spin" style={{ animationDuration: '1.5s' }}>autorenew</span>
+                    </div>
+                    <p className="text-sm font-semibold text-[#0F172A]">Running AI analysis on CPU…</p>
+                    <p className="text-xs text-[#64748B]">Ben Graham preprocessing → SwinV2 → Grad-CAM. This may take 20–30 s.</p>
+                  </>
+                ) : (
+                  <>
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#2d3fe0]/10 mb-2">
+                      <span className="material-symbols-outlined text-[#2d3fe0] text-4xl">biotech</span>
+                    </div>
+                    <p className="text-sm font-semibold text-[#0F172A]">Ready to run AI analysis</p>
+                    <p className="text-xs text-[#64748B]">The retinal image will be processed by the SwinV2 AI model.<br />AI results are reviewed exclusively by the assigned doctor.</p>
+                    <button onClick={handleAnalyze}
+                      className="mt-2 py-2.5 px-8 bg-[#7C3AED] text-white rounded-lg text-xs font-semibold hover:bg-[#6c22dd] transition-colors">
+                      Run AI Analysis
+                    </button>
+                  </>
+                )}
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-[#f2f4f6] rounded-lg">
-                    <p className="text-xs font-semibold text-[#64748B] mb-1">Predicted Grade</p>
-                    <p className="text-2xl font-bold text-[#0F172A]">Grade {ai.grade} · {ai.label}</p>
-                  </div>
-                  <div className="p-4 bg-[#f2f4f6] rounded-lg">
-                    <p className="text-xs font-semibold text-[#64748B] mb-1">Confidence (score {ai.raw_score})</p>
-                    <p className="text-2xl font-bold text-[#7C3AED]">{(ai.confidence * 100).toFixed(0)}%</p>
+                {/* Success state — MR only sees submission status, NOT AI grade/score/images */}
+                <div className="flex items-start gap-3 p-4 bg-[#D1FAE5] rounded-xl border border-[#6EE7B7]">
+                  <span className="material-symbols-outlined text-[#059669] text-2xl mt-0.5">check_circle</span>
+                  <div>
+                    <p className="font-semibold text-[#059669] text-sm">AI Analysis Complete</p>
+                    <p className="text-xs text-[#047857] mt-1">
+                      The retinal image has been processed and the case has been forwarded to
+                      <strong> {createdCase.doctor_name || selectedDoctor?.name || 'the assigned doctor'}</strong> for clinical review.
+                    </p>
                   </div>
                 </div>
-                {gradcam && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <figure>
-                      <img src={createdCase.images.ben_graham_url} alt="Ben Graham" className="w-full rounded-lg border border-[#E2E8F0]" />
-                      <figcaption className="text-xs text-[#64748B] mt-1">Normalized (Ben Graham)</figcaption>
-                    </figure>
-                    <figure>
-                      <img src={gradcam} alt="Grad-CAM" className="w-full rounded-lg border border-[#E2E8F0]" />
-                      <figcaption className="text-xs text-[#64748B] mt-1">Grad-CAM focus map</figcaption>
-                    </figure>
-                  </div>
-                )}
-                <div className="p-4 bg-[#f2f4f6] rounded-lg">
-                  <p className="text-xs font-semibold text-[#64748B] mb-1">AI Recommendation</p>
-                  <p className="text-sm text-[#191c1e]">{ai.recommendation}</p>
-                </div>
-                <div className="flex items-center gap-2 p-3 bg-[#FEF3C7] rounded-lg">
-                  <span className="material-symbols-outlined text-[#D97706] text-sm">info</span>
-                  <span className="text-xs font-semibold text-[#D97706]">Status: Sent to Doctor — Waiting Validation</span>
+                <div className="flex items-start gap-3 p-4 bg-[#FEF3C7] rounded-xl border border-[#FDE68A]">
+                  <span className="material-symbols-outlined text-[#D97706] text-[18px] mt-0.5">info</span>
+                  <p className="text-xs text-[#92400E]">
+                    AI findings and Grad-CAM maps are available to the doctor only. Medical record staff are not shown diagnostic details per clinical workflow policy.
+                  </p>
                 </div>
               </div>
             )}
           </ClinicalCard>
-          {ai && (
+
+          {createdCase && (
             <button onClick={() => setCurrentStep(3)}
               className="w-full py-2.5 px-4 bg-[#2d3fe0] text-white rounded-lg text-xs font-semibold hover:bg-[#3748e7] transition-colors">
-              Continue
+              Continue to Confirmation
             </button>
           )}
         </div>
       )}
 
+      {/* ── Step 3: Confirmation ── */}
       {currentStep === 3 && (
         <ClinicalCard>
           <h3 className="text-lg font-semibold text-[#0F172A] mb-6">Step 3: Confirmation</h3>
           <div className="space-y-4">
             <div className="p-4 bg-[#D1FAE5] rounded-lg">
               <p className="text-sm font-semibold text-[#059669]">Submission Complete</p>
-              <p className="text-xs text-[#059669] mt-1">Case sent to {createdCase?.doctor_name} for review.</p>
+              <p className="text-xs text-[#059669] mt-1">
+                Case ID {createdCase?.id?.slice(-6).toUpperCase()} forwarded to {createdCase?.doctor_name || selectedDoctor?.name || 'doctor'} for review.
+              </p>
             </div>
             <button onClick={() => navigate('/medical-record/history')}
               className="w-full py-2.5 px-4 bg-[#2d3fe0] text-white rounded-lg text-xs font-semibold hover:bg-[#3748e7] transition-colors">
-              Return to History
+              Return to Submission History
             </button>
           </div>
         </ClinicalCard>

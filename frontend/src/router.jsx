@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import SplashScreen from './components/SplashScreen';
 import AuthLayout from './layouts/AuthLayout';
 import AppLayout from './layouts/AppLayout';
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/auth/LoginPage';
 import PatientRegisterPage from './pages/auth/PatientRegisterPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -16,6 +20,7 @@ import RejectedCases from './pages/medical_record/RejectedCases';
 import DoctorDashboard from './pages/doctor/DoctorDashboard';
 import PendingReviewList from './pages/doctor/PendingReviewList';
 import DoctorCaseReview from './pages/doctor/DoctorCaseReview';
+import DoctorSchedules from './pages/doctor/DoctorSchedules';
 import ReviewedCases from './pages/doctor/ReviewedCases';
 import PatientDashboard from './pages/patient/PatientDashboard';
 import MyAppointments from './pages/patient/MyAppointments';
@@ -23,15 +28,6 @@ import BookAppointment from './pages/patient/BookAppointment';
 import MyReports from './pages/patient/MyReports';
 import ClinicalReportPatientView from './pages/patient/ClinicalReportPatientView';
 import ProfileSettings from './pages/ProfileSettings';
-
-// AuthProvider as layout — must use <Outlet /> not {children}
-function AuthProviderLayout() {
-  return (
-    <AuthProvider>
-      <Outlet />
-    </AuthProvider>
-  );
-}
 
 const ROLE_HOME = {
   admin: '/admin/dashboard',
@@ -48,15 +44,27 @@ function Splash() {
   );
 }
 
-// Root redirect: if logged in → go to dashboard, else → /login
-function RootRedirect() {
-  const { user, loading } = useAuth();
-  if (loading) return <Splash />;
-  if (!user) return <Navigate to="/login" replace />;
-  return <Navigate to={ROLE_HOME[user.role] || '/login'} replace />;
+// Root: both ThemeProvider + AuthProvider wrap everything
+function RootLayout() {
+  const [showSplash, setShowSplash] = useState(
+    () => !sessionStorage.getItem('retivue_splash_seen')
+  );
+
+  const dismissSplash = () => {
+    sessionStorage.setItem('retivue_splash_seen', '1');
+    setShowSplash(false);
+  };
+
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        {showSplash && <SplashScreen onDone={dismissSplash} />}
+        <Outlet />
+      </AuthProvider>
+    </ThemeProvider>
+  );
 }
 
-// Protected route wrapper
 function ProtectedRoute({ children, allowedRoles }) {
   const { user, loading } = useAuth();
   if (loading) return <Splash />;
@@ -70,11 +78,12 @@ function ProtectedRoute({ children, allowedRoles }) {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <AuthProviderLayout />,
+    element: <RootLayout />,
     children: [
-      { index: true, element: <RootRedirect /> },
+      // Landing page — public
+      { index: true, element: <LandingPage /> },
 
-      // Auth pages — wrapped in AuthLayout (dark navy background)
+      // Auth pages — dark navy background
       {
         element: <AuthLayout />,
         children: [
@@ -83,7 +92,7 @@ const router = createBrowserRouter([
         ],
       },
 
-      // App pages — wrapped in AppLayout (sidebar + topbar)
+      // App pages — sidebar + topbar
       {
         element: <AppLayout />,
         children: [
@@ -98,10 +107,11 @@ const router = createBrowserRouter([
           { path: 'medical-record/history',        element: <ProtectedRoute allowedRoles={['medical_record']}><SubmissionHistory /></ProtectedRoute> },
           { path: 'medical-record/rejected',       element: <ProtectedRoute allowedRoles={['medical_record']}><RejectedCases /></ProtectedRoute> },
 
-          { path: 'doctor/dashboard', element: <ProtectedRoute allowedRoles={['dokter']}><DoctorDashboard /></ProtectedRoute> },
-          { path: 'doctor/pending',   element: <ProtectedRoute allowedRoles={['dokter']}><PendingReviewList /></ProtectedRoute> },
-          { path: 'doctor/case/:id',  element: <ProtectedRoute allowedRoles={['dokter']}><DoctorCaseReview /></ProtectedRoute> },
-          { path: 'doctor/reviewed',  element: <ProtectedRoute allowedRoles={['dokter']}><ReviewedCases /></ProtectedRoute> },
+          { path: 'doctor/dashboard',  element: <ProtectedRoute allowedRoles={['dokter']}><DoctorDashboard /></ProtectedRoute> },
+          { path: 'doctor/pending',    element: <ProtectedRoute allowedRoles={['dokter']}><PendingReviewList /></ProtectedRoute> },
+          { path: 'doctor/case/:id',   element: <ProtectedRoute allowedRoles={['dokter']}><DoctorCaseReview /></ProtectedRoute> },
+          { path: 'doctor/schedules',  element: <ProtectedRoute allowedRoles={['dokter']}><DoctorSchedules /></ProtectedRoute> },
+          { path: 'doctor/reviewed',   element: <ProtectedRoute allowedRoles={['dokter']}><ReviewedCases /></ProtectedRoute> },
 
           { path: 'pasien/dashboard',    element: <ProtectedRoute allowedRoles={['pasien']}><PatientDashboard /></ProtectedRoute> },
           { path: 'pasien/appointments', element: <ProtectedRoute allowedRoles={['pasien']}><MyAppointments /></ProtectedRoute> },

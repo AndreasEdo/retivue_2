@@ -19,8 +19,10 @@ async def list_doctors():
 
 @router.get("/schedules")
 async def available_schedules(doctor_id: str | None = None):
-    """Jadwal yang masih punya kuota (booked < quota)."""
-    q = {}
+    """Jadwal approved yang masih punya kuota (booked < quota)."""
+    # Only show approved schedules (or legacy schedules without a status field)
+    status_filter = {"$or": [{"status": "approved"}, {"status": {"$exists": False}}]}
+    q = {**status_filter}
     if doctor_id:
         q["doctor_id"] = doctor_id
     docs = await get_db()[SCHEDULES].find(q).sort("date", 1).to_list(500)

@@ -56,6 +56,120 @@
   --radius-full: 9999px;
 }
 
+/* ---- Dark mode overrides ---- */
+.dark body {
+  background:
+    radial-gradient(1200px 600px at 100% -10%, #0f172a 0%, transparent 55%),
+    radial-gradient(900px 500px at -10% 0%, #0f172a 0%, transparent 50%),
+    #0f172a;
+  color: #f1f5f9;
+}
+
+/* ---- Page transition ---- */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes page-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.page-transition {
+  animation: page-in 0.22s ease-out;
+}
+.page-fade {
+  animation: page-fade 0.3s ease-out;
+}
+
+/* ---- Splash intro ---- */
+@keyframes splash-logo-in {
+  0%   { opacity: 0; transform: scale(0.82) translateY(8px); }
+  60%  { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes splash-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+.splash-content {
+  animation: splash-logo-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.splash-content .splash-logo {
+  animation: splash-pulse 2s ease-in-out 0.7s infinite;
+}
+@keyframes splash-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(45, 63, 224, 0.0); }
+  50%      { box-shadow: 0 0 32px 4px rgba(45, 63, 224, 0.45); }
+}
+.splash-out {
+  animation: splash-fade-out 0.5s ease-in forwards;
+}
+
+/* ============================================================
+   DARK MODE — global overrides for hardcoded light utilities.
+   Uses :where(.dark) (zero specificity) so these blanket rules
+   override the *base* light utilities but YIELD to any explicit
+   `dark:` variant (e.g. on the landing page / topbar), keeping
+   purpose-designed dark styling intact.
+   Status/brand colors (blue/green/amber/red) are left alone.
+   ============================================================ */
+
+/* Surfaces: white cards -> elevated dark slate */
+:where(.dark) .bg-white { background-color: #1e293b; }
+
+/* Subtle inner panels / page strips -> recede to deep navy */
+:where(.dark) .bg-\[\#f2f4f6\],
+:where(.dark) .bg-\[\#f7f9fb\],
+:where(.dark) .bg-\[\#f8fafc\],
+:where(.dark) .bg-\[\#fafbfc\],
+:where(.dark) .bg-\[\#e8ebef\] { background-color: #0f172a; }
+
+/* Light grey fills (e.g. table header strip) */
+:where(.dark) .bg-\[\#E2E8F0\] { background-color: #334155; }
+
+/* Headings / strong text -> near white */
+:where(.dark) .text-\[\#0F172A\],
+:where(.dark) .text-\[\#0f172a\],
+:where(.dark) .text-\[\#191c1e\] { color: #f1f5f9; }
+
+/* Secondary text */
+:where(.dark) .text-\[\#454655\] { color: #cbd5e1; }
+
+/* Muted text */
+:where(.dark) .text-\[\#64748B\],
+:where(.dark) .text-\[\#64748b\],
+:where(.dark) .text-\[\#757687\] { color: #94a3b8; }
+
+/* Borders */
+:where(.dark) .border-\[\#E2E8F0\],
+:where(.dark) .border-\[\#e2e8f0\],
+:where(.dark) .border-\[\#c5c5d8\] { border-color: rgba(255, 255, 255, 0.10); }
+
+/* Divide (table row separators) */
+:where(.dark) .divide-\[\#E2E8F0\] > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Row hover */
+:where(.dark) .hover\:bg-\[\#f7f9fb\]:hover,
+:where(.dark) .hover\:bg-\[\#f2f4f6\]:hover { background-color: rgba(255, 255, 255, 0.04); }
+
+/* Inputs / selects: inset over dark card, light text + caret */
+:where(.dark) input,
+:where(.dark) select,
+:where(.dark) textarea {
+  background-color: #0f172a;
+  color: #f1f5f9;
+  color-scheme: dark;
+}
+:where(.dark) input::placeholder,
+:where(.dark) textarea::placeholder { color: #64748b; }
+
+/* Selected appointment card (light indigo) -> dark indigo.
+   NB: #DBEAFE is intentionally NOT overridden — it's a status-pill bg
+   paired with dark-blue text, which must stay light for contrast. */
+:where(.dark) .bg-\[\#EEF2FF\] { background-color: #1e2f52; }
+
 * {
   box-sizing: border-box;
 }

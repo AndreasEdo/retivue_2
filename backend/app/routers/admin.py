@@ -75,7 +75,7 @@ async def create_schedule(body: ScheduleCreate):
     doc = {
         "doctor_id": body.doctor_id, "doctor_name": doctor["name"],
         "date": body.date, "start_time": body.start_time, "end_time": body.end_time,
-        "quota": body.quota, "booked": 0, "created_at": now_utc(),
+        "quota": body.quota, "booked": 0, "status": "pending", "created_at": now_utc(),
     }
     res = await db[SCHEDULES].insert_one(doc)
     doc["_id"] = res.inserted_id
