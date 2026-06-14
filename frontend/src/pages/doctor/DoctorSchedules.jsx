@@ -86,7 +86,8 @@ export default function DoctorSchedules() {
 }
 
 function ScheduleRow({ s, busy, onApprove, onReject }) {
-  const st = STATUS_STYLES[s.status] || STATUS_STYLES.pending;
+  const status = s.status || 'approved';   // legacy schedules without a status = approved
+  const st = STATUS_STYLES[status] || STATUS_STYLES.pending;
   const available = Math.max(0, (s.quota || 0) - (s.booked || 0));
 
   return (
@@ -101,7 +102,7 @@ function ScheduleRow({ s, busy, onApprove, onReject }) {
         <p className="font-semibold text-[#0F172A]">{s.date}</p>
         <p className="text-sm text-[#64748B]">{s.start_time} – {s.end_time} · {available}/{s.quota} slots available</p>
       </div>
-      {s.status === 'pending' && (
+      {status === 'pending' && (
         <div className="flex gap-2">
           <button
             onClick={onApprove}

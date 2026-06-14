@@ -30,9 +30,10 @@ export default function BookAppointment() {
 
   useEffect(() => { patientSchedules().then(setAllSchedules).catch(() => {}); }, []);
 
-  // Only show approved schedules that are ≥ 1 day from today (H-1 rule)
+  // Show approved schedules (or legacy ones without a status field) that are
+  // ≥ 1 day from today (H-1 rule). Pending/rejected are hidden from patients.
   const schedules = allSchedules.filter(
-    (s) => s.status === 'approved' && isBookingAllowed(s.date)
+    (s) => (s.status === 'approved' || !s.status) && isBookingAllowed(s.date)
   );
 
   const handleSubmit = async (e) => {

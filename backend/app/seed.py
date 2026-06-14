@@ -70,6 +70,7 @@ async def run_seed():
                     "doctor_id": doc_id,
                     "doctor_name": dokter["name"],
                     "booked": 0,
+                    "status": "approved",   # contoh langsung bisa di-booking pasien
                     "created_at": now,
                     **s,
                 })
