@@ -14,13 +14,22 @@ logger = logging.getLogger("retivue")
 
 # Akun demo: email -> (name, role, extra)
 DEMO_USERS = [
-    ("admin@retivue.com", "Admin Sarah", "admin", {}),
-    ("dokter@retivue.com", "Dr. Budi Santoso", "dokter",
+    ("admin@gmail.com", "Admin Sarah", "admin", {}),
+    ("dokter@gmail.com", "Dr. Budi Santoso", "dokter",
      {"specialty": "Ophthalmologist", "title": "Sp.M"}),
-    ("mr@retivue.com", "Rina Kusuma", "medical_record", {}),
-    ("pasien@retivue.com", "John Doe", "pasien",
+    ("mr@gmail.com", "Rina Kusuma", "medical_record", {}),
+    ("pasien@gmail.com", "John Doe", "pasien",
      {"phone": "081234567890", "age": 45, "gender": "Male"}),
 ]
+
+# Migrasi email akun demo lama (@retivue.com) -> baru (@gmail.com).
+# Rename in-place agar _id (dan semua referensi schedule/case/appointment) tetap.
+EMAIL_MIGRATION = {
+    "admin@retivue.com": "admin@gmail.com",
+    "dokter@retivue.com": "dokter@gmail.com",
+    "mr@retivue.com": "mr@gmail.com",
+    "pasien@retivue.com": "pasien@gmail.com",
+}
 
 
 async def run_seed():
@@ -34,6 +43,15 @@ async def run_seed():
         await db[USERS].create_index("email", unique=True)
     except Exception:
         pass
+
+    # Migrasi email lama -> baru (kalau yang lama ada & yang baru belum ada).
+    migrated = []
+    for old, new in EMAIL_MIGRATION.items():
+        if await db[USERS].find_one({"email": old}) and not await db[USERS].find_one({"email": new}):
+            await db[USERS].update_one({"email": old}, {"$set": {"email": new}})
+            migrated.append(f"{old} -> {new}")
+    if migrated:
+        logger.info("Migrasi email akun demo: %s", migrated)
 
     created = []
     for email, name, role, extra in DEMO_USERS:
