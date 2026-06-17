@@ -22,17 +22,26 @@ export default function SystemMonitoring() {
     <div>
       <PageHeader title="System Monitoring" breadcrumb="System health and metrics" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      {/* 2B: gap-6 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         {stats.map((s) => (
-          <div key={s.label} className="bg-white p-6 rounded-xl shadow-sm border border-[#E2E8F0]">
-            <p className="text-[11px] font-semibold text-[#64748B] mb-2 uppercase tracking-wider">{s.label}</p>
-            <p className="text-3xl font-bold text-[#0F172A]">{s.value.toLocaleString()}</p>
+          <div
+            key={s.label}
+            className="bg-white p-6 rounded-lg border border-[#F1F5F9]"
+            style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)' }}
+          >
+            <p className="text-[11px] font-semibold text-[#64748B] mb-1 uppercase tracking-wider">{s.label}</p>
+            <p className="text-3xl font-bold text-[#0F172A] mt-2">{s.value.toLocaleString()}</p>
           </div>
         ))}
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-[#E2E8F0] p-6 mb-8">
-        <h3 className="text-lg font-semibold text-[#0F172A] mb-6">Cases by DR Grade</h3>
+      <div
+        className="bg-white rounded-lg border border-[#F1F5F9] p-6 mb-6"
+        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)' }}
+      >
+        {/* 2C: editorial section title */}
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-4">Cases by DR Grade</h3>
         <div className="space-y-4">
           {DR_LABELS.map((label, i) => {
             const count = drLevels[String(i)] || 0;
@@ -52,8 +61,12 @@ export default function SystemMonitoring() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-[#E2E8F0] p-6">
-        <h3 className="text-lg font-semibold text-[#0F172A] mb-6">Case Workflow Status</h3>
+      <div
+        className="bg-white rounded-lg border border-[#F1F5F9] p-6"
+        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)' }}
+      >
+        {/* 2C: editorial section title */}
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-4">Case Workflow Status</h3>
         <div className="grid grid-cols-3 gap-4">
           <Stat label="Waiting" value={m?.waiting ?? 0} color="#D97706" />
           <Stat label="Approved" value={m?.approved ?? 0} color="#059669" />
@@ -66,7 +79,7 @@ export default function SystemMonitoring() {
 
 function Stat({ label, value, color }) {
   return (
-    <div className="p-4 bg-[#f2f4f6] rounded-lg text-center">
+    <div className="p-4 bg-[#f8fafc] rounded-md text-center">
       <p className="text-2xl font-bold" style={{ color }}>{value}</p>
       <p className="text-xs text-[#64748B] mt-1">{label}</p>
     </div>

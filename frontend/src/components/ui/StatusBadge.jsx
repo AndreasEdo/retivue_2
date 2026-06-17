@@ -1,37 +1,31 @@
+// 2K: Medical-grade status badges — muted pastel, rounded-md, smaller text
 const statusConfig = {
   approved: {
-    bg: 'bg-[#D1FAE5]',
-    text: 'text-[#059669]',
+    cls: 'bg-green-50 text-green-700 border border-green-200',
     label: 'Approved',
   },
   rejected: {
-    bg: 'bg-[#FEE2E2]',
-    text: 'text-[#DC2626]',
+    cls: 'bg-red-50 text-red-700 border border-red-200',
     label: 'Rejected',
   },
   waiting: {
-    bg: 'bg-[#FEF3C7]',
-    text: 'text-[#D97706]',
+    cls: 'bg-amber-50 text-amber-700 border border-amber-200',
     label: 'Waiting',
   },
   pending: {
-    bg: 'bg-[#DBEAFE]',
-    text: 'text-[#2563EB]',
+    cls: 'bg-blue-50 text-blue-700 border border-blue-200',
     label: 'Pending',
   },
   submitted: {
-    bg: 'bg-[#DBEAFE]',
-    text: 'text-[#2563EB]',
+    cls: 'bg-blue-50 text-blue-700 border border-blue-200',
     label: 'Submitted',
   },
   confirmed: {
-    bg: 'bg-[#D1FAE5]',
-    text: 'text-[#059669]',
+    cls: 'bg-green-50 text-green-700 border border-green-200',
     label: 'Confirmed',
   },
   done: {
-    bg: 'bg-[#D1FAE5]',
-    text: 'text-[#059669]',
+    cls: 'bg-green-50 text-green-700 border border-green-200',
     label: 'Done',
   },
 };
@@ -41,7 +35,9 @@ export default function StatusBadge({ status, customLabel }) {
   const label = customLabel || config.label;
 
   return (
-    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${config.bg} ${config.text}`}>
+    <span
+      className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium ${config.cls}`}
+    >
       {label}
     </span>
   );
