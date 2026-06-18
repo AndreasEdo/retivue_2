@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { isEmail, isPhone, isBlank } from '../../lib/validation';
 
 export default function PatientRegisterPage() {
   const [formData, setFormData] = useState({
@@ -23,6 +24,18 @@ export default function PatientRegisterPage() {
     e.preventDefault();
     setError('');
 
+    if (isBlank(formData.name)) {
+      setError('Full name is required');
+      return;
+    }
+    if (!isEmail(formData.email)) {
+      setError('Enter a valid email address');
+      return;
+    }
+    if (!isPhone(formData.phone)) {
+      setError('Enter a valid phone number (8–15 digits)');
+      return;
+    }
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;

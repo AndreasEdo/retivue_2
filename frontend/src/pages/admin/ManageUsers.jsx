@@ -4,6 +4,7 @@ import DataTable from '../../components/ui/DataTable';
 import Modal from '../../components/ui/Modal';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { adminListUsers, adminCreateStaff, adminSetUserStatus } from '../../lib/api';
+import { isEmail, isBlank } from '../../lib/validation';
 
 export default function ManageUsers() {
   const [activeTab, setActiveTab] = useState('doctors');
@@ -24,6 +25,9 @@ export default function ManageUsers() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    if (isBlank(form.name)) return setError('Name is required.');
+    if (!isEmail(form.email)) return setError('Enter a valid email address.');
+    if (form.password.length < 6) return setError('Password must be at least 6 characters.');
     try {
       await adminCreateStaff({ ...form, role });
       setIsModalOpen(false);
@@ -59,7 +63,7 @@ export default function ManageUsers() {
       <div className="flex gap-4 mb-6">
         {['doctors', 'staff'].map((t) => (
           <button key={t} onClick={() => setActiveTab(t)}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${activeTab === t ? 'bg-[#2d3fe0] text-white' : 'bg-white text-[#64748B] hover:bg-[#f2f4f6]'}`}>
+            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors border ${activeTab === t ? 'bg-[#2d3fe0] text-white border-[#2d3fe0]' : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#f2f4f6]'}`}>
             {t === 'doctors' ? 'Doctors' : 'Medical Staff'}
           </button>
         ))}

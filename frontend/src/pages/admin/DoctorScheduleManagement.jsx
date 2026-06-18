@@ -3,6 +3,7 @@ import PageHeader from '../../components/ui/PageHeader';
 import DataTable from '../../components/ui/DataTable';
 import Modal from '../../components/ui/Modal';
 import { adminListSchedules, adminCreateSchedule, adminDeleteSchedule, adminListUsers } from '../../lib/api';
+import { isAtLeastTomorrow, toMinutes } from '../../lib/validation';
 
 export default function DoctorScheduleManagement() {
   const [schedules, setSchedules] = useState([]);
@@ -26,6 +27,10 @@ export default function DoctorScheduleManagement() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    if (!form.doctor_id) return setError('Please select a doctor.');
+    if (!isAtLeastTomorrow(form.date)) return setError('Schedule date must be at least 1 day from today (H-1 rule).');
+    if (toMinutes(form.end_time) <= toMinutes(form.start_time)) return setError('End time must be after start time.');
+    if (Number(form.quota) < 1) return setError('Quota must be at least 1.');
     try {
       await adminCreateSchedule({ ...form, quota: Number(form.quota) });
       setIsModalOpen(false);

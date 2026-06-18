@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import PageHeader from '../../components/ui/PageHeader';
 import ClinicalCard from '../../components/ui/ClinicalCard';
 import { patientReport } from '../../lib/api';
+import { downloadClinicalReportPDF } from '../../lib/pdf';
 
 export default function ClinicalReportPatientView() {
   const { id } = useParams();
@@ -18,7 +19,16 @@ export default function ClinicalReportPatientView() {
 
   return (
     <div>
-      <PageHeader title={`Clinical Report #${id.slice(-6)}`} breadcrumb={`Reviewed by ${r.doctor_name}`} />
+      <PageHeader
+        title={`Clinical Report #${id.slice(-6)}`}
+        breadcrumb={`Reviewed by ${r.doctor_name}`}
+        actionButton={
+          <button
+            onClick={() => downloadClinicalReportPDF({ ...r, id })}
+            className="bg-[#2d3fe0] hover:bg-[#3748e7] text-white px-4 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center gap-2 shadow-sm">
+            <span className="material-symbols-outlined text-sm">download</span>Download PDF
+          </button>
+        } />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <ClinicalCard>

@@ -35,6 +35,7 @@ export default function DoctorCaseReview() {
   const reviewed = c.status !== 'waiting';
 
   const submitApprove = async () => {
+    if (!form.final_diagnosis.trim()) { setErr('Final diagnosis is required before approving.'); return; }
     setBusy(true); setErr('');
     try { await doctorApprove(id, form); navigate('/doctor/pending'); }
     catch (e) { setErr(e.message); } finally { setBusy(false); }

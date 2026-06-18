@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { isEmail } from '../../lib/validation';
 
 const ROLE_HOME = {
   admin: '/admin/dashboard',
@@ -33,6 +34,8 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isEmail(email)) { setError('Enter a valid email address.'); return; }
+    if (!password) { setError('Password is required.'); return; }
     doLogin(email, password);
   };
 

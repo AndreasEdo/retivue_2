@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import StepWizard from '../../components/ui/StepWizard';
 import ClinicalCard from '../../components/ui/ClinicalCard';
 import { mrPatients, mrDoctors, mrCreateSubmission } from '../../lib/api';
+import { validateImage } from '../../lib/validation';
 
 export default function NewSubmission() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -26,7 +27,11 @@ export default function NewSubmission() {
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
   const handleAnalyze = async () => {
-    if (!file) { setError('Please select a retinal image first.'); return; }
+    const imgErr = validateImage(file);
+    if (imgErr) { setError(imgErr); return; }
+    if (form.age && (Number(form.age) < 0 || Number(form.age) > 120)) { setError('Age must be between 0 and 120.'); return; }
+    if (form.weight && Number(form.weight) <= 0) { setError('Weight must be a positive number.'); return; }
+    if (form.height && Number(form.height) <= 0) { setError('Height must be a positive number.'); return; }
     setLoading(true);
     setError('');
     try {
