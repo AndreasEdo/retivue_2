@@ -84,7 +84,7 @@ export default function LoginPage() {
                 <span className="material-symbols-outlined text-[#757687]">lock</span>
               </div>
               <input
-                id="password" type={showPass ? 'text' : 'password'} placeholder="••••••••" value={password}
+                id="password" type={showPass ? 'text' : 'password'} placeholder="Enter your password" value={password}
                 onChange={(e) => setPassword(e.target.value)} required
                 className="block w-full pl-10 pr-10 py-2 border border-[#c5c5d8] rounded-lg focus:ring-[#2d3fe0] focus:border-[#2d3fe0] text-sm text-[#191c1e] bg-white"
               />
@@ -101,11 +101,6 @@ export default function LoginPage() {
             className="w-full flex justify-center py-2.5 px-4 rounded-lg text-[12px] font-bold tracking-[0.05em] text-white bg-[#2d3fe0] hover:bg-[#3748e7] disabled:opacity-60 transition-colors">
             {loading ? 'Signing in…' : 'Sign In'}
           </button>
-
-          <p className="text-sm text-[#D97706] flex items-center justify-center gap-1">
-            <span className="material-symbols-outlined text-[16px]">warning</span>
-            Authorized medical personnel only
-          </p>
         </form>
 
         <div className="mt-6 text-center">
