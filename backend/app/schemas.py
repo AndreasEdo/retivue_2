@@ -80,6 +80,8 @@ class ScheduleCreate(BaseModel):
 # ----------------- Appointment -----------------
 class AppointmentCreate(BaseModel):
     schedule_id: str
+    complaint: str
+    symptom_duration: Optional[str] = None
 
 
 # ----------------- Doctor review -----------------

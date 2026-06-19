@@ -100,7 +100,7 @@ export const doctorRejectSchedule = (id) => request(`/doctor/schedules/${id}/rej
 // ---------------- Patient ----------------
 export const patientDoctors = () => request("/patient/doctors");
 export const patientSchedules = (doctorId) => request(`/patient/schedules${doctorId ? `?doctor_id=${doctorId}` : ""}`);
-export const patientBook = (schedule_id) => request("/patient/appointments", { method: "POST", body: { schedule_id } });
+export const patientBook = (payload) => request("/patient/appointments", { method: "POST", body: payload });
 export const patientAppointments = () => request("/patient/appointments");
 export const patientReports = () => request("/patient/reports");
 export const patientReport = (id) => request(`/patient/reports/${id}`);

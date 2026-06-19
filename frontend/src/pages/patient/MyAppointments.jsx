@@ -13,6 +13,7 @@ export default function MyAppointments() {
     { key: 'doctor_name', label: 'Doctor' },
     { key: 'date', label: 'Date' },
     { key: 'time', label: 'Time' },
+    { key: 'complaint', label: 'Complaint', render: (c) => <span className="text-xs text-[#64748B]">{c || '—'}</span> },
     { key: 'status', label: 'Status', render: (s) => <StatusBadge status={s} /> },
   ];
 

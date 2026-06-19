@@ -25,6 +25,8 @@ export default function BookAppointment() {
   const navigate = useNavigate();
   const [allSchedules, setAllSchedules] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [complaint, setComplaint] = useState('');
+  const [duration, setDuration] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
@@ -38,10 +40,11 @@ export default function BookAppointment() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selected) return;
+    if (!selected) { setError('Please select a schedule.'); return; }
+    if (!complaint.trim()) { setError('Please describe your complaint / reason for visit.'); return; }
     setBusy(true); setError('');
     try {
-      await patientBook(selected);
+      await patientBook({ schedule_id: selected, complaint: complaint.trim(), symptom_duration: duration.trim() });
       navigate('/pasien/appointments');
     } catch (err) {
       setError(err.message || 'Booking failed.');
@@ -94,10 +97,42 @@ export default function BookAppointment() {
             )}
           </div>
 
+          {/* Visit details — required before booking */}
+          {selected && (
+            <div className="mb-6 border-t border-[#E2E8F0] pt-6 space-y-4">
+              <h4 className="text-sm font-semibold text-[#0F172A]">Visit Details</h4>
+              <div>
+                <label className="block text-xs font-semibold text-[#454655] mb-2">
+                  Reason for Visit / Complaint <span className="text-[#DC2626]">*</span>
+                </label>
+                <textarea
+                  value={complaint}
+                  onChange={(e) => setComplaint(e.target.value)}
+                  rows={3}
+                  required
+                  placeholder="e.g. Blurry vision in the right eye, occasional floaters for the past week."
+                  className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm focus:ring-[#2d3fe0] focus:border-[#2d3fe0]"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-[#454655] mb-2">
+                  How long have you had these symptoms? <span className="text-[#64748B] font-normal">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  placeholder="e.g. 2 weeks"
+                  className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm focus:ring-[#2d3fe0] focus:border-[#2d3fe0]"
+                />
+              </div>
+            </div>
+          )}
+
           {schedules.length > 0 && (
-            <button type="submit" disabled={!selected || busy}
+            <button type="submit" disabled={!selected || !complaint.trim() || busy}
               className="w-full py-2.5 px-4 bg-[#2d3fe0] text-white rounded-lg text-xs font-semibold hover:bg-[#3748e7] transition-colors disabled:opacity-50">
-              {busy ? 'Booking…' : 'Confirm Appointment'}
+              {busy ? 'Booking…' : selected ? 'Confirm Appointment' : 'Select a schedule first'}
             </button>
           )}
         </form>

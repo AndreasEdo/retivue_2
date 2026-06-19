@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import PageHeader from '../components/ui/PageHeader';
 
 export default function ProfileSettings() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -91,23 +91,6 @@ export default function ProfileSettings() {
               Update Password
             </button>
           </form>
-        </div>
-
-        {/* Danger Zone */}
-        <div className="bg-white rounded-xl shadow-sm border border-[#DC2626] p-6">
-          <h3 className="text-lg font-semibold text-[#DC2626] mb-6">Danger Zone</h3>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-[#0F172A]">Sign Out</p>
-              <p className="text-xs text-[#64748B]">Sign out of your account</p>
-            </div>
-            <button
-              onClick={logout}
-              className="py-2 px-4 bg-[#DC2626] text-white rounded-lg text-xs font-semibold hover:bg-[#B91C1C] transition-colors"
-            >
-              Sign Out
-            </button>
-          </div>
         </div>
       </div>
     </div>

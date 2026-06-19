@@ -38,6 +38,8 @@ async def available_schedules(doctor_id: str | None = None):
 @router.post("/appointments", status_code=201)
 async def book(body: AppointmentCreate, user: dict = Depends(require_roles("pasien"))):
     db = get_db()
+    if not body.complaint or not body.complaint.strip():
+        raise HTTPException(status_code=422, detail="Keluhan wajib diisi.")
     sched = await db[SCHEDULES].find_one({"_id": oid(body.schedule_id)})
     if not sched:
         raise HTTPException(status_code=404, detail="Jadwal tidak ditemukan.")
@@ -48,6 +50,8 @@ async def book(body: AppointmentCreate, user: dict = Depends(require_roles("pasi
         "patient_id": user["id"], "patient_name": user["name"],
         "doctor_id": sched["doctor_id"], "doctor_name": sched["doctor_name"],
         "schedule_id": str(sched["_id"]), "date": sched["date"], "time": sched["start_time"],
+        "complaint": body.complaint.strip(),
+        "symptom_duration": (body.symptom_duration or "").strip() or None,
         "status": "submitted", "booked_at": now_utc(),
     }
     res = await db[APPOINTMENTS].insert_one(appt)
