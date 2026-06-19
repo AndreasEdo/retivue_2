@@ -36,9 +36,18 @@ async def dashboard():
     approved = await db[CASES].count_documents({"status": "approved"})
     rejected = await db[CASES].count_documents({"status": "rejected"})
     recent = await db[CASES].find({}).sort("submitted_at", -1).limit(10).to_list(10)
+
+    # Distribusi grade DR dari kasus yang sudah di-submit (punya ai_result).
+    dr_levels = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0}
+    async for c in db[CASES].find({"ai_result.grade": {"$exists": True}}, {"ai_result.grade": 1}):
+        g = c.get("ai_result", {}).get("grade")
+        if g in dr_levels:
+            dr_levels[g] += 1
+
     return {
         "submitted": submitted, "waiting": waiting, "approved": approved, "rejected": rejected,
         "recent": [_case_summary(serialize(c)) for c in recent],
+        "dr_levels": {str(k): v for k, v in dr_levels.items()},
     }
 
 

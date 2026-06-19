@@ -6,7 +6,7 @@ import { useTheme } from '../context/ThemeContext';
 const navItems = {
   admin: [
     { path: '/admin/dashboard', label: 'Dashboard', icon: 'dashboard' },
-    { path: '/admin/users', label: 'Manage Users', icon: 'group' },
+    { path: '/admin/users', label: 'Manage Staff', icon: 'group' },
     { path: '/admin/patients', label: 'Manage Patients', icon: 'patient_list' },
     { path: '/admin/schedules', label: 'Doctor Schedules', icon: 'calendar_month' },
     { path: '/admin/monitoring', label: 'System Monitoring', icon: 'monitor_heart' },

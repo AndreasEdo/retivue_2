@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PageHeader from '../../components/ui/PageHeader';
 import { mrDashboard } from '../../lib/api';
 
+const DR_LABELS = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative'];
+
 // 2A + 2G: shadow-only cards, smaller icon circles, status accent colors kept
 const STAT_CARDS = [
   { key: 'waiting',  label: 'Pending Reviews', accentColor: '#D97706', iconBg: 'bg-amber-50', iconFg: '#D97706', icon: 'pending' },
@@ -11,7 +13,7 @@ const STAT_CARDS = [
 ];
 
 export default function MedicalRecordDashboard() {
-  const [data, setData] = useState({ waiting: 0, approved: 0, rejected: 0, recent: [] });
+  const [data, setData] = useState({ waiting: 0, approved: 0, rejected: 0, recent: [], dr_levels: {} });
 
   useEffect(() => { mrDashboard().then(setData).catch(() => {}); }, []);
 
@@ -88,6 +90,26 @@ export default function MedicalRecordDashboard() {
                 </p>
               </div>
               <span className="text-xs font-medium capitalize text-[#64748B]">{c.status}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* DR Grade Distribution — submission data lives here (Medical Record) */}
+      <div
+        className="bg-white rounded-lg border border-[#F1F5F9] p-6 mt-6"
+        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)' }}
+      >
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-4">
+          DR Grade Distribution
+        </h3>
+        <div className="grid grid-cols-5 gap-4">
+          {DR_LABELS.map((label, i) => (
+            <div key={label} className="text-center">
+              <div className="bg-[#f8fafc] rounded-md p-4">
+                <p className="text-2xl font-bold text-[#0F172A]">{data.dr_levels?.[String(i)] ?? 0}</p>
+                <p className="text-xs text-[#64748B] mt-1">{i} · {label}</p>
+              </div>
             </div>
           ))}
         </div>

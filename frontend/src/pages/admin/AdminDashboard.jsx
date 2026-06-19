@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import PageHeader from '../../components/ui/PageHeader';
 import { adminMonitoring } from '../../lib/api';
 
-const DR_LABELS = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative'];
-
 // 2E: Max 2 accent colors. Blue (#2d3fe0) for primary counts, green for doctors.
 // 2G: Reduced icon circles (w-8 h-8, lighter bg, text-[16px])
 // 2L: Purple removed from non-AI elements → blue
@@ -125,27 +123,6 @@ export default function AdminDashboard() {
             <StatusRow label="Approved" value={m?.approved ?? 0} color="#059669" />
             <StatusRow label="Rejected" value={m?.rejected ?? 0} color="#DC2626" />
           </div>
-        </div>
-      </div>
-
-      {/* DR Grade Distribution */}
-      <div
-        className="bg-white rounded-lg border border-[#F1F5F9] p-6"
-        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)' }}
-      >
-        {/* 2C: Section title */}
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-4">
-          DR Grade Distribution
-        </h3>
-        <div className="grid grid-cols-5 gap-4">
-          {DR_LABELS.map((label, i) => (
-            <div key={label} className="text-center">
-              <div className="bg-[#f8fafc] rounded-md p-4">
-                <p className="text-2xl font-bold text-[#0F172A]">{m?.dr_levels?.[String(i)] ?? 0}</p>
-                <p className="text-xs text-[#64748B] mt-1">{i} · {label}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>
