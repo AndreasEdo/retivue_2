@@ -15,6 +15,9 @@ export default function DoctorPatients() {
   const [selected, setSelected] = useState(null);
   const [history, setHistory] = useState([]);
   const [loadingHist, setLoadingHist] = useState(false);
+  const [query, setQuery] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
   useEffect(() => {
     doctorPatients().then(setPatients).catch(() => {}).finally(() => setLoading(false));
@@ -24,11 +27,25 @@ export default function DoctorPatients() {
     setSelected(p);
     setLoadingHist(true);
     setHistory([]);
+    setDateFrom(''); setDateTo('');
     doctorPatientHistory(p.patient_id)
       .then(setHistory)
       .catch(() => {})
       .finally(() => setLoadingHist(false));
   };
+
+  const q = query.trim().toLowerCase();
+  const filteredPatients = q
+    ? patients.filter((p) => (p.patient_name || '').toLowerCase().includes(q))
+    : patients;
+
+  const filteredHistory = history.filter((h) => {
+    if (!h.submitted_at) return true;
+    const d = h.submitted_at.slice(0, 10); // YYYY-MM-DD
+    if (dateFrom && d < dateFrom) return false;
+    if (dateTo && d > dateTo) return false;
+    return true;
+  });
 
   return (
     <div>
@@ -40,13 +57,28 @@ export default function DoctorPatients() {
           <h3 className="text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-4">
             Patient List {patients.length > 0 ? `(${patients.length})` : ''}
           </h3>
+
+          {/* Search by name */}
+          <div className="relative mb-4">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] text-[18px]">search</span>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search patient name…"
+              className="w-full pl-10 pr-3 py-2 border border-[#c5c5d8] rounded-lg text-sm focus:ring-[#2d3fe0] focus:border-[#2d3fe0]"
+            />
+          </div>
+
           {loading ? (
             <p className="text-sm text-[#64748B]">Loading…</p>
           ) : patients.length === 0 ? (
             <p className="text-sm text-[#64748B]">No patients yet.</p>
+          ) : filteredPatients.length === 0 ? (
+            <p className="text-sm text-[#64748B]">No patient matches “{query}”.</p>
           ) : (
             <div className="space-y-2">
-              {patients.map((p) => (
+              {filteredPatients.map((p) => (
                 <button
                   key={p.patient_id}
                   onClick={() => openPatient(p)}
@@ -87,13 +119,40 @@ export default function DoctorPatients() {
             <>
               <h3 className="text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-1">Case History</h3>
               <p className="text-base font-semibold text-[#0F172A] mb-4">{selected.patient_name}</p>
+
+              {/* Date range filter */}
+              {history.length > 0 && (
+                <div className="flex items-end gap-3 mb-4 flex-wrap">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-[#64748B] mb-1">From</label>
+                    <input type="date" value={dateFrom} max={dateTo || undefined}
+                      onChange={(e) => setDateFrom(e.target.value)}
+                      className="px-3 py-1.5 border border-[#c5c5d8] rounded-lg text-sm focus:ring-[#2d3fe0] focus:border-[#2d3fe0]" />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-[#64748B] mb-1">To</label>
+                    <input type="date" value={dateTo} min={dateFrom || undefined}
+                      onChange={(e) => setDateTo(e.target.value)}
+                      className="px-3 py-1.5 border border-[#c5c5d8] rounded-lg text-sm focus:ring-[#2d3fe0] focus:border-[#2d3fe0]" />
+                  </div>
+                  {(dateFrom || dateTo) && (
+                    <button onClick={() => { setDateFrom(''); setDateTo(''); }}
+                      className="px-3 py-1.5 text-xs font-semibold text-[#64748B] border border-[#E2E8F0] rounded-lg hover:bg-[#f2f4f6]">
+                      Clear
+                    </button>
+                  )}
+                </div>
+              )}
+
               {loadingHist ? (
                 <p className="text-sm text-[#64748B]">Loading…</p>
               ) : history.length === 0 ? (
                 <p className="text-sm text-[#64748B]">No cases.</p>
+              ) : filteredHistory.length === 0 ? (
+                <p className="text-sm text-[#64748B]">No cases in this date range.</p>
               ) : (
                 <div className="space-y-3">
-                  {history.map((h) => (
+                  {filteredHistory.map((h) => (
                     <div key={h.id} className="border border-[#F1F5F9] rounded-lg p-4">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-sm font-semibold text-[#0F172A]">
