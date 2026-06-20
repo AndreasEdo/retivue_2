@@ -22,6 +22,47 @@ NORM_MEAN = [0.485, 0.456, 0.406]
 NORM_STD = [0.229, 0.224, 0.225]
 
 
+def decode_bgr(image_bytes):
+    """Decode bytes gambar -> array BGR (cv2). Raise ValueError kalau bukan gambar valid."""
+    arr = np.frombuffer(image_bytes, dtype=np.uint8)
+    image_bgr = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+    if image_bgr is None:
+        raise ValueError("File is not a valid image or the image is corrupted.")
+    return image_bgr
+
+
+def is_likely_fundus(image_bgr) -> bool:
+    """
+    Heuristik cepat untuk menolak gambar yang JELAS bukan foto fundus retina
+    (mis. dokumen, wajah-non-medis, pemandangan, screenshot).
+
+    Ciri fundus: area retina di tengah dominan MERAH/oranye dengan intensitas
+    cukup. Gambar non-retina biasanya netral (dokumen putih), biru (langit),
+    atau hijau (rumput) -> tidak merah-dominan -> ditolak.
+
+    Sengaja longgar ke arah MENERIMA fundus (agar tidak menolak gambar valid);
+    yang penting menangkap kasus umum gambar non-retina.
+    """
+    try:
+        img = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB).astype(np.float32)
+        h, w = img.shape[:2]
+        if h < 32 or w < 32:
+            return False
+        center = img[int(h * 0.30):int(h * 0.70), int(w * 0.30):int(w * 0.70)]
+        if center.size == 0:
+            center = img
+        r = float(center[..., 0].mean())
+        g = float(center[..., 1].mean())
+        b = float(center[..., 2].mean())
+        # Retina: warm-toned -> merah jelas > biru, dan tidak didominasi hijau,
+        # dengan intensitas memadai. Menerima fundus merah maupun oranye,
+        # menolak gambar biru (langit), hijau (rumput), atau netral (dokumen).
+        return (r > b * 1.12) and (r >= g * 0.95) and (r > 40)
+    except Exception:
+        # Kalau gagal cek, jangan blokir (biar tidak menolak gambar valid).
+        return True
+
+
 def crop_image_from_gray(img, tol=7):
     """
     Buang border hitam dominan pada gambar fundus retina.
@@ -105,11 +146,7 @@ def preprocess_bytes(image_bytes):
     Raises:
         ValueError kalau bytes bukan gambar valid.
     """
-    arr = np.frombuffer(image_bytes, dtype=np.uint8)
-    image_bgr = cv2.imdecode(arr, cv2.IMREAD_COLOR)
-    if image_bgr is None:
-        raise ValueError("File is not a valid image or the image is corrupted.")
-
+    image_bgr = decode_bgr(image_bytes)
     ben_rgb = ben_color_preprocessing(image_bgr)
     tensor = _VALID_TRANSFORM(image=ben_rgb)["image"].unsqueeze(0)  # [1, C, H, W]
     return ben_rgb, tensor

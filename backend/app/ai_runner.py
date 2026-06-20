@@ -14,6 +14,7 @@ from .inference import predict, score_to_grade, confidence_from_score
 from .explain import explain
 from .model import DR_CLASS_NAMES
 from .cloudinary_util import upload_image, upload_data_uri
+from .preprocessing import decode_bgr, is_likely_fundus
 
 RECOMMENDATIONS = {
     0: "No diabetic retinopathy detected. Continue routine annual screening.",
@@ -44,6 +45,13 @@ def run_full_ai(image_bytes: str, models, thresholds, public_id: str | None = No
         "images": {original_url, ben_graham_url, gradcam_url}
       }
     """
+    # 0. Validasi: tolak gambar yang jelas bukan foto fundus retina.
+    if not is_likely_fundus(decode_bgr(image_bytes)):
+        raise ValueError(
+            "The uploaded image does not appear to be a retinal fundus photograph. "
+            "Please upload a valid fundus image."
+        )
+
     # 1. Prediksi (grade, score, confidence, gambar Ben Graham base64)
     pred = predict(image_bytes, models, thresholds)
     grade = pred["grade"]

@@ -55,7 +55,7 @@ export default function LandingPage() {
       <nav className="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1e]/80 backdrop-blur-md border-b border-[#e2e8f0] dark:border-white/10">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/logo.jpg" alt="RetiVue" className="h-8 w-auto" style={{ mixBlendMode: dark ? 'normal' : 'multiply' }} />
+            <img src="/retivue_logo_new.png" alt="RetiVue" className="h-8 w-auto" />
           </div>
           <div className="flex items-center gap-3">
             <button
@@ -209,7 +209,7 @@ export default function LandingPage() {
       <footer className="py-8 border-t border-[#e2e8f0] dark:border-white/10">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <img src="/logo.jpg" alt="RetiVue" className="h-6 w-auto" style={{ mixBlendMode: dark ? 'normal' : 'multiply' }} />
+            <img src="/retivue_logo_new.png" alt="RetiVue" className="h-6 w-auto" />
             <span className="text-xs text-[#64748b] dark:text-[#94a3b8]">RetiVue v2.0 · Powered by SwinV2</span>
           </div>
           <p className="text-xs text-[#64748b] dark:text-[#94a3b8] text-center">

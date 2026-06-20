@@ -21,7 +21,7 @@ export default function SplashScreen({ onDone }) {
     >
       <div className="splash-content flex flex-col items-center gap-5">
         <div className="splash-logo w-20 h-20 rounded-2xl bg-white flex items-center justify-center overflow-hidden shadow-2xl">
-          <img src="/logo.jpg" alt="RetiVue" className="w-full h-full object-contain" />
+          <img src="/retivue_logo_new.png" alt="RetiVue" className="w-full h-full object-contain" />
         </div>
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight text-white">RetiVue</h1>

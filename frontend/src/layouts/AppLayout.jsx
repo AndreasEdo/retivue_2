@@ -49,7 +49,7 @@ export default function AppLayout() {
       >
         <div className="p-5 mb-6 flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
-            <img src="/logo.jpg" alt="RetiVue" className="w-full h-full object-contain" />
+            <img src="/retivue_logo_new.png" alt="RetiVue" className="w-full h-full object-contain" />
           </div>
           {!sidebarCollapsed && (
             <div>

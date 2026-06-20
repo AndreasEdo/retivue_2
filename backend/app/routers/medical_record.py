@@ -15,6 +15,20 @@ from ..utils import serialize, oid, now_utc
 router = APIRouter(prefix="/mr", tags=["medical_record"],
                    dependencies=[Depends(require_roles("medical_record"))])
 
+MAX_UPLOAD_BYTES = 10 * 1024 * 1024  # 10 MB
+
+
+def _read_image_upload(file: UploadFile) -> bytes:
+    """Baca file upload dengan validasi tipe & ukuran (anti file raksasa / non-gambar)."""
+    if file.content_type and not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=422, detail="File harus berupa gambar.")
+    data = file.file.read(MAX_UPLOAD_BYTES + 1)
+    if not data:
+        raise HTTPException(status_code=422, detail="File kosong.")
+    if len(data) > MAX_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="Ukuran gambar terlalu besar (maks 10 MB).")
+    return data
+
 
 @router.get("/patients")
 async def list_patients():
@@ -67,11 +81,7 @@ async def create_submission(
 ):
     if STATE["models"] is None:
         raise HTTPException(status_code=503, detail="Model AI belum siap.")
-    if file.content_type and not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=422, detail="File harus gambar.")
-    data = file.file.read()
-    if not data:
-        raise HTTPException(status_code=422, detail="File kosong.")
+    data = _read_image_upload(file)
 
     db = get_db()
     patient = await db[USERS].find_one({"_id": oid(patient_id), "role": "pasien"})
@@ -138,10 +148,11 @@ async def resubmit(case_id: str, file: UploadFile = File(...),
         raise HTTPException(status_code=404, detail="Kasus tidak ditemukan.")
     if doc.get("status") != "rejected":
         raise HTTPException(status_code=400, detail="Hanya kasus rejected yang bisa di-upload ulang.")
-    data = file.file.read()
-    if not data:
-        raise HTTPException(status_code=422, detail="File kosong.")
-    ai = run_full_ai(data, STATE["models"], STATE["thresholds"])
+    data = _read_image_upload(file)
+    try:
+        ai = run_full_ai(data, STATE["models"], STATE["thresholds"])
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
     await db[CASES].update_one({"_id": oid(case_id)}, {"$set": {
         "ai_result": ai["ai_result"], "images": ai["images"],
         "status": "waiting", "doctor_result": None,

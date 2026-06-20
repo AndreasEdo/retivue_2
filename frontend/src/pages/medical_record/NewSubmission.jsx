@@ -2,9 +2,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StepWizard from '../../components/ui/StepWizard';
 import ClinicalCard from '../../components/ui/ClinicalCard';
+import SearchableSelect from '../../components/ui/SearchableSelect';
 import { mrPatients, mrDoctors, mrCreateSubmission } from '../../lib/api';
 import { validateImage } from '../../lib/validation';
 import { useConfirm } from '../../context/ConfirmContext';
+
+// Rentang wajar manusia untuk validasi.
+const WEIGHT_MIN = 1, WEIGHT_MAX = 500;   // kg
+const HEIGHT_MIN = 30, HEIGHT_MAX = 250;  // cm
 
 export default function NewSubmission() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -28,12 +33,49 @@ export default function NewSubmission() {
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
   const confirm = useConfirm();
 
+  const selectedPatient = patients.find((p) => p.id === form.patient_id);
+  const ageLocked = selectedPatient?.age != null; // umur dari data pasien -> tidak bisa diubah
+
+  // Pilih pasien -> auto-isi umur & gender dari data pasien (kalau ada).
+  const onPatient = (pid) => {
+    const p = patients.find((x) => x.id === pid);
+    setForm((f) => ({
+      ...f,
+      patient_id: pid,
+      age: p?.age != null ? String(p.age) : f.age,
+      gender: p?.gender || f.gender,
+    }));
+  };
+
+  // Peringatan kalau user refresh/tutup tab di tengah submission.
+  useEffect(() => {
+    const dirty = (form.patient_id || file) && !createdCase;
+    const handler = (e) => {
+      if (dirty || loading) { e.preventDefault(); e.returnValue = ''; }
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [form.patient_id, file, createdCase, loading]);
+
+  const goStep2 = (e) => {
+    e.preventDefault();
+    setError('');
+    if (!form.patient_id) { setError('Please select a patient.'); return; }
+    if (!form.doctor_id) { setError('Please assign a doctor.'); return; }
+    if (!form.age) { setError('Age is required.'); return; }
+    if (!form.gender) { setError('Gender is required.'); return; }
+    if (form.weight && (Number(form.weight) < WEIGHT_MIN || Number(form.weight) > WEIGHT_MAX)) {
+      setError(`Weight must be between ${WEIGHT_MIN} and ${WEIGHT_MAX} kg.`); return;
+    }
+    if (form.height && (Number(form.height) < HEIGHT_MIN || Number(form.height) > HEIGHT_MAX)) {
+      setError(`Height must be between ${HEIGHT_MIN} and ${HEIGHT_MAX} cm.`); return;
+    }
+    setCurrentStep(2);
+  };
+
   const handleAnalyze = async () => {
     const imgErr = validateImage(file);
     if (imgErr) { setError(imgErr); return; }
-    if (form.age && (Number(form.age) < 0 || Number(form.age) > 120)) { setError('Age must be between 0 and 120.'); return; }
-    if (form.weight && Number(form.weight) <= 0) { setError('Weight must be a positive number.'); return; }
-    if (form.height && Number(form.height) <= 0) { setError('Height must be a positive number.'); return; }
     if (!(await confirm({ title: 'Run AI analysis & submit?', message: 'The image will be processed and the case forwarded to the assigned doctor.', confirmText: 'Run Analysis' }))) return;
     setLoading(true);
     setError('');
@@ -64,30 +106,38 @@ export default function NewSubmission() {
       {currentStep === 1 && (
         <ClinicalCard>
           <h3 className="text-lg font-semibold text-[#0F172A] mb-6">Step 1: Patient Data</h3>
-          <form onSubmit={(e) => { e.preventDefault(); setError(''); setCurrentStep(2); }} className="space-y-4">
+          <form onSubmit={goStep2} className="space-y-4">
+            {error && <div className="text-sm text-[#DC2626] bg-[#DC2626]/10 rounded-lg px-3 py-2">{error}</div>}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-[#454655] mb-2">Select Patient</label>
-                <select className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm"
-                  value={form.patient_id} onChange={(e) => set('patient_id', e.target.value)} required>
-                  <option value="">Select Patient</option>
-                  {patients.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-                </select>
+                <SearchableSelect
+                  options={patients.map((p) => ({ value: p.id, label: p.name }))}
+                  value={form.patient_id}
+                  onChange={onPatient}
+                  placeholder="Search patient…"
+                />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-[#454655] mb-2">Assign Doctor</label>
-                <select className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm"
-                  value={form.doctor_id} onChange={(e) => set('doctor_id', e.target.value)} required>
-                  <option value="">Select Doctor</option>
-                  {doctors.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
-                </select>
+                <SearchableSelect
+                  options={doctors.map((d) => ({ value: d.id, label: d.name }))}
+                  value={form.doctor_id}
+                  onChange={(v) => set('doctor_id', v)}
+                  placeholder="Search doctor…"
+                />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-[#454655] mb-2">Age</label>
-                <input className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm" type="number"
-                  value={form.age} onChange={(e) => set('age', e.target.value)} required />
+                <label className="block text-xs font-semibold text-[#454655] mb-2">
+                  Age {ageLocked && <span className="text-[#64748B] font-normal">(from patient record)</span>}
+                </label>
+                <input
+                  className={`block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm ${ageLocked ? 'bg-[#f2f4f6] text-[#64748B] cursor-not-allowed' : ''}`}
+                  type="number" value={form.age}
+                  onChange={(e) => set('age', e.target.value)}
+                  readOnly={ageLocked} required />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-[#454655] mb-2">Gender</label>
@@ -101,11 +151,13 @@ export default function NewSubmission() {
               <div>
                 <label className="block text-xs font-semibold text-[#454655] mb-2">Weight (kg)</label>
                 <input className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm" type="number"
+                  min={WEIGHT_MIN} max={WEIGHT_MAX} step="0.1"
                   value={form.weight} onChange={(e) => set('weight', e.target.value)} />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-[#454655] mb-2">Height (cm)</label>
                 <input className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg text-sm" type="number"
+                  min={HEIGHT_MIN} max={HEIGHT_MAX} step="0.1"
                   value={form.height} onChange={(e) => set('height', e.target.value)} />
               </div>
             </div>
