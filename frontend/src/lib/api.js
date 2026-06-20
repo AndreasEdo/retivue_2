@@ -60,6 +60,8 @@ export const adminListUsers = (role) => request(`/admin/users${role ? `?role=${r
 export const adminCreateStaff = (payload) => request("/admin/users", { method: "POST", body: payload });
 export const adminSetUserStatus = (id, active) =>
   request(`/admin/users/${id}/status?active=${active}`, { method: "PATCH" });
+export const adminUpdateUser = (id, payload) => request(`/admin/users/${id}`, { method: "PATCH", body: payload });
+export const adminDeleteUser = (id) => request(`/admin/users/${id}`, { method: "DELETE" });
 export const adminListPatients = () => request("/admin/patients");
 export const adminListSchedules = () => request("/admin/schedules");
 export const adminCreateSchedule = (payload) => request("/admin/schedules", { method: "POST", body: payload });

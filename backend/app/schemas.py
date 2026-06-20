@@ -70,6 +70,15 @@ class StaffCreate(BaseModel):
     title: Optional[str] = None
 
 
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    phone: Optional[str] = None
+    gender: Optional[str] = None
+    date_of_birth: Optional[str] = None
+    specialty: Optional[str] = None
+    title: Optional[str] = None
+
+
 class ScheduleCreate(BaseModel):
     doctor_id: str
     date: str          # YYYY-MM-DD

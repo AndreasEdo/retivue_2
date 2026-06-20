@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from ..db import get_db, USERS, SCHEDULES, CASES, APPOINTMENTS
 from ..security import require_roles, hash_password
-from ..schemas import StaffCreate, ScheduleCreate
-from ..utils import serialize, oid, now_utc
+from ..schemas import StaffCreate, ScheduleCreate, UserUpdate
+from ..utils import serialize, oid, now_utc, compute_age
 
 router = APIRouter(prefix="/admin", tags=["admin"], dependencies=[Depends(require_roles("admin"))])
 
@@ -53,10 +53,41 @@ async def set_user_status(user_id: str, active: bool):
     return {"ok": True, "status": "active" if active else "inactive"}
 
 
+@router.patch("/users/{user_id}")
+async def update_user(user_id: str, body: UserUpdate):
+    """Edit data user (staff atau pasien). Hanya field yang dikirim yang diubah."""
+    db = get_db()
+    fields = body.model_dump(exclude_none=True)
+    if "date_of_birth" in fields:
+        fields["age"] = compute_age(fields["date_of_birth"])
+    if not fields:
+        raise HTTPException(status_code=400, detail="Tidak ada field untuk diubah.")
+    res = await db[USERS].update_one({"_id": oid(user_id)}, {"$set": fields})
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan.")
+    return serialize(await db[USERS].find_one({"_id": oid(user_id)}))
+
+
+@router.delete("/users/{user_id}")
+async def delete_user(user_id: str):
+    """Hapus user (staff atau pasien)."""
+    res = await get_db()[USERS].delete_one({"_id": oid(user_id)})
+    if res.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan.")
+    return {"ok": True}
+
+
 @router.get("/patients")
 async def list_patients():
     docs = await get_db()[USERS].find({"role": "pasien"}).sort("created_at", -1).to_list(1000)
-    return [serialize(d) for d in docs]
+    out = []
+    for d in docs:
+        s = serialize(d)
+        age = compute_age(s.get("date_of_birth"))
+        if age is not None:
+            s["age"] = age
+        out.append(s)
+    return out
 
 
 # ---------- Doctor schedules ----------

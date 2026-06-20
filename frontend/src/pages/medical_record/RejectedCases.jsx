@@ -45,7 +45,7 @@ export default function RejectedCases() {
       render: (_, row) => (
         <button onClick={() => pickFile(row.id)} disabled={busy === row.id}
           className="text-[#2d3fe0] text-xs font-semibold hover:underline disabled:opacity-50">
-          {busy === row.id ? 'Uploading…' : 'Upload Ulang'}
+          {busy === row.id ? 'Uploading…' : 'Re-upload'}
         </button>
       ),
     },
