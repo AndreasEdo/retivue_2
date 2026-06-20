@@ -21,6 +21,7 @@ import DoctorDashboard from './pages/doctor/DoctorDashboard';
 import PendingReviewList from './pages/doctor/PendingReviewList';
 import DoctorCaseReview from './pages/doctor/DoctorCaseReview';
 import DoctorSchedules from './pages/doctor/DoctorSchedules';
+import DoctorPatients from './pages/doctor/DoctorPatients';
 import ReviewedCases from './pages/doctor/ReviewedCases';
 import PatientDashboard from './pages/patient/PatientDashboard';
 import MyAppointments from './pages/patient/MyAppointments';
@@ -111,6 +112,7 @@ const router = createBrowserRouter([
           { path: 'doctor/dashboard',  element: <ProtectedRoute allowedRoles={['dokter']}><DoctorDashboard /></ProtectedRoute> },
           { path: 'doctor/pending',    element: <ProtectedRoute allowedRoles={['dokter']}><PendingReviewList /></ProtectedRoute> },
           { path: 'doctor/case/:id',   element: <ProtectedRoute allowedRoles={['dokter']}><DoctorCaseReview /></ProtectedRoute> },
+          { path: 'doctor/patients',   element: <ProtectedRoute allowedRoles={['dokter']}><DoctorPatients /></ProtectedRoute> },
           { path: 'doctor/schedules',  element: <ProtectedRoute allowedRoles={['dokter']}><DoctorSchedules /></ProtectedRoute> },
           { path: 'doctor/reviewed',   element: <ProtectedRoute allowedRoles={['dokter']}><ReviewedCases /></ProtectedRoute> },
 

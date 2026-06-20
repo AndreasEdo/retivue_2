@@ -19,6 +19,7 @@ const navItems = {
   dokter: [
     { path: '/doctor/dashboard', label: 'Dashboard', icon: 'dashboard' },
     { path: '/doctor/pending', label: 'Pending Reviews', icon: 'pending' },
+    { path: '/doctor/patients', label: 'Patients', icon: 'groups' },
     { path: '/doctor/schedules', label: 'My Schedules', icon: 'calendar_month' },
     { path: '/doctor/reviewed', label: 'Reviewed Cases', icon: 'check_circle' },
   ],

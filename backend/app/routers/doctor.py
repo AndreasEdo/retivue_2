@@ -127,6 +127,32 @@ async def my_appointments(user: dict = Depends(require_roles("dokter"))):
     return [serialize(d) for d in docs]
 
 
+# ---------- Daftar pasien dokter (agregasi dari kasus) ----------
+
+@router.get("/patients")
+async def my_patients(user: dict = Depends(require_roles("dokter"))):
+    """Pasien yang punya kasus untuk dokter ini, dengan jumlah kasus & kasus terakhir."""
+    cursor = get_db()[CASES].find(
+        {"doctor_id": user["id"]},
+        {"patient_id": 1, "patient_name": 1, "submitted_at": 1, "status": 1},
+    ).sort("submitted_at", -1)
+    by: dict = {}
+    async for c in cursor:
+        pid = c.get("patient_id")
+        if not pid:
+            continue
+        if pid not in by:
+            by[pid] = {
+                "patient_id": pid,
+                "patient_name": c.get("patient_name"),
+                "case_count": 0,
+                "last_submitted_at": c.get("submitted_at").isoformat() if c.get("submitted_at") else None,
+                "last_status": c.get("status"),
+            }
+        by[pid]["case_count"] += 1
+    return list(by.values())
+
+
 # ---------- Riwayat pasien (kasus sebelumnya) ----------
 
 @router.get("/patients/{patient_id}/history")
