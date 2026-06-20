@@ -70,10 +70,28 @@ async def update_user(user_id: str, body: UserUpdate):
 
 @router.delete("/users/{user_id}")
 async def delete_user(user_id: str):
-    """Hapus user (staff atau pasien)."""
-    res = await get_db()[USERS].delete_one({"_id": oid(user_id)})
-    if res.deleted_count == 0:
+    """
+    Hapus user + bersihkan data terkait (cascade) supaya tidak ada sisa yang
+    masih muncul di view lain (mis. pasien yang dihapus tapi masih kelihatan di dokter).
+    """
+    db = get_db()
+    user = await db[USERS].find_one({"_id": oid(user_id)})
+    if not user:
         raise HTTPException(status_code=404, detail="User tidak ditemukan.")
+    uid = str(user["_id"])
+    role = user.get("role")
+
+    await db[USERS].delete_one({"_id": oid(user_id)})
+
+    if role == "pasien":
+        # Hapus kasus & appointment milik pasien ini.
+        await db[CASES].delete_many({"patient_id": uid})
+        await db[APPOINTMENTS].delete_many({"patient_id": uid})
+    elif role == "dokter":
+        # Hapus jadwal & appointment dokter ini (kasus dibiarkan untuk integritas rekam medis).
+        await db[SCHEDULES].delete_many({"doctor_id": uid})
+        await db[APPOINTMENTS].delete_many({"doctor_id": uid})
+
     return {"ok": True}
 
 
