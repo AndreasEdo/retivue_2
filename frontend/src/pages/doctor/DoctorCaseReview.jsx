@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/ui/PageHeader';
 import ClinicalCard from '../../components/ui/ClinicalCard';
 import AIBadge from '../../components/ui/AIBadge';
-import { doctorCase, doctorApprove, doctorReject } from '../../lib/api';
+import { doctorCase, doctorApprove, doctorReject, doctorPatientHistory } from '../../lib/api';
+import { useConfirm } from '../../context/ConfirmContext';
 
 // ── Change 1: Static 5-fold CV metrics (from training, NOT from API) ──────────
 const CV_METRICS = [
@@ -16,7 +17,9 @@ const CV_METRICS = [
 export default function DoctorCaseReview() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const [c, setC] = useState(null);
+  const [history, setHistory] = useState([]);
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
   const [action, setAction] = useState('');
@@ -25,6 +28,13 @@ export default function DoctorCaseReview() {
   });
 
   useEffect(() => { doctorCase(id).then(setC).catch((e) => setErr(e.message)); }, [id]);
+  useEffect(() => {
+    if (c?.patient_id) {
+      doctorPatientHistory(c.patient_id)
+        .then((rows) => setHistory((rows || []).filter((r) => r.id !== id)))
+        .catch(() => {});
+    }
+  }, [c?.patient_id, id]);
 
   if (err) return <div className="text-[#DC2626]">{err}</div>;
   if (!c) return <div className="text-[#64748B]">Loading case…</div>;
@@ -36,12 +46,14 @@ export default function DoctorCaseReview() {
 
   const submitApprove = async () => {
     if (!form.final_diagnosis.trim()) { setErr('Final diagnosis is required before approving.'); return; }
+    if (!(await confirm({ title: 'Approve this case?', message: 'The final diagnosis will be sent to the patient and cannot be undone.', confirmText: 'Approve' }))) return;
     setBusy(true); setErr('');
     try { await doctorApprove(id, form); navigate('/doctor/pending'); }
     catch (e) { setErr(e.message); } finally { setBusy(false); }
   };
   const submitReject = async () => {
     if (!form.reject_note.trim()) { setErr('Reject note required.'); return; }
+    if (!(await confirm({ title: 'Reject this case?', message: 'The case will be returned to medical record for re-submission.', confirmText: 'Reject', danger: true }))) return;
     setBusy(true); setErr('');
     try { await doctorReject(id, form.reject_note); navigate('/doctor/pending'); }
     catch (e) { setErr(e.message); } finally { setBusy(false); }
@@ -73,6 +85,31 @@ export default function DoctorCaseReview() {
               ? <img src={img.original_url} alt="Retina" className="w-full max-h-72 object-contain bg-black rounded-md" />
               : <div className="w-full h-48 bg-[#f8fafc] rounded-md flex items-center justify-center text-[#94a3b8] text-sm">No image</div>
             }
+          </div>
+
+          {/* Patient previous history */}
+          <div className="mt-5 border-t border-[#F1F5F9] pt-4">
+            <p className="text-xs font-semibold text-[#64748B] mb-2">
+              Previous History {history.length > 0 ? `(${history.length})` : ''}
+            </p>
+            {history.length === 0 ? (
+              <p className="text-xs text-[#94a3b8]">No previous cases for this patient.</p>
+            ) : (
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {history.map((h) => (
+                  <div key={h.id} className="flex items-center justify-between gap-2 text-xs border border-[#F1F5F9] rounded-md px-3 py-2">
+                    <div className="min-w-0">
+                      <p className="font-medium text-[#0F172A]">
+                        {h.submitted_at ? new Date(h.submitted_at).toLocaleDateString() : ''}
+                        {h.ai_label ? ` · AI: ${h.ai_label}` : ''}
+                      </p>
+                      {h.final_diagnosis && <p className="text-[#64748B] truncate">Dx: {h.final_diagnosis}</p>}
+                    </div>
+                    <span className="capitalize text-[#64748B] shrink-0">{h.status}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </ClinicalCard>
 

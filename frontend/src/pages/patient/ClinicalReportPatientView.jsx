@@ -66,7 +66,7 @@ function Block({ label, value, big }) {
   return (
     <div className="p-4 bg-[#f2f4f6] rounded-lg">
       <p className="text-xs font-semibold text-[#64748B] mb-1">{label}</p>
-      <p className={big ? 'text-lg font-bold text-[#0F172A]' : 'text-sm text-[#191c1e]'}>{value || '—'}</p>
+      <p className={big ? 'text-lg font-bold text-[#0F172A]' : 'text-sm text-[#191c1e]'}>{value || ''}</p>
     </div>
   );
 }

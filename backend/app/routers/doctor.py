@@ -5,7 +5,7 @@ approve (final diagnosis + rekomendasi) / reject (note -> balik ke Medical Recor
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from ..db import get_db, CASES, SCHEDULES
+from ..db import get_db, CASES, SCHEDULES, APPOINTMENTS
 from ..security import require_roles
 from ..schemas import ApproveBody, RejectBody
 from ..utils import serialize, oid, now_utc
@@ -115,6 +115,40 @@ async def reject_schedule(schedule_id: str, user: dict = Depends(require_roles("
         raise HTTPException(status_code=403, detail="Anda tidak memiliki akses ke jadwal ini.")
     await db[SCHEDULES].update_one({"_id": oid(schedule_id)}, {"$set": {"status": "rejected"}})
     return serialize(await db[SCHEDULES].find_one({"_id": oid(schedule_id)}))
+
+
+# ---------- Appointments (untuk kalender dokter) ----------
+
+@router.get("/appointments")
+async def my_appointments(user: dict = Depends(require_roles("dokter"))):
+    """Semua appointment pasien untuk dokter ini (untuk tampilan kalender)."""
+    docs = await get_db()[APPOINTMENTS].find({"doctor_id": user["id"]}) \
+        .sort("date", 1).to_list(1000)
+    return [serialize(d) for d in docs]
+
+
+# ---------- Riwayat pasien (kasus sebelumnya) ----------
+
+@router.get("/patients/{patient_id}/history")
+async def patient_history(patient_id: str, user: dict = Depends(require_roles("dokter"))):
+    """Kasus screening pasien sebelumnya (untuk konteks dokter saat review)."""
+    docs = await get_db()[CASES].find({"patient_id": patient_id}) \
+        .sort("submitted_at", -1).to_list(100)
+    out = []
+    for c in docs:
+        c = serialize(c)
+        ai = c.get("ai_result") or {}
+        dr = c.get("doctor_result") or {}
+        out.append({
+            "id": c["id"],
+            "submitted_at": c.get("submitted_at"),
+            "reviewed_at": c.get("reviewed_at"),
+            "status": c.get("status"),
+            "ai_label": ai.get("label"),
+            "ai_grade": ai.get("grade"),
+            "final_diagnosis": dr.get("final_diagnosis"),
+        })
+    return out
 
 
 def _summary(c: dict) -> dict:

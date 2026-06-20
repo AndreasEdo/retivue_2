@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/ui/PageHeader';
 import { patientSchedules, patientBook } from '../../lib/api';
+import { useConfirm } from '../../context/ConfirmContext';
 
 function isBookingAllowed(dateStr) {
   // H-1 rule: must book at least 1 day before appointment date
@@ -23,6 +24,7 @@ function formatDate(dateStr) {
 
 export default function BookAppointment() {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const [allSchedules, setAllSchedules] = useState([]);
   const [selected, setSelected] = useState(null);
   const [complaint, setComplaint] = useState('');
@@ -42,6 +44,7 @@ export default function BookAppointment() {
     e.preventDefault();
     if (!selected) { setError('Please select a schedule.'); return; }
     if (!complaint.trim()) { setError('Please describe your complaint / reason for visit.'); return; }
+    if (!(await confirm({ title: 'Confirm appointment?', message: 'Please make sure the schedule and your complaint are correct before booking.', confirmText: 'Book Appointment' }))) return;
     setBusy(true); setError('');
     try {
       await patientBook({ schedule_id: selected, complaint: complaint.trim(), symptom_duration: duration.trim() });

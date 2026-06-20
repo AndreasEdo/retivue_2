@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { ConfirmProvider } from './context/ConfirmContext';
 import SplashScreen from './components/SplashScreen';
 import AuthLayout from './layouts/AuthLayout';
 import AppLayout from './layouts/AppLayout';
@@ -58,8 +59,10 @@ function RootLayout() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        {showSplash && <SplashScreen onDone={dismissSplash} />}
-        <Outlet />
+        <ConfirmProvider>
+          {showSplash && <SplashScreen onDone={dismissSplash} />}
+          <Outlet />
+        </ConfirmProvider>
       </AuthProvider>
     </ThemeProvider>
   );

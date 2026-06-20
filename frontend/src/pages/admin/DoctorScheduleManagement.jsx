@@ -4,6 +4,7 @@ import DataTable from '../../components/ui/DataTable';
 import Modal from '../../components/ui/Modal';
 import { adminListSchedules, adminCreateSchedule, adminDeleteSchedule, adminListUsers } from '../../lib/api';
 import { isAtLeastTomorrow, toMinutes } from '../../lib/validation';
+import { useConfirm } from '../../context/ConfirmContext';
 
 export default function DoctorScheduleManagement() {
   const [schedules, setSchedules] = useState([]);
@@ -11,6 +12,7 @@ export default function DoctorScheduleManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const [form, setForm] = useState({ doctor_id: '', date: '', start_time: '', end_time: '', quota: 10 });
+  const confirm = useConfirm();
 
   const load = () => adminListSchedules().then(setSchedules).catch(() => {});
   useEffect(() => {
@@ -19,7 +21,7 @@ export default function DoctorScheduleManagement() {
   }, []);
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete this schedule?')) return;
+    if (!(await confirm({ title: 'Delete this schedule?', message: 'This schedule will be permanently removed.', confirmText: 'Delete', danger: true }))) return;
     await adminDeleteSchedule(id);
     load();
   };

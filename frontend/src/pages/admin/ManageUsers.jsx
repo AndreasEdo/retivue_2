@@ -5,6 +5,7 @@ import Modal from '../../components/ui/Modal';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { adminListUsers, adminCreateStaff, adminSetUserStatus } from '../../lib/api';
 import { isEmail, isBlank } from '../../lib/validation';
+import { useConfirm } from '../../context/ConfirmContext';
 
 export default function ManageUsers() {
   const [activeTab, setActiveTab] = useState('doctors');
@@ -12,12 +13,20 @@ export default function ManageUsers() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const confirm = useConfirm();
 
   const role = activeTab === 'doctors' ? 'dokter' : 'medical_record';
   const load = () => adminListUsers(role).then(setUsers).catch(() => {});
   useEffect(() => { load(); }, [activeTab]);
 
   const toggleStatus = async (u) => {
+    const deactivating = u.status === 'active';
+    if (!(await confirm({
+      title: deactivating ? `Deactivate ${u.name}?` : `Activate ${u.name}?`,
+      message: deactivating ? 'This account will no longer be able to sign in.' : 'This account will be able to sign in again.',
+      confirmText: deactivating ? 'Deactivate' : 'Activate',
+      danger: deactivating,
+    }))) return;
     await adminSetUserStatus(u.id, u.status !== 'active');
     load();
   };

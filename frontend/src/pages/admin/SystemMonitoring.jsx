@@ -2,14 +2,9 @@ import { useEffect, useState } from 'react';
 import PageHeader from '../../components/ui/PageHeader';
 import { adminMonitoring } from '../../lib/api';
 
-const DR_LABELS = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative'];
-
 export default function SystemMonitoring() {
   const [m, setM] = useState(null);
   useEffect(() => { adminMonitoring().then(setM).catch(() => {}); }, []);
-
-  const drLevels = m?.dr_levels || {};
-  const total = Object.values(drLevels).reduce((a, b) => a + b, 0) || 1;
 
   const stats = [
     { label: 'Total Patients', value: m?.total_patients ?? 0 },
@@ -34,31 +29,6 @@ export default function SystemMonitoring() {
             <p className="text-3xl font-bold text-[#0F172A] mt-2">{s.value.toLocaleString()}</p>
           </div>
         ))}
-      </div>
-
-      <div
-        className="bg-white rounded-lg border border-[#F1F5F9] p-6 mb-6"
-        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)' }}
-      >
-        {/* 2C: editorial section title */}
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-4">Cases by DR Grade</h3>
-        <div className="space-y-4">
-          {DR_LABELS.map((label, i) => {
-            const count = drLevels[String(i)] || 0;
-            const pct = ((count / total) * 100).toFixed(1);
-            return (
-              <div key={label}>
-                <div className="flex justify-between items-end mb-2">
-                  <span className="text-xs font-semibold text-[#0F172A]">{i} · {label}</span>
-                  <span className="text-xs text-[#64748B]">{count} ({pct}%)</span>
-                </div>
-                <div className="h-3 bg-[#f2f4f6] rounded-full overflow-hidden">
-                  <div className="h-full bg-[#2d3fe0] rounded-full" style={{ width: `${pct}%` }} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
       </div>
 
       <div
