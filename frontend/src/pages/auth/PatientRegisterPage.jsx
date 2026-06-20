@@ -10,7 +10,10 @@ export default function PatientRegisterPage() {
     password: '',
     confirmPassword: '',
     phone: '',
+    date_of_birth: '',
+    gender: '',
   });
+  const todayStr = new Date().toISOString().slice(0, 10);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
@@ -36,6 +39,18 @@ export default function PatientRegisterPage() {
       setError('Enter a valid phone number (8–15 digits)');
       return;
     }
+    if (!formData.date_of_birth) {
+      setError('Date of birth is required');
+      return;
+    }
+    if (formData.date_of_birth > todayStr) {
+      setError('Date of birth cannot be in the future');
+      return;
+    }
+    if (!formData.gender) {
+      setError('Please select a gender');
+      return;
+    }
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -52,6 +67,8 @@ export default function PatientRegisterPage() {
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
+        date_of_birth: formData.date_of_birth,
+        gender: formData.gender,
       });
       navigate('/pasien/dashboard');
     } catch (err) {
@@ -145,6 +162,47 @@ export default function PatientRegisterPage() {
                 required
               />
             </div>
+          </div>
+
+          {/* Date of Birth */}
+          <div>
+            <label className="block text-xs font-bold text-[#454655] mb-2" htmlFor="date_of_birth">
+              Date of Birth
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span className="material-symbols-outlined text-[#757687]">cake</span>
+              </div>
+              <input
+                className="block w-full pl-10 pr-3 py-2 border border-[#c5c5d8] rounded-lg focus:ring-[#2d3fe0] focus:border-[#2d3fe0] text-sm text-[#191c1e] bg-white"
+                id="date_of_birth"
+                name="date_of_birth"
+                type="date"
+                max={todayStr}
+                value={formData.date_of_birth}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          {/* Gender */}
+          <div>
+            <label className="block text-xs font-bold text-[#454655] mb-2" htmlFor="gender">
+              Gender
+            </label>
+            <select
+              className="block w-full px-3 py-2 border border-[#c5c5d8] rounded-lg focus:ring-[#2d3fe0] focus:border-[#2d3fe0] text-sm text-[#191c1e] bg-white"
+              id="gender"
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
           </div>
 
           {/* Password */}

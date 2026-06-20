@@ -10,6 +10,7 @@ from ..security import (
     hash_password, verify_password, create_access_token, get_current_user,
 )
 from ..schemas import LoginResponse, UserOut, PatientRegister
+from ..utils import compute_age
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -51,7 +52,9 @@ async def register_patient(body: PatientRegister):
         "status": "active",
         "password": hash_password(body.password),
         "phone": body.phone,
-        "age": body.age,
+        "date_of_birth": body.date_of_birth,
+        # umur diturunkan dari tanggal lahir; sumber kebenaran = date_of_birth
+        "age": compute_age(body.date_of_birth) if body.date_of_birth else body.age,
         "gender": body.gender,
         "created_at": datetime.now(timezone.utc),
     }

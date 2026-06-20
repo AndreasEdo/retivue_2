@@ -36,3 +36,18 @@ def serialize(doc: dict | None) -> dict | None:
 
 def now_utc() -> datetime:
     return datetime.now(timezone.utc)
+
+
+def compute_age(dob_str: str | None) -> int | None:
+    """Hitung umur (tahun) dari tanggal lahir 'YYYY-MM-DD'. None kalau invalid."""
+    if not dob_str:
+        return None
+    try:
+        dob = datetime.strptime(dob_str[:10], "%Y-%m-%d").date()
+    except (ValueError, TypeError):
+        return None
+    today = datetime.now(timezone.utc).date()
+    age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+    if age < 0 or age > 120:
+        return None
+    return age

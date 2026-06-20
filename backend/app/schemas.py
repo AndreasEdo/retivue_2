@@ -55,6 +55,7 @@ class PatientRegister(BaseModel):
     email: EmailStr
     password: str
     phone: Optional[str] = None
+    date_of_birth: Optional[str] = None   # YYYY-MM-DD
     age: Optional[int] = None
     gender: Optional[str] = None
 

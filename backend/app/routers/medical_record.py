@@ -10,7 +10,7 @@ from ..db import get_db, USERS, CASES
 from ..security import require_roles
 from ..state import STATE
 from ..ai_runner import run_full_ai
-from ..utils import serialize, oid, now_utc
+from ..utils import serialize, oid, now_utc, compute_age
 
 router = APIRouter(prefix="/mr", tags=["medical_record"],
                    dependencies=[Depends(require_roles("medical_record"))])
@@ -33,7 +33,15 @@ def _read_image_upload(file: UploadFile) -> bytes:
 @router.get("/patients")
 async def list_patients():
     docs = await get_db()[USERS].find({"role": "pasien"}).sort("name", 1).to_list(1000)
-    return [serialize(d) for d in docs]
+    out = []
+    for d in docs:
+        s = serialize(d)
+        # umur dihitung dari tanggal lahir (kalau ada) supaya selalu akurat
+        age = compute_age(s.get("date_of_birth"))
+        if age is not None:
+            s["age"] = age
+        out.append(s)
+    return out
 
 
 @router.get("/doctors")
