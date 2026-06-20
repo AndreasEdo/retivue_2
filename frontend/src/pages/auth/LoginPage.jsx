@@ -42,10 +42,8 @@ export default function LoginPage() {
   return (
     <div className="text-center">
       <div className="mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-white shadow-md mb-4 border border-[#c5c5d8]">
-          <span className="material-symbols-outlined text-[#2d3fe0] text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-            visibility
-          </span>
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-white shadow-md mb-4 border border-[#c5c5d8] overflow-hidden">
+          <img src="/retivue_logo_new.png" alt="RetiVue" className="w-12 h-12 object-contain" />
         </div>
         <h1 className="text-[30px] leading-[38px] font-bold tracking-tight text-white mb-2">RetiVue</h1>
         <p className="text-[13px] text-[#bac5ee]">AI-Assisted Retinal Screening Platform</p>

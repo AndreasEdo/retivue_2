@@ -31,6 +31,13 @@ const navItems = {
   ],
 };
 
+const ROLE_LABELS = {
+  admin: 'Admin',
+  dokter: 'Doctor',
+  medical_record: 'Medical Record',
+  pasien: 'Patient',
+};
+
 export default function AppLayout() {
   const { user, logout } = useAuth();
   const { dark, toggle } = useTheme();
@@ -133,15 +140,20 @@ export default function AppLayout() {
               <span className="material-symbols-outlined text-[20px]">{dark ? 'light_mode' : 'dark_mode'}</span>
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-[#2d3fe0] flex items-center justify-center text-white">
+              <div className="w-8 h-8 rounded-full bg-[#2d3fe0] flex items-center justify-center text-white shrink-0">
                 <span className="font-semibold text-xs">
                   {user?.name?.substring(0, 2).toUpperCase() || 'U'}
                 </span>
               </div>
               {user?.name && (
-                <span className="text-sm font-medium text-[#0f172a] dark:text-[#f1f5f9] hidden sm:block max-w-[120px] truncate">
-                  {user.name.split(' ')[0]}
-                </span>
+                <div className="hidden sm:block leading-tight">
+                  <p className="text-sm font-medium text-[#0f172a] dark:text-[#f1f5f9] max-w-[160px] truncate">
+                    {user.name}
+                  </p>
+                  <p className="text-[11px] text-[#64748b] dark:text-[#94a3b8]">
+                    {ROLE_LABELS[user.role] || user.role}
+                  </p>
+                </div>
               )}
             </div>
           </div>

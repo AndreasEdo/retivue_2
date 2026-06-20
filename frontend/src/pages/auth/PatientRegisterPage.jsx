@@ -82,8 +82,8 @@ export default function PatientRegisterPage() {
     <div className="text-center">
       {/* Logo & Branding */}
       <div className="mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-white shadow-md mb-4 border border-[#c5c5d8]">
-          <span className="material-symbols-outlined text-[#2d3fe0] text-[32px]">visibility</span>
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-white shadow-md mb-4 border border-[#c5c5d8] overflow-hidden">
+          <img src="/retivue_logo_new.png" alt="RetiVue" className="w-12 h-12 object-contain" />
         </div>
         <h1 className="text-3xl font-bold text-white mb-2">Patient Registration</h1>
         <p className="text-sm text-[#bac5ee]">Create your RetiVue account</p>
