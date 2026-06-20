@@ -9,7 +9,6 @@ const navItems = {
     { path: '/admin/users', label: 'Manage Staff', icon: 'group' },
     { path: '/admin/patients', label: 'Manage Patients', icon: 'patient_list' },
     { path: '/admin/schedules', label: 'Doctor Schedules', icon: 'calendar_month' },
-    { path: '/admin/monitoring', label: 'System Monitoring', icon: 'monitor_heart' },
   ],
   medical_record: [
     { path: '/medical-record/dashboard', label: 'Dashboard', icon: 'dashboard' },

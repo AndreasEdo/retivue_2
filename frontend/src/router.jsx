@@ -13,7 +13,6 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageUsers from './pages/admin/ManageUsers';
 import ManagePatients from './pages/admin/ManagePatients';
 import DoctorScheduleManagement from './pages/admin/DoctorScheduleManagement';
-import SystemMonitoring from './pages/admin/SystemMonitoring';
 import MedicalRecordDashboard from './pages/medical_record/MedicalRecordDashboard';
 import NewSubmission from './pages/medical_record/NewSubmission';
 import SubmissionHistory from './pages/medical_record/SubmissionHistory';
@@ -103,7 +102,6 @@ const router = createBrowserRouter([
           { path: 'admin/users',       element: <ProtectedRoute allowedRoles={['admin']}><ManageUsers /></ProtectedRoute> },
           { path: 'admin/patients',    element: <ProtectedRoute allowedRoles={['admin']}><ManagePatients /></ProtectedRoute> },
           { path: 'admin/schedules',   element: <ProtectedRoute allowedRoles={['admin']}><DoctorScheduleManagement /></ProtectedRoute> },
-          { path: 'admin/monitoring',  element: <ProtectedRoute allowedRoles={['admin']}><SystemMonitoring /></ProtectedRoute> },
 
           { path: 'medical-record/dashboard',      element: <ProtectedRoute allowedRoles={['medical_record']}><MedicalRecordDashboard /></ProtectedRoute> },
           { path: 'medical-record/new-submission', element: <ProtectedRoute allowedRoles={['medical_record']}><NewSubmission /></ProtectedRoute> },
